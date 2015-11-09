@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Käyttäjät</title>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <h1>Käyttäjät</h1>
+        <p><a href="/kayttajat/lisaa">Lisää uusi</a></p>
+        <table>
+            <tr>
+                <td>Nimi</td>
+                <td>Email</td>
+            </tr>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.name}">nimi</td>
+                <td th:text="${user.email}">email</td>
+            </tr>
+        </table>            
+    </body>
+</html>
