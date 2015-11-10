@@ -1,13 +1,23 @@
 package koodi.domain;
 
-import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @MappedSuperclass
 public abstract class BaseModel extends AbstractPersistable<Long>{
     
     private User createdBy;
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @Column(name = "created__on", columnDefinition = "TIMESTAMP")
+    private DateTime createdOn;
+    private User editedBy;
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @Column(name = "edited__on", columnDefinition = "TIMESTAMP")
+    private DateTime editedOn;
+    private boolean removed;
 
     public User getCreatedBy() {
         return createdBy;
@@ -17,11 +27,11 @@ public abstract class BaseModel extends AbstractPersistable<Long>{
         this.createdBy = createdBy;
     }
 
-    public Date getCreatedOn() {
+    public DateTime getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(Date createdOn) {
+    public void setCreatedOn(DateTime createdOn) {
         this.createdOn = createdOn;
     }
 
@@ -33,11 +43,11 @@ public abstract class BaseModel extends AbstractPersistable<Long>{
         this.editedBy = editedBy;
     }
 
-    public Date getEditedOn() {
+    public DateTime getEditedOn() {
         return editedOn;
     }
 
-    public void setEditedOn(Date editedOn) {
+    public void setEditedOn(DateTime editedOn) {
         this.editedOn = editedOn;
     }
 
@@ -48,9 +58,5 @@ public abstract class BaseModel extends AbstractPersistable<Long>{
     public void setRemoved(boolean removed) {
         this.removed = removed;
     }
-    private Date createdOn;
-    private User editedBy;
-    private Date editedOn;
-    private boolean removed;
     
 }

@@ -1,2 +1,11 @@
+koodi/domain/BaseModel.class
+koodi/configuration/MVCConfiguration.class
+koodi/service/UserService.class
+koodi/controller/UserController.class
+koodi/service/BaseService.class
+koodi/repository/UserRepository.class
+koodi/repository/AnswerRepository.class
 koodi/controller/IndexController.class
+koodi/domain/Answer.class
+koodi/domain/User.class
 koodi/Main.class
