@@ -3,11 +3,15 @@ package koodi.domain;
 
 import javax.persistence.Entity;
 import java.util.List;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class AnswerOption extends BaseModel {
     
+    @OneToMany
     private List<Answer> answers;
+    @ManyToOne
     private Question question;
     private String answerText;
     private boolean isCorrect;

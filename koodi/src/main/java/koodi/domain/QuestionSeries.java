@@ -3,11 +3,13 @@ package koodi.domain;
 
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 
 
 @Entity
 public class QuestionSeries extends BaseModel {
     
+    @ManyToMany(mappedBy = "questionSeries")
     private List<Question> questions;
     private String title;
     private Integer order;

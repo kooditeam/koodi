@@ -5,6 +5,7 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import java.util.List;
+import javax.persistence.OneToMany;
 
 @Entity
 @Table(name = "KoodiUser")
@@ -15,6 +16,7 @@ public class User extends BaseModel {
     @Email
     private String email;
     private String password;
+    @OneToMany
     private List<Answer> answers;
 
     public void setAnswers(List<Answer> answers) {

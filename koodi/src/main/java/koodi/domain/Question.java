@@ -3,11 +3,15 @@ package koodi.domain;
 
 import javax.persistence.Entity;
 import java.util.List;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Question extends BaseModel {
     
+    @ManyToMany
     private List<QuestionSeries> questionSeries;
+    @OneToMany
     private List<AnswerOption> answerOptions;
     private Integer order;
     private String title;
