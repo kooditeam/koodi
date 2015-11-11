@@ -12,9 +12,9 @@ public class UserService extends BaseService{
     @Autowired
     private UserRepository userRepository;
     
-    public void save(User user, User admin){
+    public User save(User user, User admin){
         super.save(user, admin);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
     
     public List<User> findAll(){

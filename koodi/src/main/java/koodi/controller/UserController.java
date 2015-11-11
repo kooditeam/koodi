@@ -55,11 +55,15 @@ public class UserController {
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public String update(@PathVariable Long id, @ModelAttribute User user){
         
-        return "redirect:/users";
+        return "redirect:/kayttajat";
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public String delete(@PathVariable Long id){        
-        return "redirect:/users";
+    @RequestMapping(value = "/{id}/poista", method = RequestMethod.POST)
+    public String delete(
+            @PathVariable Long id,
+            RedirectAttributes redirectAttributes){   
+        userService.delete(id);
+        redirectAttributes.addFlashAttribute("message", "Käyttäjä poistettu.");
+        return "redirect:/kayttajat";
     }
 }
