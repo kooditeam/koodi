@@ -7,32 +7,23 @@ import javax.persistence.Entity;
 @Entity
 public class Answer extends AbstractPersistable<Long> {
     
-    private Integer userId;
-    private Integer answerOptionId;
-    private String answerTime;
-
-    public Integer getUserId() {
-        return userId;
+    private AnswerOption answerOption;
+    private User user;
+    
+    public void setAnswerOption(AnswerOption answerOption) {
+        this.answerOption = answerOption;
     }
 
-    public Integer getAnswerOptionId() {
-        return answerOptionId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getAnswerTime() {
-        return answerTime;
+    public AnswerOption getAnswerOption() {
+        return answerOption;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public void setAnswerOptionId(Integer answerOptionId) {
-        this.answerOptionId = answerOptionId;
-    }
-
-    public void setAnswerTime(String answerTime) {
-        this.answerTime = answerTime;
+    public User getQuestion() {
+        return user;
     }
        
 }
