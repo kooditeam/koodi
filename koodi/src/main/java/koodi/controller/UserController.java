@@ -39,10 +39,12 @@ public class UserController {
         if(bindingResult.hasErrors()){
             return "add_user";
         }
-        
-        userService.save(user, new User());
+        // DevProfilessa luotu oletuskäyttäjä
+        // TODO: kun login toteutettu, muutettava siten että tallentava käyttäjä = kirjautunut käyttäjä
+        User defUser = userService.findAll().get(0);
+        userService.save(user, defUser);
         redirectAttributes.addFlashAttribute("message", "Uusi käyttäjä tallennettu!");
-        return "redirect:/users";
+        return "redirect:/kayttajat";
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

@@ -10,10 +10,10 @@ public abstract class BaseService {
     public void save(BaseModel model, User user){
         if(model.getId() == null){
             model.setCreatedOn(new DateTime());
-            model.setCreatedBy(user);
+            model.setCreatedById(user.getId());
         } else {
             model.setEditedOn(new DateTime());
-            model.setEditedBy(user);
+            model.setEditedById(user.getId());
         }       
         return;
     }    

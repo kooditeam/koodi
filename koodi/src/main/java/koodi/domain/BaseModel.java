@@ -1,30 +1,46 @@
 package koodi.domain;
 
+import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @MappedSuperclass
-public abstract class BaseModel extends AbstractPersistable<Long>{
+public abstract class BaseModel implements Serializable{
     
-    private User createdBy;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected Long id;
+    
+    private Long createdById;
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @Column(name = "created__on", columnDefinition = "TIMESTAMP")
     private DateTime createdOn;
-    private User editedBy;
+    private Long editedById;
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @Column(name = "edited__on", columnDefinition = "TIMESTAMP")
     private DateTime editedOn;
     private boolean removed;
 
-    public User getCreatedBy() {
-        return createdBy;
+    public Long getId() {
+        return id;
     }
 
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
+    public void setId(Long id) {
+        this.id = id;
+    }    
+    
+    public Long getCreatedById() {
+        return createdById;
+    }
+
+    public void setCreatedById(Long createdById) {
+        this.createdById = createdById;
     }
 
     public DateTime getCreatedOn() {
@@ -35,12 +51,12 @@ public abstract class BaseModel extends AbstractPersistable<Long>{
         this.createdOn = createdOn;
     }
 
-    public User getEditedBy() {
-        return editedBy;
+    public Long getEditedById() {
+        return editedById;
     }
 
-    public void setEditedBy(User editedBy) {
-        this.editedBy = editedBy;
+    public void setEditedById(Long editedById) {
+        this.editedById= editedById;
     }
 
     public DateTime getEditedOn() {
