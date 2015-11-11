@@ -5,7 +5,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 import javax.persistence.Entity;
 
 @Entity
-public class Answer extends AbstractPersistable<Long> {
+public class Answer extends BaseModel {
     
     private AnswerOption answerOption;
     private User user;
