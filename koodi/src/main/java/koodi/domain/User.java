@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import java.util.List;
 
 @Entity
 @Table(name = "KoodiUser")
@@ -14,6 +15,15 @@ public class User extends BaseModel {
     @Email
     private String email;
     private String password;
+    private List<Answer> answers;
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
 
     public String getName() {
         return name;
