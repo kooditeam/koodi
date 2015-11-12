@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>questions template</title>
+    </head>
+    <body>
+        <div th:fragment="questions">
+            
+            <ul style="list-style-type:none" th:each="question : ${questions}">
+                <li th:text="${question.title}">title</li>
+                <li th:text="${question.info}">info</li>
+                
+                <li th:each="option : ${question.answerOptions}">
+                    <input type="radio" name="options" th:value="${option}"/><label th:text="${option.answerText}">option</label>
+                </li>
+                
+            </ul>
+            
+        </div>
+    </body>
+</html>
