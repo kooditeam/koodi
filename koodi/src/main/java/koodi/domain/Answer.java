@@ -25,7 +25,7 @@ public class Answer extends BaseModel {
         return answerOption;
     }
 
-    public User getQuestion() {
+    public User getUser() {
         return user;
     }
        
