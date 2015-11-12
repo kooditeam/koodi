@@ -13,18 +13,22 @@ public class Question extends BaseModel {
     private List<QuestionSeries> questionSeries;
     @OneToMany
     private List<AnswerOption> answerOptions;
-    private Integer order;
+    private Integer orderNumber;
     private String title;
     private String info;
     private String programmingLanguage;
     private String code;
 
-    public List<QuestionSeries> getQuestionSeries() {
-        return questionSeries;
+    public Integer getOrderNumber() {
+        return orderNumber;
     }
 
-    public Integer getOrder() {
-        return order;
+    public void setOrderNumber(Integer orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+     
+    public List<QuestionSeries> getQuestionSeries() {
+        return questionSeries;
     }
 
     public String getTitle() {
@@ -41,10 +45,6 @@ public class Question extends BaseModel {
 
     public void setQuestionSeries(List<QuestionSeries> questionSeries) {
         this.questionSeries = questionSeries;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
     }
 
     public void setTitle(String title) {

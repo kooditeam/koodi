@@ -12,22 +12,30 @@ public class QuestionSeries extends BaseModel {
     @ManyToMany(mappedBy = "questionSeries")
     private List<Question> questions;
     private String title;
-    private Integer order;
+    private Integer orderNumber;
 
     public String getTitle() {
         return title;
-    }
-
-    public Integer getOrder() {
-        return order;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    public void setOrderNumber(Integer orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public Integer getOrderNumber() {
+        return orderNumber;
     }
     
     
