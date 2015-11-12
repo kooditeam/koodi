@@ -1,7 +1,7 @@
 
 package koodi.controller;
 
-import koodi.repository.QuestionRepository;
+import koodi.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class QuestionAnsweringController {
     
     @Autowired
-    private QuestionRepository questionRepository;
+    private QuestionService questionService;
     
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("questions", questionRepository.findAll());
+        model.addAttribute("questions", questionService.findAll());
         return "answer_questions";
     }
 }
