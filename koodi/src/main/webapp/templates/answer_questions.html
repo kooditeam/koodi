@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <div>
+            <h1>Tehtäväsivu</h1>
+        </div>
+        
+        <div>
+            <p>Tehtävät:</p>
+        </div>
+        <div th:replace="fragments/questions :: questions"></div>
+    </body>
+</html>
