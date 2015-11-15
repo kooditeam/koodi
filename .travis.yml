@@ -6,7 +6,6 @@ script:
 
 jdk:
   - oraclejdk8
-  - oraclejdk7
 
 deploy:
   provider: heroku
