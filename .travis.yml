@@ -1,8 +1,8 @@
 language: java
 
 script:
-  - mvn test -f koodi/pom.xml
-  - mvn install -DskipTests=true -f koodi/pom.xml
+  - mvn test
+  - mvn install -DskipTests=true
 
 jdk:
   - oraclejdk8
