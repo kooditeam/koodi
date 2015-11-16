@@ -23,4 +23,9 @@ public class QuestionService extends BaseService {
     public void delete(Long id){
         questionRepository.delete(id);
     }
+
+    public void save(Question question) {
+        super.save(question, null);
+        questionRepository.save(question);
+    }
 }

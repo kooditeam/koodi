@@ -3,6 +3,7 @@ package koodi.domain;
 
 import javax.persistence.Entity;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -15,6 +16,7 @@ public class Question extends BaseModel {
     private List<AnswerOption> answerOptions;
     private Integer orderNumber;
     private String title;
+    @Column(columnDefinition="varchar(5000)")
     private String info;
     private String programmingLanguage;
     private String code;
