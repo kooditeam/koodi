@@ -4,10 +4,12 @@ import koodi.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import koodi.domain.Question;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class QuestionService extends BaseService {
     
+    @Autowired
     private QuestionRepository questionRepository;
     
     public List<Question> findAll() {
