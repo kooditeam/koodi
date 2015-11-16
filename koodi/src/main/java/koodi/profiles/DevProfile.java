@@ -38,6 +38,7 @@ public class DevProfile {
 //        defUser.setCreatedBy(defUser);
 //        userRepository.save(defUser);
         
+        // create a question
         AnswerOption option1 = new AnswerOption();
         option1.setAnswerText("testing");
         answerOptionRepository.save(option1);
@@ -46,19 +47,36 @@ public class DevProfile {
         option2.setAnswerText("testing");
         answerOptionRepository.save(option2);
         
-        Question question = new Question();
-        question.setAnswerOptions(new ArrayList<>());
-        question.getAnswerOptions().add(option1);
-        question.getAnswerOptions().add(option2);
+        Question question1 = new Question();
+        question1.setAnswerOptions(new ArrayList<>());
+        question1.getAnswerOptions().add(option1);
+        question1.getAnswerOptions().add(option2);
         
-        question.setTitle("test question");
-        question.setInfo("test information");
+        question1.setTitle("test question");
+        question1.setInfo("test information");
         
-        questionRepository.save(question);
+        questionRepository.save(question1);
+        // --
         
+        // create another question
+        AnswerOption option3 = new AnswerOption();
+        option3.setAnswerText("generic answer text");
+        answerOptionRepository.save(option3);
         
-      
+        AnswerOption option4 = new AnswerOption();
+        option4.setAnswerText("generic answer text2");
+        answerOptionRepository.save(option4);
         
+        Question question2 = new Question();
+        question2.setAnswerOptions(new ArrayList<>());
+        question2.getAnswerOptions().add(option3);
+        question2.getAnswerOptions().add(option4);
+        
+        question2.setTitle("Code reading: the generic texts");
+        question2.setInfo("This code reading is about pretty much nothing");
+        
+        questionRepository.save(question2);
+        // --
     }
 }
 /*
