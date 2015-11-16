@@ -8,8 +8,8 @@
         <div th:fragment="questions">
             
             <ul class="no-styles-list" th:each="question : ${questions}">
-                <li th:text="${question.title}">title</li>
-                <li th:text="${question.info}">info</li>
+                <li><h3 th:text="${question.title}"></h3></li>
+                <li><p th:text="${question.info}"></p></li>
                 
                 <li th:each="option : ${question.answerOptions}">
                     <input type="radio" name="options" th:value="${option}"/><label th:text="${option.answerText}">option</label>
