@@ -9,10 +9,26 @@
         <div>
             <h1>Tehtäväsivu</h1>
         </div>
-        
+
         <div>
             <p>Tehtävät:</p>
         </div>
-        <div th:replace="fragments/questions :: questions"></div>
+        <div>
+            <ul class="no-styles-list" th:each="question : ${questions}">
+                <!-- Not valid html but works for now at least in chrome -->
+                <form th:method="POST" th:action="@{/tehtavat}">
+                    <li><h3 th:text="${question.title}"></h3></li>
+                    <li><p th:text="${question.info}"></p></li>
+
+                    <li th:each="option : ${question.answerOptions}">
+                        <input type="radio" name="options" th:value="${option}"/><label th:text="${option.answerText}">option</label>
+                    </li>
+                    <p><input type="submit" value="Tarkasta vastaus"/></p>
+                </form>
+            </ul>
+        </div>
+
+        <div>
+        </div>
     </body>
 </html>
