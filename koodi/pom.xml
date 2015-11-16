@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>koodi</groupId>
+    <groupId>koodi.koodi</groupId>
     <artifactId>koodi</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -12,10 +12,10 @@
     </properties>
     
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.3.0.BUILD-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>koodi</groupId>
+        <artifactId>koodi</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <!-- lookup parent from repository -->
     </parent>
 
     <dependencies>
@@ -66,8 +66,7 @@
           <version>3.1.0.CR1</version>
         </dependency>
         
-    </dependencies>
-	
+    </dependencies>	
 	
     <repositories>
         <repository>
