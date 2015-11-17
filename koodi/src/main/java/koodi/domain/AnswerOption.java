@@ -28,7 +28,7 @@ public class AnswerOption extends BaseModel {
         return answerText;
     }
 
-    public boolean isIsCorrect() {
+    public boolean getIsCorrect() {
         return isCorrect;
     }
 
