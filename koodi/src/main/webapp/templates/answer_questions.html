@@ -8,10 +8,28 @@
         <div th:fragment="content">
             <h1>Tehtäväsivu</h1>
             <p>Tehtävät:</p>
+<<<<<<< HEAD
             <div th:replace="fragments/questions :: questions" />
             <th:block th:fragment="pagescript">
                 <script src="../static/js/answer_questions.js"></script>
             </th:block>    
+=======
+            <div>
+                <ul class="no-styles-list" th:each="question : ${questions}">
+                    <!-- Not valid html but works for now at least in chrome -->
+                    <form th:method="POST" th:action="@{/tehtavat}">
+                        <li><h3 th:text="${question.title}"></h3></li>
+                        <li><p th:text="${question.info}"></p></li>
+                        <li><p th:text="${question.code}"></p></li>
+
+                        <li th:each="option : ${question.answerOptions}">
+                            <input type="radio" name="options" th:value="${option}"/><label th:text="${option.answerText}">option</label>
+                        </li>
+                        <p><input type="submit" value="Tarkasta vastaus"/></p>
+                    </form>
+                </ul>
+            </div>
+>>>>>>> 17babeb32d435a71955dfa74f2a55122d2cdbcc2
         </div>
 
     </body>
