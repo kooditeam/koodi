@@ -16,7 +16,7 @@
                         <li><p th:text="${question.info}"></p></li>
 
                         <li th:each="option : ${question.answerOptions}">
-                            <input type="radgiio" name="options" th:value="${option}"/><label th:text="${option.answerText}">option</label>
+                            <input type="radio" name="options" th:value="${option}"/><label th:text="${option.answerText}">option</label>
                         </li>
                         <p><input type="submit" value="Tarkasta vastaus"/></p>
                     </form>
