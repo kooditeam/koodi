@@ -1,27 +1,29 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+      th:include="fragments/layout :: page">
     <head>
-        <title>Käyttäjät</title>
-        <meta charset="UTF-8" />
+        <title></title>
     </head>
     <body>
-        <h1>Käyttäjät</h1>
-        <p><a href="/kayttajat/lisaa">Lisää uusi</a></p>
-        <div th:if="${message}" th:text="${message}" class="message">viesti</div>
-        <table>
-            <tr>
-                <td>Nimi</td>
-                <td>Email</td>
-                <td></td>
-            </tr>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.name}">nimi</td>
-                <td th:text="${user.email}">email</td>
-                <td><form action="#" th:action="@{/kayttajat/{id}/poista(id=${user.id})}" method="POST">
-                        <button type="submit">Poista</button>
-                    </form>
-                </td>
-            </tr>
-        </table>            
+        <div th:fragment="content">
+            <h1>Käyttäjät</h1>
+            <p><a href="/kayttajat/lisaa">Lisää uusi</a></p>
+            <div th:if="${message}" th:text="${message}" class="message">viesti</div>
+            <table>
+                <tr>
+                    <td>Nimi</td>
+                    <td>Email</td>
+                    <td></td>
+                </tr>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.name}">nimi</td>
+                    <td th:text="${user.email}">email</td>
+                    <td><form action="#" th:action="@{/kayttajat/{id}/poista(id=${user.id})}" method="POST">
+                            <button type="submit">Poista</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </body>
 </html>

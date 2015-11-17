@@ -1,28 +1,30 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      th:include="fragments/layout :: page">
     <head>
         <title>Lisää käyttäjä</title>
-        <meta charset="UTF-8"/>
     </head>
     <body>
-        <h1>Lisää uusi käyttäjä</h1>
-        <p><a href="/kayttajat">Takaisin käyttäjälistaan</a></p>
-        <form action="#" th:action="@{/kayttajat/lisaa}" th:object="${user}" method="POST">
-            <p>
-                <label for="name">Nimi:</label>
-                <input type="text" name="name" th:field="*{name}"/>
-                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nimivirhe</p>
-            </p>
-            <p>
-                <label for="email">Email:</label>
-                <input type="text" name="email" th:field="*{email}"/>
-                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email-virhe</p>
-            </p>
-            <p>
-                <label for="password">Salasana:</label>
-                <input type="text" name="password"/>
-            </p>
-            <p><input type="submit"/></p>
-        </form>
+        <div th:fragment="content">
+            <h1>Lisää uusi käyttäjä</h1>
+            <p><a href="/kayttajat">Takaisin käyttäjälistaan</a></p>
+            <form action="#" th:action="@{/kayttajat/lisaa}" th:object="${user}" method="POST">
+                <p>
+                    <label for="name">Nimi:</label>
+                    <input type="text" name="name" th:field="*{name}"/>
+                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nimivirhe</p>
+                </p>
+                <p>
+                    <label for="email">Email:</label>
+                    <input type="text" name="email" th:field="*{email}"/>
+                    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email-virhe</p>
+                </p>
+                <p>
+                    <label for="password">Salasana:</label>
+                    <input type="text" name="password"/>
+                </p>
+                <p><input type="submit"/></p>
+            </form>
+        </div>
     </body>
 </html>

@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+      th:include="fragments/layout :: page">
     <head>
-        <title>Otsikko</title>
-        <meta charset="utf-8" />
+        <title></title>
     </head>
-
     <body>
-        <h1>Hei ilma!</h1>
-        
-        <p th:text="${hello}">asd</p>
-
+        <div th:fragment="content">
+            <h1>Koodihommia!</h1>
+            <p th:text="${hello}">asd</p>
+        </div>
     </body>
 </html>

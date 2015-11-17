@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+      th:include="fragments/layout :: page">
     <head>
-        <title>View all questions</title>
-        <meta charset="UTF-8"/>
+        <title></title>
     </head>
     <body>
-        <form method="POST" action="#" th:action="@{/tehtavat}" th:object="${question}">
-            <input name="questionSeries" type="text"/><br/>
-            <input name="orderNumber" type="number" min="0"/><br/>
-            <input name="title" type="text"/><br/>
-            <input name="info" type="text"/><br/>
-            <input name="programmingLanguage" type="text"/><br/>
-            <input name="code" type="text"/><br/>
-            <input type="submit" value="Save"/>
-        </form>
-        <div th:replace="fragments/questions :: questions">
+        <div th:fragment="content">
+            <form method="POST" action="#" th:action="@{/tehtavat}" 
+                  th:object="${question}">
+                <input name="questionSeries" type="text"/><br/>
+                <input name="orderNumber" type="number" min="0"/><br/>
+                <input name="title" type="text"/><br/>
+                <input name="info" type="text"/><br/>
+                <input name="programmingLanguage" type="text"/><br/>
+                <input name="code" type="text"/><br/>
+                <input type="submit" value="Save"/>
+            </form>
+            <div th:replace="fragments/questions :: questions">
+            </div>
         </div>
     </body>
 </html>
