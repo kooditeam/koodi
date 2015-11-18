@@ -35,7 +35,7 @@ public class QuestionAnsweringController {
     
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
-    public String postAnswer(@RequestBody TentativeAnswer tentativeAnswer) {
+    public String saveAnswer(@RequestBody TentativeAnswer tentativeAnswer) {
         Answer answer = new Answer();
         Long questionId = new Long(tentativeAnswer.getQuestionId());
         Long answerOptionId = new Long(tentativeAnswer.getAnswerOptionId());

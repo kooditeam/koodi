@@ -18,6 +18,9 @@
             </form>
             <div th:replace="fragments/questions :: questions">
             </div>
+            <th:block th:fragment="pagescript">
+                <script src="../static/js/view_all_questions.js"></script>
+            </th:block>    
         </div>
     </body>
 </html>
