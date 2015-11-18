@@ -12,17 +12,4 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 @Profile("prod")
 public class ProdProfile {
     
-    @Autowired
-    private SpringTemplateEngine templateEngine;
-    
-    @PostConstruct
-    public void extendTemplateResolvers(){
-        ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();        
-        resolver.setPrefix("/koodi/templates/");
-        resolver.setSuffix(".html");
-        resolver.setTemplateMode("HTML5");
-        resolver.setOrder(templateEngine.getTemplateResolvers().size());
-        resolver.setCacheable(false);
-        templateEngine.addTemplateResolver(resolver);
-    }
 }

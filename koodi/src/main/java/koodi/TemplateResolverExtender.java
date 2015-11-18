@@ -15,11 +15,11 @@ public class TemplateResolverExtender {
     @PostConstruct
     public void extendTemplateResolvers(){
         ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();        
-        resolver.setPrefix("/koodi/src/main/webapp/templates/");
+        resolver.setPrefix("/templates/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(templateEngine.getTemplateResolvers().size());
         resolver.setCacheable(false);
-        templateEngine.addTemplateResolver(resolver);
+        templateEngine.addTemplateResolver(resolver);        
     }
 }
