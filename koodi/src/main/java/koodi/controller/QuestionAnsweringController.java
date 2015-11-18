@@ -38,7 +38,7 @@ public class QuestionAnsweringController {
     public String postAnswer(@RequestBody TentativeAnswer tentativeAnswer) {
         Answer answer = new Answer();
         Long questionId = new Long(tentativeAnswer.getQuestionId());
-        Long answerOptionId = new Long(tentativeAnswer.getQuestionId());
+        Long answerOptionId = new Long(tentativeAnswer.getAnswerOptionId());
         List<AnswerOption> options = questionService.findById(questionId).getAnswerOptions();
         for(AnswerOption option : options){
             if(option.getId().equals(answerOptionId)){

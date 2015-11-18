@@ -15,6 +15,12 @@ $(document).ready(function(){
 });
 
 function sendAnswer(questionId, answerOptionId){
+    // if nothing had been selected, just sets the message for user
+    if(!answerOptionId){
+        setResultText(questionId, 2);
+        return;
+    }    
+    
     var payload = JSON.stringify({
        answerOptionId: answerOptionId,
        questionId: questionId
@@ -27,18 +33,18 @@ function sendAnswer(questionId, answerOptionId){
        type: 'post',
        data: payload,
        success: function(result){
-            setResultText(questionId, result);
+            setResultText(questionId, result.result);
        }
     });
 }
 
 function setResultText(questionId, result){
     var resultMessage;
-    if(result.result == 0){
+    if(result == 0){
         resultMessage = "Väärin...";
-    } else if (result.result == 1) {
+    } else if (result == 1) {
         resultMessage = "Oikein!";
-    } else if (result.result == 2) {
+    } else if (result == 2) {
         resultMessage = "Valitse ensin vastaus.";
     }
     

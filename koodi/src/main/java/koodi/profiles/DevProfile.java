@@ -45,6 +45,7 @@ public class DevProfile {
         
         AnswerOption option2 = new AnswerOption();
         option2.setAnswerText("testing");
+        option2.setIsCorrect(true);
         answerOptionRepository.save(option2);
         
         Question question1 = new Question();
@@ -62,6 +63,7 @@ public class DevProfile {
         // create another question
         AnswerOption option3 = new AnswerOption();
         option3.setAnswerText("generic answer text");
+        option3.setIsCorrect(true);
         answerOptionRepository.save(option3);
         
         AnswerOption option4 = new AnswerOption();
