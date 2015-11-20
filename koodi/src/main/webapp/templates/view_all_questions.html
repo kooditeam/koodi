@@ -39,9 +39,26 @@
                        class="form-control" placeholder="Tehtävän kuvaus"/>
                 </div>
                 <div class="form-group">
-                    <label for="language">Ohjelmointikieli</label>
-                    <input name="programmingLanguage" type="text" id="language"
-                       class="form-control" placeholder="Tehtävän ohjelmointikieli"/>
+                    <label for="selectLanguage">Ohjelmointikieli</label>
+                    <select name="programmingLanguage" id="selectLanguage" class="form-control">
+                        <option value="" selected="selected" disabled="disabled">
+                            Valitse ohjelmointikieli</option>
+                        <option value="bash">Bash</option>
+                        <option value="c">C</option>
+                        <option value="cpp">C++</option>
+                        <option value="clike">C-like</option>
+                        <option value="css">CSS</option>
+                        <option value="java">Java</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="markup">Markup</option>
+                        <option value="perl">Perl</option>
+                        <option value="php">PHP</option>
+                        <option value="python">Python</option>
+                        <option value="ruby">Ruby</option>
+                        <option value="scala">Scala</option>
+                        <option value="sql">SQL</option>
+                        <option value="none">None</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="questionCode">Koodi</label>
