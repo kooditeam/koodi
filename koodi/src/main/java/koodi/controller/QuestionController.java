@@ -23,15 +23,11 @@ public class QuestionController {
     private QuestionService questionService;
     
     @Autowired
-    private QuestionSeriesService questionSeriesService;
-    
-    @Autowired
     private AnswerOptionRepository answerOptionRepository;
     
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("questions", questionService.findAll());
-        model.addAttribute("allQuestionSeries", questionSeriesService.findAll());
         return "view_all_questions";
     }
     

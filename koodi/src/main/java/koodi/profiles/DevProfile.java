@@ -89,16 +89,28 @@ public class DevProfile {
         
         // create a question series
         QuestionSeries qs1 = new QuestionSeries();
+        qs1.setQuestions(new ArrayList<>());
         qs1.setTitle("Sarja 1");
         qs1.setOrderNumber(1);
+        qs1.getQuestions().add(question1);
         questionSeriesRepository.save(qs1);
         // --
         
         // create another question series
         QuestionSeries qs2 = new QuestionSeries();
+        qs2.setQuestions(new ArrayList<>());
         qs2.setTitle("Sarja 2");
         qs2.setOrderNumber(2);
+        qs2.getQuestions().add(question2);
         questionSeriesRepository.save(qs2);
+        // --
+        
+         // create third question series
+        QuestionSeries qs3 = new QuestionSeries();
+        qs3.setQuestions(new ArrayList<>());
+        qs3.setTitle("Sarja 3");
+        qs3.setOrderNumber(3);
+        questionSeriesRepository.save(qs3);
         // --
     }
 }
