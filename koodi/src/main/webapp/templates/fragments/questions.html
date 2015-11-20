@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>questions template</title>
-        <link rel="stylesheet" type="text/css" href="../static/style.css" th:href="@{/static/css/style.css}"/>
+        <title></title>
     </head>
     <body>
         <div th:fragment="questions">
-            
             <ul class="no-styles-list question-list" th:each="question : ${questions}" id="question-" th:attrappend="id=${question.id}">
                 <li><h3 th:text="${question.title}"></h3></li>
                 <li><p th:text="${question.info}"></p></li>
-                <li><pre th:text="${question.code}"></pre></li>
+                <li><pre class="line-numbers"><code class="language-java" th:text="${question.code}"></code></pre></li>
                 
                 <li th:each="option : ${question.answerOptions}">
                     <input type="radio" name="options-" th:attrappend="name=${question.id}" th:value="${option.id}"/><label th:text="${option.answerText}">option</label>
