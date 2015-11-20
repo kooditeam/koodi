@@ -16,9 +16,10 @@ public class Question extends BaseModel {
     private List<AnswerOption> answerOptions;
     private Integer orderNumber;
     private String title;
-    @Column(columnDefinition="varchar(5000)")
+    @Column(columnDefinition="varchar(10000)")
     private String info;
     private String programmingLanguage;
+    @Column(columnDefinition="varchar(10000)")
     private String code;
 
     public Integer getOrderNumber() {

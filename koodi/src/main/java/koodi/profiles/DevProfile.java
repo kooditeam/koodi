@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import java.util.ArrayList;
+import koodi.domain.QuestionSeries;
+import koodi.repository.QuestionSeriesRepository;
 
 @Configuration
 @Profile(value = {"dev", "default"})
@@ -24,6 +26,9 @@ public class DevProfile {
     
     @Autowired
     private QuestionRepository questionRepository;
+    
+    @Autowired
+    private QuestionSeriesRepository questionSeriesRepository;
     
     @Autowired
     private AnswerOptionRepository answerOptionRepository;
@@ -80,6 +85,20 @@ public class DevProfile {
         question2.setInfo("This code reading is about pretty much nothing");
         
         questionRepository.save(question2);
+        // --
+        
+        // create a question series
+        QuestionSeries qs1 = new QuestionSeries();
+        qs1.setTitle("Sarja 1");
+        qs1.setOrderNumber(1);
+        questionSeriesRepository.save(qs1);
+        // --
+        
+        // create another question series
+        QuestionSeries qs2 = new QuestionSeries();
+        qs2.setTitle("Sarja 2");
+        qs2.setOrderNumber(2);
+        questionSeriesRepository.save(qs2);
         // --
     }
 }

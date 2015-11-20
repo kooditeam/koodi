@@ -2,6 +2,7 @@ package koodi.controller;
 
 import koodi.domain.AnswerOption;
 import koodi.domain.Question;
+import koodi.service.QuestionSeriesService;
 import koodi.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class QuestionController {
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private QuestionSeriesService questionSeriesService;
     
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("questions", questionService.findAll());
+        model.addAttribute("allQuestionSeries", questionSeriesService.findAll());
         return "view_all_questions";
     }
     

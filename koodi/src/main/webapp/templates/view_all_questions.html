@@ -6,16 +6,51 @@
     </head>
     <body>
         <div th:fragment="content">
-            <form method="POST" action="#" th:action="@{/tehtavat}" 
-                  th:object="${question}">
-                <input name="questionSeries" type="text"/><br/>
-                <input name="orderNumber" type="number" min="0"/><br/>
-                <input name="title" type="text"/><br/>
-                <input name="info" type="text"/><br/>
-                <input name="programmingLanguage" type="text"/><br/>
-                <input name="code" type="text"/><br/>
-                <input type="submit" value="Save"/>
+            <h2>Lisää tehtävä</h2>
+            <form method="POST" action="#" th:action="@{/tehtavat}"
+                  th:object="${question}" class="form-horizontal" role="form"
+                  id="questionForm">
+                <div class="form-group">
+                    <label for="series">Tehtäväsarja</label>
+                    <select name="questionSeries" id="series" class="form-control">
+                        <option value= "" selected="selected" disabled="disabled">
+                            Valitse tehtäväsarja</option>
+                        <option th:each="questionSeries : ${allQuestionSeries}" 
+                            th:text="${questionSeries.title}"
+                            th:value="${questionSeries.id}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="order">Järjestys</label>
+                    <input name="orderNumber" type="number" value="1" min="1"
+                       id="order" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="questionTitle">Otsikko</label>
+                    <input name="title" type="text" id="questionTitle" 
+                       class="form-control" placeholder="Tehtävän otsikko"/>
+                </div>
+                <div class="form-group">
+                    <label for="questionInfo">Kuvaus</label>
+                    <textarea name="info" id="questionInfo"
+                       class="form-control" placeholder="Tehtävän kuvaus"/>
+                </div>
+                <div class="form-group">
+                    <label for="language">Ohjelmointikieli</label>
+                    <input name="programmingLanguage" type="text" id="language"
+                       class="form-control" placeholder="Tehtävän ohjelmointikieli"/>
+                </div>
+                <div class="form-group">
+                    <label for="questionCode">Koodi</label>
+                    <textarea name="code" id="questionCode"
+                       class="form-control" placeholder="Syötä koodi tähän"/>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Tallenna"/>
+                </div>
             </form>
+            <br/>
+            <h2>Kaikki tehtävät</h2>
             <div th:replace="fragments/questions :: questions">
             </div>
             <th:block th:fragment="pagescript">
