@@ -12,12 +12,12 @@
             <table>
                 <tr>
                     <td>Nimi</td>
-                    <td>Email</td>
+                    <td>Käyttäjätunnus</td>
                     <td></td>
                 </tr>
                 <tr th:each="user : ${users}">
                     <td th:text="${user.name}">nimi</td>
-                    <td th:text="${user.email}">email</td>
+                    <td th:text="${user.username}">käyttäjätunnus</td>
                     <td><form action="#" th:action="@{/kayttajat/{id}/poista(id=${user.id})}" method="POST">
                             <button type="submit">Poista</button>
                         </form>

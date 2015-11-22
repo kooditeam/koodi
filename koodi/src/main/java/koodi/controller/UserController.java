@@ -66,4 +66,10 @@ public class UserController {
         redirectAttributes.addFlashAttribute("message", "Käyttäjä poistettu.");
         return "redirect:/kayttajat";
     }
+    
+    @RequestMapping(value = "/autentikoi", method = RequestMethod.POST)
+    public String authenticate(){
+        
+        return "redirect:/index";
+    }
 }

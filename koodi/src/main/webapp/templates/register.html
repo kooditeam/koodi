@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      th:include="fragments/layout :: page">
+    <head>
+        <title>Rekisteröidy</title>
+    </head>
+    <body>
+        <div th:fragment="content">
+            <h1>Rekisteröidy</h1>
+            <form action="#" th:action="@{/kayttajat/lisaa}" th:object="${user}" method="POST">
+                <table>
+                    <tr>
+                        <td><label for="name">Nimi:</label></td>
+                        <td><input type="text" name="name" th:field="*{name}"/>
+                            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nimivirhe</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="username">Opiskelijanumero:</label></td>
+                        <td><input type="text" name="username" th:field="*{username}"/>
+                            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Käyttäjätunnusvirhe</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>
