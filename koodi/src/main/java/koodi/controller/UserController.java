@@ -39,12 +39,28 @@ public class UserController {
         if(bindingResult.hasErrors()){
             return "add_user";
         }
-        // DevProfilessa luotu oletuskäyttäjä
-        // TODO: kun login toteutettu, muutettava siten että tallentava käyttäjä = kirjautunut käyttäjä
-        User defUser = userService.findAll().get(0);
-        userService.save(user, defUser);
+        userService.save(user);
         redirectAttributes.addFlashAttribute("message", "Uusi käyttäjä tallennettu!");
         return "redirect:/kayttajat";
+    }
+        
+    @RequestMapping(value = "/rekisteroidy", method = RequestMethod.GET)
+    public String showSignup(@ModelAttribute User user){
+        return "register";
+    }
+    
+    @RequestMapping(value = "/rekisteroidy", method = RequestMethod.POST)
+    public String signup(
+            @Valid @ModelAttribute User user,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes){
+        if(bindingResult.hasErrors()){
+            return "register";
+        }
+        user.setIsAdmin(false);
+        userService.save(user);
+        redirectAttributes.addFlashAttribute("message", "Tervetuloa käyttäjäksi!");
+        return "redirect:/index";
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -65,11 +81,5 @@ public class UserController {
         userService.delete(id);
         redirectAttributes.addFlashAttribute("message", "Käyttäjä poistettu.");
         return "redirect:/kayttajat";
-    }
-    
-    @RequestMapping(value = "/autentikoi", method = RequestMethod.POST)
-    public String authenticate(){
-        
-        return "redirect:/index";
     }
 }

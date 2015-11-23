@@ -4,7 +4,7 @@ package koodi;
 import java.util.ArrayList;
 import java.util.List;
 import koodi.domain.User;
-import koodi.repository.UserRepository;
+import koodi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,29 +19,38 @@ import org.springframework.stereotype.Component;
 public class JpaAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Override
     public Authentication authenticate(Authentication a) throws AuthenticationException {
+        UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken)a;
         String username = a.getPrincipal().toString();
         String password = a.getCredentials().toString();
 
-        User user = userRepository.findByUsername(username);
+        User user = userService.findByUsername(username);
 
         if (user == null) {
             throw new AuthenticationException("Unable to authenticate user " + username) {
             };
         }
 
-        if (!BCrypt.hashpw(password, user.getSalt()).equals(user.getPassword())) {
-            throw new AuthenticationException("Unable to authenticate user " + username) {
-            };
+        if(!password.equals(user.getPassword())){
+            throw new AuthenticationException("Unable to authenticate user " + username){};
         }
+        // salasana-tarkistus vaihdettava kun salasanat kryptataan
+//        if (!BCrypt.hashpw(password, user.getSalt()).equals(user.getPassword())) {
+//            throw new AuthenticationException("Unable to authenticate user " + username) {
+//            };
+//        }
 
         List<GrantedAuthority> grantedAuths = new ArrayList<>();
-        grantedAuths.add(new SimpleGrantedAuthority("USER"));
+        if(user.getIsAdmin()){
+            grantedAuths.add(new SimpleGrantedAuthority("ADMIN"));
+        } else {
+            grantedAuths.add(new SimpleGrantedAuthority("USER"));
+        }
 
-        return new UsernamePasswordAuthenticationToken(user.getUsername(), password, grantedAuths);
+        return new UsernamePasswordAuthenticationToken(user.getName(), password, grantedAuths);
     }
 
     @Override

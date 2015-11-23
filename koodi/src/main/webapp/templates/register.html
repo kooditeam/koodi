@@ -22,6 +22,17 @@
                         </td>
                     </tr>
                     <tr>
+                        <td><label for="password">Salasana:</label></td>
+                        <td>
+                            <input type="text" name="password"/>
+                            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Salasanavirhe</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="password2">Salasana uudelleen:</label></td>
+                        <td><input type="text" name="password2"/></td>
+                    </tr>
+                    <tr>
                         <td></td>
                         <td><input type="submit"/></td>
                     </tr>

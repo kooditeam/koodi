@@ -59,7 +59,7 @@ public class UserServiceTest {
     @Test
     public void newUserIsSaved(){
         User defUser = userRepository.findAll().get(0);
-        User savedUser = userService.save(user1, defUser);
+        User savedUser = userService.save(user1);
         Assert.assertEquals(2, userRepository.findAll().size());
         Assert.assertEquals(user1.getName(), savedUser.getName());
         Assert.assertEquals(user1.getUsername(), savedUser.getUsername());
@@ -71,13 +71,13 @@ public class UserServiceTest {
     @Test
     public void userIsUpdated(){
         User defUser = userRepository.findAll().get(0);
-        user1 = userService.save(user1, defUser);
+        user1 = userService.save(user1);
         user1.setName("user1changed");
         user1.setUsername("u1changed@u.com");
         user1.setPassword("zzz");
         Long createdBy = user1.getCreatedById();
         DateTime createdOn = user1.getCreatedOn();
-        User changedUser = userService.save(user1, defUser);
+        User changedUser = userService.save(user1);
         Assert.assertEquals(2, userRepository.findAll().size());
         Assert.assertEquals(user1.getName(), changedUser.getName());
         Assert.assertEquals(user1.getUsername(), changedUser.getUsername());
@@ -91,9 +91,9 @@ public class UserServiceTest {
     @Test
     public void allUsersAreListed(){
         User defUser = userRepository.findAll().get(0);
-        user1 = userService.save(user1, defUser);
-        user2 = userService.save(user2, defUser);
-        user3 = userService.save(user3, defUser);
+        user1 = userService.save(user1);
+        user2 = userService.save(user2);
+        user3 = userService.save(user3);
         User[] users = new User[]{defUser, user1, user2, user3};
         
         List<User> foundUsers = userRepository.findAll();
@@ -113,32 +113,43 @@ public class UserServiceTest {
     @Test
     public void userIsFoundById(){
         User defUser = userRepository.findAll().get(0);
-        user1 = userService.save(user1, defUser);
-        user2 = userService.save(user2, defUser);
-        user3 = userService.save(user3, defUser);
+        user1 = userService.save(user1);
+        user2 = userService.save(user2);
+        user3 = userService.save(user3);
         
         User foundUser = userService.findById(user2.getId());
         Assert.assertEquals(foundUser.getId(), user2.getId());
     }
     
     @Test
+    public void userIsFoundByUsername(){
+        User defUser = userRepository.findAll().get(0);
+        User foundUser = userService.findByUsername(defUser.getUsername());
+        Assert.assertNotNull(foundUser);
+        Assert.assertEquals(defUser.getId(), foundUser.getId());
+    }
+    
+    @Test
     public void userIsDeleted(){
         User defUser = userRepository.findAll().get(0);
-        user1 = userService.save(user1, defUser);
-        user2 = userService.save(user2, defUser);
-        user3 = userService.save(user3, defUser);
+        user1 = userService.save(user1);
+        user2 = userService.save(user2);
+        user3 = userService.save(user3);
+        int numberOfUsers = userRepository.findAll().size();
         
         userService.delete(user2.getId());
         List<User> foundUsers = userRepository.findAll();
-        Assert.assertEquals(3, foundUsers.size());
-        int matches = 0;       
+        Assert.assertEquals(numberOfUsers, foundUsers.size());     
 
+        User matchingUser = null;
         for(User fu : foundUsers){
             if(user2.getId().equals(fu.getId())){
-                matches++;
+                matchingUser = fu;
             }
         }
         
-        Assert.assertEquals(0, matches);
+        Assert.assertNotNull(matchingUser);
+        Assert.assertEquals(true, matchingUser.isRemoved());
+        
     }
 }

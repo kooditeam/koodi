@@ -16,6 +16,7 @@ public class User extends BaseModel {
     private String username;
     private String password;
     private String salt;
+    private boolean isAdmin;
     @OneToMany
     private List<Answer> answers;
 
@@ -50,6 +51,14 @@ public class User extends BaseModel {
     public void setPassword(String password) {
         this.password = password;
     }   
+
+    public boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
 
     public String getSalt() {
         return salt;

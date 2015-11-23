@@ -22,10 +22,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .anyRequest().authenticated();
         http.formLogin()
                 .loginPage("/login")
-                .loginProcessingUrl("/kayttajat/autentikoi")
+                .loginProcessingUrl("/j_spring_security_check")
                 .defaultSuccessUrl("/index")
-                .usernameParameter("username")
-                .passwordParameter("password")
+                .usernameParameter("j_username")
+                .passwordParameter("j_password")
                 .permitAll();
         http.logout()
                 .logoutUrl("/logout")

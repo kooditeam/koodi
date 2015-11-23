@@ -14,8 +14,8 @@ public class UserService extends BaseService{
     @Autowired
     private UserRepository userRepository;
     
-    public User save(User user, User admin){
-        super.save(user, admin);
+    public User save(User user){
+        super.save(user, null);
         return userRepository.save(user);
     }
     
@@ -27,12 +27,22 @@ public class UserService extends BaseService{
         return userRepository.findOne(id);
     }
     
+    public User findByUsername(String username){
+        return userRepository.findByUsername(username);
+    }
+    
     public void delete(Long id){
-        userRepository.delete(id);
+        User user = userRepository.findOne(id);
+        user = (User)super.delete(user);
+        userRepository.save(user);
     }
     
     public User getAuthenticatedUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return userRepository.findByUsername(authentication.getName());
+        if(authentication != null){
+            return userRepository.findByUsername(authentication.getName());
+        } else {
+            return null;
+        }        
     }
 }

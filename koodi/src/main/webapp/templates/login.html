@@ -9,17 +9,16 @@
     <body>
         <div th:fragment="content">
             <h1>Kirjaudu koodi-järjestelmään</h1>
-            <!-- <p th:if="${loginError}">Käyttäjätunnus tai salasana väärin</p> -->
-
-            <form th:action="@{/kayttajat/autentikoi}" method="post">
+            <p th:if="${loginError}">Käyttäjätunnus tai salasana väärin</p>
+            <form th:action="@{/j_spring_security_check}" method="post">
                 <table>
                     <tr>
-                        <td><label for="username">Username</label></td>
-                        <td><input type="text" id="j_username" name="username" /></td>
+                        <td><label for="j_username">Username</label></td>
+                        <td><input type="text" id="j_username" name="j_username" /></td>
                     </tr>
                     <tr>
-                        <td><label for="password">Password</label></td>
-                        <td><input type="password" id="password" name="password" /></td>
+                        <td><label for="j_password">Password</label></td>
+                        <td><input type="password" id="j_password" name="j_password" /></td>
                     </tr>
                     <tr>
                         <td></td>

@@ -19,9 +19,4 @@ public class IndexController {
     public String showLogin(){
         return "login";
     }
-    
-    @RequestMapping(value = "/rekisteroityminen", method = RequestMethod.GET)
-    public String showSignup(@ModelAttribute User user){
-        return "register";
-    }
 }

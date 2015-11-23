@@ -37,7 +37,9 @@ public class DevProfile {
     public void init(){
         User defUser = new User();
         defUser.setName("oletuskäyttäjä");
-        defUser.setUsername("a@a.com");
+        defUser.setUsername("a");
+        defUser.setPassword("a");
+        defUser.setIsAdmin(true);
         defUser = userRepository.save(defUser);
 //        defUser.setCreatedOn(DateTime.now());
 //        defUser.setCreatedBy(defUser);
