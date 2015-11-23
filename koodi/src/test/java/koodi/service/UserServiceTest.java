@@ -30,17 +30,17 @@ public class UserServiceTest {
     public void setUp(){
         user1 = new User();
         user1.setName("user1");
-        user1.setEmail("u1@u.com");
+        user1.setUsername("u1@u.com");
         user1.setPassword("aaa");
         
         user2 = new User();
         user2.setName("user2");
-        user2.setEmail("u2@u.com");
+        user2.setUsername("u2@u.com");
         user2.setPassword("bbb");
         
         user3 = new User();
         user3.setName("user3");
-        user3.setEmail("u3@u.com");
+        user3.setUsername("u3@u.com");
         user3.setPassword("ccc");
     }
     
@@ -62,7 +62,7 @@ public class UserServiceTest {
         User savedUser = userService.save(user1, defUser);
         Assert.assertEquals(2, userRepository.findAll().size());
         Assert.assertEquals(user1.getName(), savedUser.getName());
-        Assert.assertEquals(user1.getEmail(), savedUser.getEmail());
+        Assert.assertEquals(user1.getUsername(), savedUser.getUsername());
         Assert.assertEquals(user1.getPassword(), savedUser.getPassword());
         Assert.assertEquals(user1.getCreatedById(), defUser.getId());
         Assert.assertNotNull(savedUser.getCreatedOn());
@@ -73,14 +73,14 @@ public class UserServiceTest {
         User defUser = userRepository.findAll().get(0);
         user1 = userService.save(user1, defUser);
         user1.setName("user1changed");
-        user1.setEmail("u1changed@u.com");
+        user1.setUsername("u1changed@u.com");
         user1.setPassword("zzz");
         Long createdBy = user1.getCreatedById();
         DateTime createdOn = user1.getCreatedOn();
         User changedUser = userService.save(user1, defUser);
         Assert.assertEquals(2, userRepository.findAll().size());
         Assert.assertEquals(user1.getName(), changedUser.getName());
-        Assert.assertEquals(user1.getEmail(), changedUser.getEmail());
+        Assert.assertEquals(user1.getUsername(), changedUser.getUsername());
         Assert.assertEquals(user1.getPassword(), changedUser.getPassword());
         Assert.assertEquals(user1.getCreatedById(), createdBy);
         Assert.assertEquals(user1.getCreatedOn(), createdOn);

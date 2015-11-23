@@ -37,7 +37,7 @@ public class DevProfile {
     public void init(){
         User defUser = new User();
         defUser.setName("oletuskäyttäjä");
-        defUser.setEmail("a@a.com");
+        defUser.setUsername("a@a.com");
         defUser = userRepository.save(defUser);
 //        defUser.setCreatedOn(DateTime.now());
 //        defUser.setCreatedBy(defUser);
