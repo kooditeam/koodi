@@ -1,18 +1,14 @@
 package koodi.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import koodi.Main;
 import koodi.domain.User;
 import koodi.repository.UserRepository;
 import org.joda.time.DateTime;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -140,7 +136,6 @@ public class UserServiceTest {
         for(User fu : foundUsers){
             if(user2.getId().equals(fu.getId())){
                 matches++;
-                continue;
             }
         }
         

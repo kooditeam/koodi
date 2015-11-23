@@ -58,6 +58,7 @@ public class DevProfile {
         question1.getAnswerOptions().add(option1);
         question1.getAnswerOptions().add(option2);
         question1.setCode("public static void main(String[] args) {\n   System.out.prinln()\n}");
+        question1.setProgrammingLanguage("java");
         
         question1.setTitle("test question");
         question1.setInfo("test information");
@@ -80,7 +81,7 @@ public class DevProfile {
         question2.getAnswerOptions().add(option3);
         question2.getAnswerOptions().add(option4);
         question2.setCode("public static void main(String[] args) {\n   System.out.prinln(\"generic code as text here\")\n}");
-        
+        question2.setProgrammingLanguage("java");
         question2.setTitle("Code reading: the generic texts");
         question2.setInfo("This code reading is about pretty much nothing");
         
