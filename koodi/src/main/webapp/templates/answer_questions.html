@@ -13,11 +13,11 @@
             <h2>Tehtävät</h2>
 
             <div th:replace="fragments/questions :: questions" />
-            <th:block th:fragment="pagescript">
-                <script src="../static/js/prism.js"></script>
-                <script src="../static/js/answer_questions.js"></script>
-            </th:block>    
 
         </div>
+        <th:block th:fragment="pagescript">
+            <script src="../static/js/prism.js"></script>
+            <script src="../static/js/answer_questions.js"></script>
+        </th:block> 
     </body>
 </html>

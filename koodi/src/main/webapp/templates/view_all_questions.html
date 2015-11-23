@@ -82,11 +82,11 @@
             <br/>
             <h2>Kaikki tehtävät</h2>
             <div th:replace="fragments/questions :: questions">
-            </div>
-            <th:block th:fragment="pagescript">
-                <script src="../static/js/view_all_questions.js"></script>
-                <script src="../static/js/prism.js"></script>
-            </th:block>    
+            </div> 
         </div>
+        <th:block th:fragment="pagescript">
+            <script src="../static/js/view_all_questions.js"></script>
+            <script src="../static/js/prism.js"></script>
+        </th:block>  
     </body>
 </html>
