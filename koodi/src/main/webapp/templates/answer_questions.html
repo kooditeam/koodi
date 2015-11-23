@@ -3,6 +3,9 @@
       th:include="fragments/layout :: page">
     <head>
         <title></title>
+        <th:block th:fragment="pagehead">
+            <link rel="stylesheet" href="../static/css/prism.css"/>
+        </th:block>
     </head>
     <body>
         <div th:fragment="content">
@@ -11,10 +14,10 @@
 
             <div th:replace="fragments/questions :: questions" />
             <th:block th:fragment="pagescript">
+                <script src="../static/js/prism.js"></script>
                 <script src="../static/js/answer_questions.js"></script>
             </th:block>    
 
         </div>
-
     </body>
 </html>
