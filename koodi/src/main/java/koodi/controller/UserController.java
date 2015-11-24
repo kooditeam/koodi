@@ -11,33 +11,42 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("kayttajat")
 public class UserController {
     
     @Autowired
     private UserService userService;
     
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "kayttajat", method = RequestMethod.GET)
     public String list(Model model){
         model.addAttribute("users", userService.findAll());
         return "users";
     }
     
-    @RequestMapping(value = "/lisaa", method = RequestMethod.GET)
+    @RequestMapping(value = "kayttajat/lisaa", method = RequestMethod.GET)
     public String add(@ModelAttribute User user){
         return "add_user";
     }
     
-    @RequestMapping(value = "/lisaa", method = RequestMethod.POST)
+    @RequestMapping(value = "kayttajat/lisaa", method = RequestMethod.POST)
     public String create(
             @Valid @ModelAttribute User user,
+            @RequestParam String password2,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){
             return "add_user";
+        }
+        if (!user.getPassword().equals(password2)){
+            bindingResult.rejectValue("password", "error.user", "Salasanat eivät täsmää.");
+            return "register";
+        }
+        if (userService.findByUsername(user.getUsername()) != null){
+            bindingResult.rejectValue("username", "error.user", "Käyttäjänimi on varattu - valitse toinen.");
+            return "register";
         }
         userService.save(user);
         redirectAttributes.addFlashAttribute("message", "Uusi käyttäjä tallennettu!");
@@ -52,29 +61,38 @@ public class UserController {
     @RequestMapping(value = "/rekisteroidy", method = RequestMethod.POST)
     public String signup(
             @Valid @ModelAttribute User user,
+            @RequestParam String password2,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){
             return "register";
         }
+        if (!user.getPassword().equals(password2)){
+            bindingResult.rejectValue("password", "error.user", "Salasanat eivät täsmää.");
+            return "register";
+        }
+        if (userService.findByUsername(user.getUsername()) != null){
+            bindingResult.rejectValue("username", "error.user", "Käyttäjänimi on varattu - valitse toinen.");
+            return "register";
+        }
         user.setIsAdmin(false);
         userService.save(user);
         redirectAttributes.addFlashAttribute("message", "Tervetuloa käyttäjäksi!");
-        return "redirect:/index";
+        return "redirect:/";
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "kayttajat/{id}", method = RequestMethod.GET)
     public String show(@PathVariable Long id){
         return "";
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "kayttajat/{id}", method = RequestMethod.POST)
     public String update(@PathVariable Long id, @ModelAttribute User user){
         
         return "redirect:/kayttajat";
     }
     
-    @RequestMapping(value = "/{id}/poista", method = RequestMethod.POST)
+    @RequestMapping(value = "kayttajat/{id}/poista", method = RequestMethod.POST)
     public String delete(
             @PathVariable Long id,
             RedirectAttributes redirectAttributes){   

@@ -20,9 +20,38 @@ body {
     position: relative;
     display: block;
     padding: 10px 15px;
-    color: white;
+    color: white !important;
     line-height: 20px;
     padding-top: 15px;
     padding-bottom: 15px;
     text-decoration: none;
+}
+
+.navbar a {
+    float: left;
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    color: #9d9d9d;
+    line-height: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-decoration: none;
+    text-align: -webkit-match-parent;
+}
+
+.navbar li {
+box-sizing: border-box;
+color: rgb(87, 83, 83);
+display: block;
+float: left;
+font-family: 'Open Sans', sans-serif;
+font-size: 14px;
+height: 50px;
+line-height: 20px;
+list-style-image: none;
+list-style-position: outside;
+list-style-type: none;
+position: relative;
+text-align: left;
 }

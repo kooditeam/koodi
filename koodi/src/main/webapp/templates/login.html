@@ -11,20 +11,17 @@
             <h1>Kirjaudu koodi-järjestelmään</h1>
             <p th:if="${loginError}">Käyttäjätunnus tai salasana väärin</p>
             <form th:action="@{/j_spring_security_check}" method="post">
-                <table>
-                    <tr>
-                        <td><label for="j_username">Username</label></td>
-                        <td><input type="text" id="j_username" name="j_username" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="j_password">Password</label></td>
-                        <td><input type="password" id="j_password" name="j_password" /></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="submit" value="Log in" /></td>
-                    </tr>
-                </table>
+                <div class="form-group">
+                    <label for="j_username">Käyttäjätunnus</label>
+                    <input type="text" id="j_username" name="j_username" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="j_password">Salasana</label>
+                    <input type="password" id="j_password" name="j_password" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Log in"/>
+                </div>
             </form>
         </div>
     </body>

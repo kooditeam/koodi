@@ -43,13 +43,23 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-text">
-                            <span sec:authentication="name">Bob</span>
-                        </li>
-                        <li role="presentation" class="">
-                            <a href="/rekisteroidy">Rekisteröidy</a>
-                        </li>
                         
+                        <div sec:authorize="isAnonymous()">
+                            <li role="presentation" class="">
+                                <a href="/rekisteroidy/">Rekisteröidy</a>
+                            </li>
+                            <li role="presentation" class="">
+                                <a href="/login/">Kirjaudu</a>
+                            </li>
+                        </div>
+                        <span sec:authorize="isAuthenticated()">
+                            <li class="nav-text">
+                                <span sec:authentication="name">Bob</span>
+                            </li>
+                            <li role="presentation" class="">
+                                <a href="/logout">Kirjaudu ulos</a>
+                            </li>
+                        </span>
                     </ul>
                 </div>
             </div>

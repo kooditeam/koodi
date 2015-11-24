@@ -2,18 +2,21 @@ package koodi.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.OneToMany;
 
 @Entity
 @Table(name = "KoodiUser")
 public class User extends BaseModel {
     
-    @NotBlank
+    @NotBlank(message = "Nimi ei saa olla tyhjä")
     private String name;
+    @NotBlank(message = "Käyttäjänimi ei saa olla tyhjä")
+    @Column(unique = true)
     private String username;
+    @NotBlank(message = "Salasana ei saa olla tyhjä")
     private String password;
     private String salt;
     private boolean isAdmin;

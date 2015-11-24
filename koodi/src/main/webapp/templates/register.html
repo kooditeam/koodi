@@ -3,40 +3,36 @@
       th:include="fragments/layout :: page">
     <head>
         <title>Rekisteröidy</title>
+        <th:block th:fragment="pagehead">
+            <link rel="stylesheet" href="../static/css/prism.css"/>
+        </th:block>
     </head>
     <body>
         <div th:fragment="content">
             <h1>Rekisteröidy</h1>
-            <form action="#" th:action="@{/kayttajat/lisaa}" th:object="${user}" method="POST">
-                <table>
-                    <tr>
-                        <td><label for="name">Nimi:</label></td>
-                        <td><input type="text" name="name" th:field="*{name}"/>
-                            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nimivirhe</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="username">Opiskelijanumero:</label></td>
-                        <td><input type="text" name="username" th:field="*{username}"/>
-                            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Käyttäjätunnusvirhe</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="password">Salasana:</label></td>
-                        <td>
-                            <input type="text" name="password"/>
-                            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Salasanavirhe</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="password2">Salasana uudelleen:</label></td>
-                        <td><input type="text" name="password2"/></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="submit"/></td>
-                    </tr>
-                </table>
+            <form action="#" th:action="@{/rekisteroidy}" th:object="${user}" method="POST">
+                <div class="form-group">
+                    <label for="name">Nimi:</label>
+                    <input type="text" name="name" th:field="*{name}" class="form-control"/>
+                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nimivirhe</p>                        
+                </div>
+                <div class="form-group">
+                    <label for="username">Käyttäjätunnus:</label>
+                    <input type="text" name="username" th:field="*{username}" class="form-control"/>
+                    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Käyttäjätunnusvirhe</p>                        
+                </div>
+                <div class="form-group">
+                    <label for="password">Salasana:</label>
+                    <input type="text" name="password" class="form-control"/>
+                    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Salasanavirhe</p>                        
+                </div>
+                <div class="form-group">
+                    <label for="password2">Salasana uudelleen:</label>
+                    <input type="text" name="password2" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Tallenna"/>
+                </div>
             </form>
         </div>
     </body>

@@ -19,4 +19,15 @@ public class IndexController {
     public String showLogin(){
         return "login";
     }
+    
+    @RequestMapping("/login_error")
+    public String loginError(Model model) {
+        model.addAttribute("loginError", true);
+        return "login";
+    }
+    
+    @RequestMapping(value = "/logout_success", method = RequestMethod.GET)
+    public String showLogoutSuccess(){
+        return "logout_success";
+    }
 }
