@@ -9,7 +9,7 @@
             <h1>Käyttäjät</h1>
             <p><a href="/kayttajat/lisaa">Lisää uusi</a></p>
             <div th:if="${message}" th:text="${message}" class="message">viesti</div>
-            <table>
+            <table class="table-striped">
                 <tr>
                     <td>Nimi</td>
                     <td>Käyttäjätunnus</td>
@@ -19,7 +19,7 @@
                     <td th:text="${user.name}">nimi</td>
                     <td th:text="${user.username}">käyttäjätunnus</td>
                     <td><form action="#" th:action="@{/kayttajat/{id}/poista(id=${user.id})}" method="POST">
-                            <button type="submit">Poista</button>
+                            <button type="submit" class="btn-danger">Poista</button>
                         </form>
                     </td>
                 </tr>

@@ -4,6 +4,7 @@ import javax.validation.Valid;
 import koodi.domain.User;
 import koodi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,17 +21,20 @@ public class UserController {
     @Autowired
     private UserService userService;
     
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "kayttajat", method = RequestMethod.GET)
     public String list(Model model){
         model.addAttribute("users", userService.findAll());
         return "users";
     }
     
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "kayttajat/lisaa", method = RequestMethod.GET)
     public String add(@ModelAttribute User user){
         return "add_user";
     }
     
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "kayttajat/lisaa", method = RequestMethod.POST)
     public String create(
             @Valid @ModelAttribute User user,
@@ -78,20 +82,23 @@ public class UserController {
         user.setIsAdmin(false);
         userService.save(user);
         redirectAttributes.addFlashAttribute("message", "Tervetuloa käyttäjäksi!");
-        return "redirect:/";
+        return "redirect:/login";
     }
     
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "kayttajat/{id}", method = RequestMethod.GET)
     public String show(@PathVariable Long id){
         return "";
     }
     
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "kayttajat/{id}", method = RequestMethod.POST)
     public String update(@PathVariable Long id, @ModelAttribute User user){
         
         return "redirect:/kayttajat";
     }
     
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "kayttajat/{id}/poista", method = RequestMethod.POST)
     public String delete(
             @PathVariable Long id,

@@ -12,7 +12,6 @@ public class IndexController {
 
     @RequestMapping(value = "*", method = RequestMethod.GET)
     public String hello(Model model) {
-        System.out.println("mentiin default controlleriin");
         model.addAttribute("hello", "world");
         return "index";
     }
