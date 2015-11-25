@@ -1,7 +1,6 @@
 
 package koodi.profiles;
 
-import java.util.List;
 import javax.annotation.PostConstruct;
 import koodi.domain.AnswerOption;
 import koodi.domain.Question;
@@ -9,7 +8,6 @@ import koodi.domain.User;
 import koodi.repository.AnswerOptionRepository;
 import koodi.repository.QuestionRepository;
 import koodi.repository.UserRepository;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -45,7 +43,7 @@ public class DevProfile {
 //        defUser.setCreatedBy(defUser);
 //        userRepository.save(defUser);
         
-        // create a question
+        // create answer options
         AnswerOption option1 = new AnswerOption();
         option1.setAnswerText("testing");
         answerOptionRepository.save(option1);
@@ -55,20 +53,6 @@ public class DevProfile {
         option2.setIsCorrect(true);
         answerOptionRepository.save(option2);
         
-        Question question1 = new Question();
-        question1.setAnswerOptions(new ArrayList<>());
-        question1.getAnswerOptions().add(option1);
-        question1.getAnswerOptions().add(option2);
-        question1.setCode("public static void main(String[] args) {\n   System.out.prinln()\n}");
-        question1.setProgrammingLanguage("java");
-        
-        question1.setTitle("test question");
-        question1.setInfo("test information");
-        
-        questionRepository.save(question1);
-        // --
-        
-        // create another question
         AnswerOption option3 = new AnswerOption();
         option3.setAnswerText("generic answer text");
         option3.setIsCorrect(true);
@@ -77,6 +61,36 @@ public class DevProfile {
         AnswerOption option4 = new AnswerOption();
         option4.setAnswerText("generic answer text2");
         answerOptionRepository.save(option4);
+        // --
+        
+        // create a question series
+        QuestionSeries qs1 = new QuestionSeries();
+        qs1.setTitle("Sarja 1");
+        qs1.setOrderNumber(1);
+        questionSeriesRepository.save(qs1);
+
+        QuestionSeries qs2 = new QuestionSeries();
+        qs2.setTitle("Sarja 2");
+        qs2.setOrderNumber(2);
+        questionSeriesRepository.save(qs2);
+
+        QuestionSeries qs3 = new QuestionSeries();
+        qs3.setTitle("Sarja 3");
+        qs3.setOrderNumber(3);
+        questionSeriesRepository.save(qs3);
+        // --
+        
+        // create questions
+        Question question1 = new Question();
+        question1.setAnswerOptions(new ArrayList<>());
+        question1.getAnswerOptions().add(option1);
+        question1.getAnswerOptions().add(option2);
+        question1.setCode("public static void main(String[] args) {\n   System.out.prinln()\n}");
+        question1.setProgrammingLanguage("java");
+        question1.setTitle("test question");
+        question1.setInfo("test information");
+        question1.setQuestionSeries(qs1);
+        questionRepository.save(question1);
         
         Question question2 = new Question();
         question2.setAnswerOptions(new ArrayList<>());
@@ -86,35 +100,11 @@ public class DevProfile {
         question2.setProgrammingLanguage("java");
         question2.setTitle("Code reading: the generic texts");
         question2.setInfo("This code reading is about pretty much nothing");
-        
+        question1.setQuestionSeries(qs2);
         questionRepository.save(question2);
         // --
         
-        // create a question series
-        QuestionSeries qs1 = new QuestionSeries();
-        qs1.setQuestions(new ArrayList<>());
-        qs1.setTitle("Sarja 1");
-        qs1.setOrderNumber(1);
-        qs1.getQuestions().add(question1);
-        questionSeriesRepository.save(qs1);
-        // --
         
-        // create another question series
-        QuestionSeries qs2 = new QuestionSeries();
-        qs2.setQuestions(new ArrayList<>());
-        qs2.setTitle("Sarja 2");
-        qs2.setOrderNumber(2);
-        qs2.getQuestions().add(question2);
-        questionSeriesRepository.save(qs2);
-        // --
-        
-         // create third question series
-        QuestionSeries qs3 = new QuestionSeries();
-        qs3.setQuestions(new ArrayList<>());
-        qs3.setTitle("Sarja 3");
-        qs3.setOrderNumber(3);
-        questionSeriesRepository.save(qs3);
-        // --
     }
 }
 /*

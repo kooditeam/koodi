@@ -4,14 +4,14 @@ package koodi.domain;
 import javax.persistence.Entity;
 import java.util.List;
 import javax.persistence.Column;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
 public class Question extends BaseModel {
     
-    @ManyToMany
-    private List<QuestionSeries> questionSeries;
+    @ManyToOne(targetEntity = QuestionSeries.class)
+    private QuestionSeries questionSeries;
     @OneToMany
     private List<AnswerOption> answerOptions;
     private Integer orderNumber;
@@ -30,7 +30,7 @@ public class Question extends BaseModel {
         this.orderNumber = orderNumber;
     }
      
-    public List<QuestionSeries> getQuestionSeries() {
+    public QuestionSeries getQuestionSeries() {
         return questionSeries;
     }
 
@@ -46,7 +46,7 @@ public class Question extends BaseModel {
         return code;
     }
 
-    public void setQuestionSeries(List<QuestionSeries> questionSeries) {
+    public void setQuestionSeries(QuestionSeries questionSeries) {
         this.questionSeries = questionSeries;
     }
 
