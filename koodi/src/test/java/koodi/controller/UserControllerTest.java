@@ -9,6 +9,8 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -17,17 +19,21 @@ import org.springframework.web.context.WebApplicationContext;
 @WebAppConfiguration
 public class UserControllerTest {
     
+    private final String API_URI = "/kayttajat";
+    
     @Autowired
     private WebApplicationContext webAppContext;
     private MockMvc mockMvc;
     
     @Before
     public void setUp(){
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
+        this.mockMvc = MockMvcBuilders
+                .webAppContextSetup(webAppContext)
+                .build();
     }
     
     @Test
-    public void firstTest(){
+    public void kayttajatStatusIsOk() throws Exception {
         
     }
     
