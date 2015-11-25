@@ -1,6 +1,7 @@
 package koodi.service;
 
 import java.util.List;
+import koodi.domain.BaseModel;
 import koodi.domain.User;
 import koodi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class UserService extends BaseService{
     }
     
     public List<User> findAll(){
-        return userRepository.findAll();
+        return userRepository.findByRemovedIsFalse();
     }
     
     public User findById(Long id){
