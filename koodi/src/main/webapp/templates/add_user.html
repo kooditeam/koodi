@@ -10,23 +10,28 @@
             <p><a href="/kayttajat">Takaisin käyttäjälistaan</a></p>
             <form action="#" th:action="@{/kayttajat/lisaa}" th:object="${user}" method="POST">
                 <div class="form-group">
-                    <label for="name">Nimi:</label>
+                    <label for="name">Nimi</label>
                     <input type="text" name="name" th:field="*{name}" class="form-control"/>
                     <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nimivirhe</p>                        
                 </div>
                 <div class="form-group">
-                    <label for="username">Käyttäjätunnus:</label>
+                    <label for="isAdmin">Admin-käyttäjä</label>
+                    <input type="checkbox" name="isAdmin" th:field="*{isAdmin}"/>
+                    <p th:if="${#fields.hasErrors('isAdmin')}" th:errors="*{isAdmin}">Admin-statusvirhe</p>                        
+                </div>
+                <div class="form-group">
+                    <label for="username">Käyttäjätunnus</label>
                     <input type="text" name="username" th:field="*{username}" class="form-control"/>
                     <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Käyttäjätunnusvirhe</p>                        
                 </div>
                 <div class="form-group">
-                    <label for="password">Salasana:</label>
-                    <input type="text" name="password" class="form-control"/>
+                    <label for="password">Salasana</label>
+                    <input type="password" name="password" class="form-control"/>
                     <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Salasanavirhe</p>                        
                 </div>
                 <div class="form-group">
-                    <label for="password2">Salasana uudelleen:</label>
-                    <input type="text" name="password2" class="form-control"/>
+                    <label for="password2">Salasana uudelleen</label>
+                    <input type="password" name="password2" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Tallenna"/>

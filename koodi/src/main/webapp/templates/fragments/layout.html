@@ -26,24 +26,33 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
                         <!-- TODO: set class="active" to active navi-item -->
-                        <li role="presentation" class="">
-                            <a href="/kayttajat/">Käyttäjät</a>
-                        </li>
-                        <li role="presentation" class="">
-                            <a href="/vastaukset/">Vastaukset</a>
-                        </li>
-                        <li role="presentation" class="">
-                            <a href="/tehtavat/">Tehtävät</a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tehtäväsarjat<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                  <a th:each="questionSeries : ${allQuestionSeries}" th:text="${questionSeries.title}" href="#"></a>
-                                </li>
-                            </ul>
-                        </li>
-                        
+                        <span sec:authorize="hasRole('ROLE_ADMIN')">
+                            <li role="presentation" class="">
+                                <a href="/kayttajat/">Käyttäjät</a>
+                            </li>
+                            <li role="presentation" class="">
+                                <a href="/tehtavat/">Tehtävät</a>
+                            </li>
+                        </span>
+                        <span sec:authorize="isAuthenticated()">
+                            <li role="presentation" class="">
+                                <a href="/vastaukset/">Vastaukset</a>
+                            </li>                        
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tehtäväsarjat<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                      <a th:each="questionSeries : ${allQuestionSeries}" th:text="${questionSeries.title}" href="#"></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-text">
+                                <span sec:authentication="name">Bob</span>
+                            </li>
+                            <li role="presentation" class="">
+                                <a href="/logout">Kirjaudu ulos</a>
+                            </li>
+                        </span>
                         <div sec:authorize="isAnonymous()">
                             <li role="presentation" class="">
                                 <a href="/rekisteroidy/">Rekisteröidy</a>
@@ -52,14 +61,6 @@
                                 <a href="/login/">Kirjaudu</a>
                             </li>
                         </div>
-                        <span sec:authorize="isAuthenticated()">
-                            <li class="nav-text">
-                                <span sec:authentication="name">Bob</span>
-                            </li>
-                            <li role="presentation" class="">
-                                <a href="/logout">Kirjaudu ulos</a>
-                            </li>
-                        </span>
                     </ul>
                 </div>
             </div>
