@@ -65,8 +65,8 @@ public class UserController {
     @RequestMapping(value = "/rekisteroidy", method = RequestMethod.POST)
     public String signup(
             @Valid @ModelAttribute User user,
-            @RequestParam String password2,
             BindingResult bindingResult,
+            @RequestParam String password2,
             RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){
             return "register";
