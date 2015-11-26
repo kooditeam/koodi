@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -62,8 +61,32 @@ public class UserControllerTest {
     }
     
     @Test(expected = NestedServletException.class)
-    public void notBeingAuthenticatedHasNoAccessWithPostRequest() throws Exception {
+    public void notBeingAuthenticatedHasNoAccessToDeleteting() throws Exception {
         mockMvc.perform(post(API_URI + "/1/poista"));
+    }
+    
+    @WithMockUser(username = "a", roles = {"USER"})
+    @Test(expected = NestedServletException.class)
+    public void nonAdminUsersDontHaveAccess() throws Exception {
+        mockMvc.perform(get(API_URI));   
+    }
+    
+    @WithMockUser(username = "a", roles = {"USER"})
+    @Test(expected = NestedServletException.class)
+    public void nonAdminUsersDontHaveAccessToDeleting() throws Exception {
+        mockMvc.perform(post(API_URI + "/1/poista"));
+    }
+    
+    @WithMockUser(username = "a", roles = {"USER"})
+    @Test(expected = NestedServletException.class)
+    public void nonAdminUsersDontHaveAccessToAddingUsers() throws Exception {
+        mockMvc.perform(post(API_URI + "/lisaa")
+                .param("name", "testName")
+                .param("username", "testUsername")
+                .param("password", "testPassword")
+                .param("password2", "testPassword"))
+                .andExpect(flash().attribute("message", "Uusi käyttäjä tallennettu!"))
+                .andExpect(redirectedUrl(API_URI));     
     }
 
     @Test
@@ -110,13 +133,14 @@ public class UserControllerTest {
         assertTrue(userRepository.count() == 1);
         assertTrue(userRepository.findAll().get(0).isRemoved());
     }
-
+    
     @WithMockUser(username = "a", roles = {"ADMIN"})
     @Transactional
     @Test
     public void addingUserWorks() throws Exception {
         
         assertTrue(userRepository.count() == 1);
+        
         mockMvc.perform(post(API_URI + "/lisaa")
                 .param("name", "testName")
                 .param("username", "testUsername")
@@ -143,6 +167,19 @@ public class UserControllerTest {
                 .param("username", "testUsername")
                 .param("password", "doesNotMatch")
                 .param("password2", "testPassword"));
+        assertTrue(userRepository.count() == 1);
+    }
+    
+    @WithMockUser(username = "a", roles = {"ADMIN"})
+    @Test
+    public void addingUserDoesNotWorkIfPassWordsDontMatchOtherWayAround() throws Exception {
+        
+        assertTrue(userRepository.count() == 1);
+        mockMvc.perform(post(API_URI + "/lisaa")
+                .param("name", "testName")
+                .param("username", "testUsername")
+                .param("password", "testPassWord")
+                .param("password2", "doesNotMatch"));
         assertTrue(userRepository.count() == 1);
     }
     
@@ -210,4 +247,111 @@ public class UserControllerTest {
                 .param("password2", ""));
         assertTrue(userRepository.count() == 1);
     }
+    
+    // registering tests
+    
+    @Transactional
+    @Test
+    public void registeringUserWorks() throws Exception {
+        assertTrue(userRepository.count() == 1);
+        
+        mockMvc.perform(post("/rekisteroidy")
+                .param("name", "testName")
+                .param("username", "testUsername")
+                .param("password", "testPassword")
+                .param("password2", "testPassword"))
+                .andExpect(flash().attribute("message", "Tervetuloa käyttäjäksi!"))
+                .andExpect(redirectedUrl("/login"));
+        
+        assertTrue(userRepository.count() == 2);
+        
+        assertEquals("testName", userRepository.findAll().get(1).getName());
+        assertEquals("testUsername", userRepository.findAll().get(1).getUsername());
+        assertEquals("testPassword", userRepository.findAll().get(1).getPassword()); 
+    }
+    
+    @Test
+    public void registeringWithAllValuesBeingEmptyDoesNotWork() throws Exception {
+        
+        assertTrue(userRepository.count() == 1);
+        mockMvc.perform(post("/rekisteroidy")
+                .param("name", "")
+                .param("username", "")
+                .param("password", "")
+                .param("password2", ""));
+        assertTrue(userRepository.count() == 1);
+    }
+    
+    @Test
+    public void registeringWithEmptyUsernameDoesNotWork() throws Exception {
+        
+        assertTrue(userRepository.count() == 1);
+        mockMvc.perform(post("/rekisteroidy")
+                .param("name", "testName")
+                .param("username", "")
+                .param("password", "testPassword")
+                .param("password2", "testPassword"));
+        assertTrue(userRepository.count() == 1);
+    }
+    
+    @Test
+    public void registeringWithEmptyNameDoesNotWork() throws Exception {
+        
+        assertTrue(userRepository.count() == 1);
+        mockMvc.perform(post("/rekisteroidy")
+                .param("name", "")
+                .param("username", "testUsername")
+                .param("password", "testPassword")
+                .param("password2", "testPassword"));
+        assertTrue(userRepository.count() == 1);
+    }
+    
+    @Test
+    public void registeringWithEmptyPasswordDoesNotWork() throws Exception {
+        
+        assertTrue(userRepository.count() == 1);
+        mockMvc.perform(post("/rekisteroidy")
+                .param("name", "testName")
+                .param("username", "testUsername")
+                .param("password", "")
+                .param("password2", ""));
+        assertTrue(userRepository.count() == 1);
+    }
+    
+    @Test
+    public void registeringDoesNotWorkIfPassWordsDontMatch() throws Exception {
+        
+        assertTrue(userRepository.count() == 1);
+        mockMvc.perform(post("/rekisteroidy")
+                .param("name", "testName")
+                .param("username", "testUsername")
+                .param("password", "doesNotMatch")
+                .param("password2", "testPassword"));
+        assertTrue(userRepository.count() == 1);
+    }
+    
+    @Test
+    public void registeringDoesNotWorkIfPassWordsDontMatchOtherWayAround() throws Exception {
+        
+        assertTrue(userRepository.count() == 1);
+        mockMvc.perform(post("/rekisteroidy")
+                .param("name", "testName")
+                .param("username", "testUsername")
+                .param("password", "testPassWord")
+                .param("password2", "doesNotMatch"));
+        assertTrue(userRepository.count() == 1);
+    }
+    
+    @Test
+    public void registeringWithTakenUsernameDoesNotWork() throws Exception {
+        
+        assertTrue(userRepository.count() == 1);
+        mockMvc.perform(post("/rekisteroidy")
+                .param("name", "testName")
+                .param("username", "a")
+                .param("password", "testPassword")
+                .param("password2", "testPassword"));
+        assertTrue(userRepository.count() == 1);
+    }
+
 }
