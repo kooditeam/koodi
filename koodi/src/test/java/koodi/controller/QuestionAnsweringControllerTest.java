@@ -21,7 +21,6 @@ import koodi.domain.QuestionSeries;
 import koodi.service.AnswerService;
 import org.springframework.http.MediaType;
 
-/* // all tests commented out because doing things now in very different way
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -44,12 +43,12 @@ public class QuestionAnsweringControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
     }
 
-    @Test
+//    @Test
     public void statusOk() throws Exception {
         mockMvc.perform(get(API_URI)).andExpect(status().isOk());
     }
 
-    @Test
+//    @Test
     public void modelHasAttributeAllQuestionSeries() throws Exception {
         MvcResult res = mockMvc.perform(get(API_URI))
                 .andExpect(status().isOk())
@@ -62,7 +61,7 @@ public class QuestionAnsweringControllerTest {
         assertTrue(questionSeries.size() == 3);
     }
 
-    @Test
+//    @Test
     public void modelHasAttributeAllQuestions() throws Exception {
         MvcResult res = mockMvc.perform(get(API_URI))
                 .andExpect(status().isOk())
@@ -75,7 +74,7 @@ public class QuestionAnsweringControllerTest {
         assertTrue(questionSeries.size() == 2);
     }
 
-    @Test
+//    @Test
     public void modelHasAttributeDoesNotContainRandomAttributes() throws Exception {
         MvcResult res = mockMvc.perform(get(API_URI))
                 .andExpect(status().isOk())
@@ -88,7 +87,7 @@ public class QuestionAnsweringControllerTest {
         assertNull(questionSeries);
     }
 
-    @Test
+//    @Test
     public void modelHasTwoAttributes() throws Exception {
         mockMvc.perform(get(API_URI))
                 .andExpect(status().isOk())
@@ -209,4 +208,4 @@ public class QuestionAnsweringControllerTest {
     }
 
 }
-*/
+
