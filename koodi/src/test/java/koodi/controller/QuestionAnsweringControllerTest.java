@@ -73,6 +73,19 @@ public class QuestionAnsweringControllerTest {
 
         assertTrue(questions.size() == 1);
     }
+    
+    @Test
+    public void modelHasAttributeQuestionSeries() throws Exception {
+        MvcResult res = mockMvc.perform(get(API_URI + "/topic/1"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("questionSeries"))
+                .andReturn();
+
+        QuestionSeries questionSeries = (QuestionSeries) res.getModelAndView().getModel()
+                .get("questionSeries");       
+
+        assertEquals("Sarja 1", questionSeries.getTitle());
+    }
 
     @Test
     public void modelHasAttributeDoesNotContainRandomAttributes() throws Exception {
@@ -88,7 +101,7 @@ public class QuestionAnsweringControllerTest {
     }
 
     @Test
-    public void modelHasTwoAttributes() throws Exception {
+    public void modelHasThreeAttributes() throws Exception {
         mockMvc.perform(get(API_URI + "/topic/1"))
                 .andExpect(status().isOk())
                 .andExpect(model().size(3));
