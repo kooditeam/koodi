@@ -6,20 +6,20 @@ import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-@Configuration
+//@Configuration
 public class TemplateResolverExtender {
     
-    @Autowired
-    private SpringTemplateEngine templateEngine;
-    
-    @PostConstruct
-    public void extendTemplateResolvers(){
-        ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();        
-        resolver.setPrefix("/templates/");
-        resolver.setSuffix(".html");
-        resolver.setTemplateMode("HTML5");
-        resolver.setOrder(templateEngine.getTemplateResolvers().size());
-        resolver.setCacheable(false);
-        templateEngine.addTemplateResolver(resolver);        
-    }
+//    @Autowired
+//    private SpringTemplateEngine templateEngine;
+//    
+//    @PostConstruct
+//    public void extendTemplateResolvers(){
+//        ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();        
+//        resolver.setPrefix("/templates/");
+//        resolver.setSuffix(".html");
+//        resolver.setTemplateMode("HTML5");
+//        resolver.setOrder(templateEngine.getTemplateResolvers().size());
+//        resolver.setCacheable(false);
+//        templateEngine.addTemplateResolver(resolver);        
+//    }
 }
