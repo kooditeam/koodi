@@ -7,6 +7,7 @@ import koodi.repository.AnswerRepository;
 import koodi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class AnswerService extends BaseService{
@@ -30,5 +31,13 @@ public class AnswerService extends BaseService{
         
         answer = answerRepository.save(answer);     
         return answer;
-    }            
+    }
+    
+    public List<Answer> getAllAnswers() {
+        return answerRepository.findAll();
+    }
+    
+    public Answer getAnswerById(Long id) {
+        return answerRepository.findOne(id);
+    }
 }

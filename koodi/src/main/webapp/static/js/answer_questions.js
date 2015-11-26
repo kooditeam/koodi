@@ -50,3 +50,19 @@ function setResultText(questionId, result){
     
     $("#question-result-" +  questionId).text(resultMessage);
 }
+
+/*
+ * Disabled for now because of the meta tag in the template for some not working
+ * with the tests (despite working otherwise).
+ * 
+ * The error is as follows:
+ * org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.thymeleaf.exceptions.TemplateProcessingException: Exception evaluating SpringEL expression: "_csrf.token" (answer_questions:13)
+
+// sets a CSRF token for ajax calls
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
+$(document).ajaxSend(function (e, xhr, options) {
+    xhr.setRequestHeader(header, token);
+});
+
+*/
