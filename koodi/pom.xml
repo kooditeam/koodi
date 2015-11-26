@@ -88,7 +88,7 @@
         <dependency>
             <groupId>org.fluentlenium</groupId>
             <artifactId>fluentlenium-core</artifactId>
-            <version>0.10.3</version>
+            <version>0.9.1</version>
             <scope>test</scope>
         </dependency>
         
