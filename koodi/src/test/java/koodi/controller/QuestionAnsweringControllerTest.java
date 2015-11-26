@@ -22,7 +22,6 @@ import koodi.service.AnswerService;
 import org.springframework.http.MediaType;
 
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Main.class)
 @WebAppConfiguration
@@ -43,14 +42,15 @@ public class QuestionAnsweringControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
     }
 
-//    @Test
+    @Test
     public void statusOk() throws Exception {
-        mockMvc.perform(get(API_URI)).andExpect(status().isOk());
+        mockMvc.perform(get(API_URI + "/topic/1")).andExpect(status().isOk());
     }
 
-//    @Test
+    @Test
     public void modelHasAttributeAllQuestionSeries() throws Exception {
-        MvcResult res = mockMvc.perform(get(API_URI))
+        System.out.println("--------------------------------lajflasdfjlasfjklawefjöalsfjdlakjl");
+        MvcResult res = mockMvc.perform(get(API_URI + "/topic/1"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("allQuestionSeries"))
                 .andReturn();
@@ -61,22 +61,22 @@ public class QuestionAnsweringControllerTest {
         assertTrue(questionSeries.size() == 3);
     }
 
-//    @Test
+    @Test
     public void modelHasAttributeAllQuestions() throws Exception {
-        MvcResult res = mockMvc.perform(get(API_URI))
+        MvcResult res = mockMvc.perform(get(API_URI + "/topic/1"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("questions"))
                 .andReturn();
 
-        List<QuestionSeries> questionSeries = (List<QuestionSeries>) res.getModelAndView().getModel()
+        List<QuestionSeries> questions = (List<QuestionSeries>) res.getModelAndView().getModel()
                 .get("questions");
 
-        assertTrue(questionSeries.size() == 2);
+        assertTrue(questions.size() == 1);
     }
 
-//    @Test
+    @Test
     public void modelHasAttributeDoesNotContainRandomAttributes() throws Exception {
-        MvcResult res = mockMvc.perform(get(API_URI))
+        MvcResult res = mockMvc.perform(get(API_URI + "/topic/1"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeDoesNotExist("sjsj"))
                 .andReturn();
@@ -87,11 +87,11 @@ public class QuestionAnsweringControllerTest {
         assertNull(questionSeries);
     }
 
-//    @Test
+    @Test
     public void modelHasTwoAttributes() throws Exception {
-        mockMvc.perform(get(API_URI))
+        mockMvc.perform(get(API_URI + "/topic/1"))
                 .andExpect(status().isOk())
-                .andExpect(model().size(2));
+                .andExpect(model().size(3));
     }
 
     @Transactional
