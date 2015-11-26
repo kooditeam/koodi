@@ -2,7 +2,6 @@
 package koodi.selenium;
 
 import java.util.UUID;
-import javax.transaction.Transactional;
 import koodi.Main;
 import org.fluentlenium.adapter.FluentTest;
 import static org.junit.Assert.assertEquals;
@@ -15,24 +14,13 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.security.test.context.support.WithSecurityContextTestExcecutionListener;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.test.context.web.ServletTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Main.class)
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
-//    @TestExecutionListeners(listeners={ServletTestExecutionListener.class,
-//        DependencyInjectionTestExecutionListener.class,
-//        DirtiesContextTestExecutionListener.class,
-//        TransactionalTestExecutionListener.class,
-//        WithSecurityContextTestExcecutionListener.class})
 public class UserTest extends FluentTest {
 
     @Value("${local.server.port}")
