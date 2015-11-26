@@ -115,7 +115,6 @@ public class UserControllerTest {
                 .get("users");
 
         assertTrue(users.size() == 1);
-        System.out.println("user is: " + users.get(0).getId());
     }
    
     @WithMockUser(username = "a", roles = {"ADMIN"})
