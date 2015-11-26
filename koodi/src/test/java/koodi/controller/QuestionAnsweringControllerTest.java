@@ -49,7 +49,6 @@ public class QuestionAnsweringControllerTest {
 
     @Test
     public void modelHasAttributeAllQuestionSeries() throws Exception {
-        System.out.println("--------------------------------lajflasdfjlasfjklawefjöalsfjdlakjl");
         MvcResult res = mockMvc.perform(get(API_URI + "/topic/1"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("allQuestionSeries"))
