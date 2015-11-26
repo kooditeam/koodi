@@ -1,6 +1,7 @@
 package koodi.controller;
 
 import java.util.List;
+import javax.transaction.Transactional;
 import koodi.Main;
 import koodi.domain.QuestionSeries;
 import koodi.domain.User;
@@ -82,8 +83,9 @@ public class UserControllerTest {
         System.out.println("user is: " + users.get(0).getId());
     }
 
-//    @Transactional
-//    @Test
+    @WithMockUser(username = "a", roles = {"ADMIN"})
+    @Transactional
+    @Test
     public void deletingUserWorks() throws Exception {
 
         assertTrue(userRepository.count() == 1);
@@ -97,8 +99,9 @@ public class UserControllerTest {
         assertTrue(userRepository.findAll().get(0).isRemoved());
     }
 
-//    @Transactional
-//    @Test
+    @WithMockUser(username = "a", roles = {"ADMIN"})
+    @Transactional
+    @Test
     public void addingUserWorks() throws Exception {
         
         assertTrue(userRepository.count() == 1);
@@ -118,7 +121,8 @@ public class UserControllerTest {
         
     }
     
-//    @Test
+    @WithMockUser(username = "a", roles = {"ADMIN"})
+    @Test
     public void addingUserDoesNotWorkIfPassWordsDontMatch() throws Exception {
         
         assertTrue(userRepository.count() == 1);
@@ -130,7 +134,8 @@ public class UserControllerTest {
         assertTrue(userRepository.count() == 1);
     }
     
-//    @Test
+    @WithMockUser(username = "a", roles = {"ADMIN"})
+    @Test
     public void addingUserWithTakenUsernameDoesNotWork() throws Exception {
         
         assertTrue(userRepository.count() == 1);
@@ -142,6 +147,7 @@ public class UserControllerTest {
         assertTrue(userRepository.count() == 1);
     }
     
+    @WithMockUser(username = "a", roles = {"ADMIN"})
     @Test
     public void addingUserWithEmptyNameDoesNotWork() throws Exception {
         
@@ -154,6 +160,7 @@ public class UserControllerTest {
         assertTrue(userRepository.count() == 1);
     }
     
+    @WithMockUser(username = "a", roles = {"ADMIN"})
     @Test
     public void addingUserWithEmptyUsernameDoesNotWork() throws Exception {
         
@@ -166,6 +173,7 @@ public class UserControllerTest {
         assertTrue(userRepository.count() == 1);
     }
     
+    @WithMockUser(username = "a", roles = {"ADMIN"})
     @Test
     public void addingUserWithEmptyPasswordDoesNotWork() throws Exception {
         
@@ -178,6 +186,7 @@ public class UserControllerTest {
         assertTrue(userRepository.count() == 1);
     }
     
+    @WithMockUser(username = "a", roles = {"ADMIN"})
     @Test
     public void addingUserWithAllValuesBeingEmptyDoesNotWork() throws Exception {
         
