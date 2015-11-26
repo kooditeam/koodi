@@ -34,18 +34,21 @@
                                 <a href="/tehtavat/">Tehtävät</a>
                             </li>
                         </span>
-                        <span sec:authorize="isAuthenticated()">
-                            <li role="presentation" class="">
-                                <a href="/vastaukset/">Vastaukset</a>
-                            </li>                        
+                        <span sec:authorize="isAuthenticated()">                       
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tehtäväsarjat<span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                      <a th:each="questionSeries : ${allQuestionSeries}" th:text="${questionSeries.title}" href="#"></a>
+                                      <a th:each="questionSeries : ${allQuestionSeries}" 
+                                         th:text="${questionSeries.title}" 
+                                         th:href="@{/vastaukset/topic/{id}(id=${questionSeries.id})}"></a>
                                     </li>
                                 </ul>
                             </li>
+                        </span>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <span sec:authorize="isAuthenticated()">
                             <li class="nav-text">
                                 <span sec:authentication="name">Bob</span>
                             </li>
