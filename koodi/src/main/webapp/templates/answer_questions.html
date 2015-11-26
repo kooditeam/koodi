@@ -7,7 +7,7 @@
         <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
         <title></title>
         <th:block th:fragment="pagehead">
-            <link rel="stylesheet" href="../static/css/prism.css"/>
+            <link rel="stylesheet" href="/static/css/prism.css"/>
             
             <!--    The following 2 meta tags about CSRF disabled for now -->
             <!--<meta name="_csrf" th:content="${_csrf.token}"/> -->
@@ -25,8 +25,8 @@
 
         </div>
         <th:block th:fragment="pagescript">
-            <script src="../static/js/prism.js"></script>
-            <script src="../static/js/answer_questions.js"></script>
+            <script src="/static/js/prism.js"></script>
+            <script src="/static/js/answer_questions.js"></script>
         </th:block> 
     </body>
 </html>
