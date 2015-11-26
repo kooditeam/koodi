@@ -21,8 +21,6 @@ import koodi.domain.QuestionSeries;
 import koodi.service.AnswerService;
 import org.springframework.http.MediaType;
 
-/* // all tests commented out because doing things now in very different way
-
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Main.class)
@@ -46,12 +44,12 @@ public class QuestionAnsweringControllerTest {
 
     @Test
     public void statusOk() throws Exception {
-        mockMvc.perform(get(API_URI)).andExpect(status().isOk());
+        mockMvc.perform(get(API_URI + "/topic/1")).andExpect(status().isOk());
     }
 
     @Test
     public void modelHasAttributeAllQuestionSeries() throws Exception {
-        MvcResult res = mockMvc.perform(get(API_URI))
+        MvcResult res = mockMvc.perform(get(API_URI + "/topic/1"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("allQuestionSeries"))
                 .andReturn();
@@ -64,20 +62,33 @@ public class QuestionAnsweringControllerTest {
 
     @Test
     public void modelHasAttributeAllQuestions() throws Exception {
-        MvcResult res = mockMvc.perform(get(API_URI))
+        MvcResult res = mockMvc.perform(get(API_URI + "/topic/1"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("questions"))
                 .andReturn();
 
-        List<QuestionSeries> questionSeries = (List<QuestionSeries>) res.getModelAndView().getModel()
+        List<QuestionSeries> questions = (List<QuestionSeries>) res.getModelAndView().getModel()
                 .get("questions");
 
-        assertTrue(questionSeries.size() == 2);
+        assertTrue(questions.size() == 1);
+    }
+    
+    @Test
+    public void modelHasAttributeQuestionSeries() throws Exception {
+        MvcResult res = mockMvc.perform(get(API_URI + "/topic/1"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("questionSeries"))
+                .andReturn();
+
+        QuestionSeries questionSeries = (QuestionSeries) res.getModelAndView().getModel()
+                .get("questionSeries");       
+
+        assertEquals("Sarja 1", questionSeries.getTitle());
     }
 
     @Test
     public void modelHasAttributeDoesNotContainRandomAttributes() throws Exception {
-        MvcResult res = mockMvc.perform(get(API_URI))
+        MvcResult res = mockMvc.perform(get(API_URI + "/topic/1"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeDoesNotExist("sjsj"))
                 .andReturn();
@@ -89,10 +100,10 @@ public class QuestionAnsweringControllerTest {
     }
 
     @Test
-    public void modelHasTwoAttributes() throws Exception {
-        mockMvc.perform(get(API_URI))
+    public void modelHasThreeAttributes() throws Exception {
+        mockMvc.perform(get(API_URI + "/topic/1"))
                 .andExpect(status().isOk())
-                .andExpect(model().size(2));
+                .andExpect(model().size(3));
     }
 
     @Transactional
@@ -209,4 +220,4 @@ public class QuestionAnsweringControllerTest {
     }
 
 }
-*/
+

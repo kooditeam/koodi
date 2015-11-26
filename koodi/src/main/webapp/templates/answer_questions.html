@@ -2,9 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
       th:include="fragments/layout :: page">
     <head>
-        <meta name="_csrf" th:content="${_csrf.token}"/>
-        <!-- default header name is X-CSRF-TOKEN -->
-        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
         <title></title>
         <th:block th:fragment="pagehead">
             <link rel="stylesheet" href="/static/css/prism.css"/>
