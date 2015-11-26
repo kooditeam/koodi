@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.security.test.context.support.WithSecurityContextTestExcecutionListener;
+import org.springframework.web.util.NestedServletException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Main.class)
@@ -52,6 +54,16 @@ public class UserControllerTest {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(webAppContext)
                 .build();
+    }
+    
+    @Test(expected = NestedServletException.class)
+    public void notBeingAuthenticatedHasNoAccess() throws Exception {
+        mockMvc.perform(get(API_URI));
+    }
+    
+    @Test(expected = NestedServletException.class)
+    public void notBeingAuthenticatedHasNoAccessWithPostRequest() throws Exception {
+        mockMvc.perform(post(API_URI + "/1/poista"));
     }
 
     @Test
@@ -82,7 +94,7 @@ public class UserControllerTest {
         assertTrue(users.size() == 1);
         System.out.println("user is: " + users.get(0).getId());
     }
-
+   
     @WithMockUser(username = "a", roles = {"ADMIN"})
     @Transactional
     @Test
