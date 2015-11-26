@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+      th:include="fragments/layout :: page">
+    <head>
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <!-- default header name is X-CSRF-TOKEN -->
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+        <title></title>
+        <th:block th:fragment="pagehead">
+            <link rel="stylesheet" href="../static/css/prism.css"/>
+            
+            <!--    The following 2 meta tags about CSRF disabled for now -->
+            <!--<meta name="_csrf" th:content="${_csrf.token}"/> -->
+            <!-- default header name is X-CSRF-TOKEN -->
+            <!-- <meta name="_csrf_header" th:content="${_csrf.headerName}"/> -->
+            
+        </th:block>
+    </head>
+    <body>
+        <div th:fragment="content">
+            <h1>Vastaa tehtäviin</h1>
+            <h2 th:text="${questionSeries.title}">Tehtävät</h2>
+
+            <div th:replace="fragments/questions :: questions" />
+
+        </div>
+        <th:block th:fragment="pagescript">
+            <script src="../static/js/prism.js"></script>
+            <script src="../static/js/answer_questions.js"></script>
+        </th:block> 
+    </body>
+</html>

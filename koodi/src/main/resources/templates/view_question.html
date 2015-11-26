@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+      th:include="fragments/layout :: page">
+    <head>
+        <title>Muokkaa tehtävää</title>
+    </head>
+    <body>
+        <div th:fragment="content">
+            <h1>Muokkaa tehtävää</h1>
+            <h2 th:text="${question.title}"></h2>
+            <form method="POST" action="#" th:action="@{/tehtavat/"
+                  th:object="${question}" class="form-horizontal" role="form"
+                  id="questionForm">
+                <div class="form-group">
+                    <label for="series">Tehtäväsarja</label>
+                    <select name="questionSeries" id="series" class="form-control">
+                        <option value= "" selected="selected" disabled="disabled">
+                            Valitse tehtäväsarja</option>
+                        <option th:each="questionSeries : ${allQuestionSeries}" 
+                            th:text="${questionSeries.title}"
+                            th:value="${questionSeries.id}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="order">Järjestys</label>
+                    <input name="orderNumber" type="number" value="${question.orderNumber}" min="1"
+                       id="order" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="questionTitle">Otsikko</label>
+                    <input name="title" type="text" id="questionTitle" value="${question.orderNumber}" 
+                       class="form-control" placeholder="Tehtävän otsikko"/>
+                </div>
+                <div class="form-group">
+                    <label for="questionInfo">Kuvaus</label>
+                    <textarea name="info" id="questionInfo" value="${question.orderNumber}" 
+                       class="form-control" placeholder="Tehtävän kuvaus"/>
+                </div>
+                <div class="form-group">
+                    <label for="selectLanguage">Ohjelmointikieli</label>
+                    <select name="programmingLanguage" id="selectLanguage" class="form-control">
+                        <option value="" selected="selected" disabled="disabled">
+                            Valitse ohjelmointikieli</option>
+                        <option value="bash">Bash</option>
+                        <option value="c">C</option>
+                        <option value="cpp">C++</option>
+                        <option value="clike">C-like</option>
+                        <option value="css">CSS</option>
+                        <option value="java">Java</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="markup">Markup</option>
+                        <option value="perl">Perl</option>
+                        <option value="php">PHP</option>
+                        <option value="python">Python</option>
+                        <option value="ruby">Ruby</option>
+                        <option value="scala">Scala</option>
+                        <option value="sql">SQL</option>
+                        <option value="none">None</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="questionCode">Koodi</label>
+                    <textarea name="code" id="questionCode" value="${question.orderNumber}" 
+                       class="form-control" placeholder="Syötä koodi tähän"/>
+                </div>
+                
+                <!-- lisättävä tähän vastausvaihtoehdot listana, jossa myös radiobutton oikean 
+                     vaihtoehdon osoittamiseen ja nappi vastausvaihtoehdon poistamiseen -->
+
+                <div class="form-group">
+                    <input type="submit" value="Tallenna"/>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

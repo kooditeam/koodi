@@ -1,7 +1,6 @@
 package koodi.controller;
 
 import java.util.List;
-import javax.transaction.Transactional;
 import koodi.Main;
 import koodi.domain.QuestionSeries;
 import koodi.domain.User;
@@ -12,7 +11,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.test.context.web.ServletTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -20,10 +25,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.security.test.context.support.WithSecurityContextTestExcecutionListener;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Main.class)
 @WebAppConfiguration
+@TestExecutionListeners(listeners={ServletTestExecutionListener.class,
+        DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class,
+        TransactionalTestExecutionListener.class,
+        WithSecurityContextTestExcecutionListener.class})
 public class UserControllerTest {
 
     private final String API_URI = "/kayttajat";
@@ -42,7 +53,8 @@ public class UserControllerTest {
                 .build();
     }
 
-//    @Test
+    @Test
+    @WithMockUser(username = "a", roles = {"ADMIN"})
     public void modelHasAttributeAllQuestionSeries() throws Exception {
         MvcResult res = mockMvc.perform(get(API_URI))
                 .andExpect(status().isOk())
@@ -55,7 +67,8 @@ public class UserControllerTest {
         assertTrue(questionSeries.size() == 3);
     }
 
-//    @Test
+    @Test
+    @WithMockUser(username = "a", roles = {"ADMIN"})
     public void modelHasAttributeUsers() throws Exception {
         MvcResult res = mockMvc.perform(get(API_URI))
                 .andExpect(status().isOk())
