@@ -58,12 +58,12 @@ public class QuestionControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
     }
 
-//    @Test
+    @Test
     public void statusOk() throws Exception {
         mockMvc.perform(get(API_URI)).andExpect(status().isOk());
     }
 
-//    @Test
+    @Test
     public void modelHasAttributeAllQuestionSeries() throws Exception {
         MvcResult res = mockMvc.perform(get(API_URI))
                 .andExpect(status().isOk())
@@ -76,7 +76,7 @@ public class QuestionControllerTest {
         assertTrue(questionSeries.size() == 3);
     }
 
-//    @Test
+    @Test
     public void modelHasAttributeAllQuestions() throws Exception {
         MvcResult res = mockMvc.perform(get(API_URI))
                 .andExpect(status().isOk())
