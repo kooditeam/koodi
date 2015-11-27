@@ -160,6 +160,7 @@ public class UserControllerTest {
     @Test
     public void addingUserDoesNotWorkIfPassWordsDontMatch() throws Exception {
         
+        assertNull(userRepository.findByUsername("testUserName"));
         assertTrue(userRepository.count() == 1);
         mockMvc.perform(post(API_URI + "/lisaa")
                 .param("name", "testName")
@@ -167,18 +168,23 @@ public class UserControllerTest {
                 .param("password", "doesNotMatch")
                 .param("password2", "testPassword"));
         assertTrue(userRepository.count() == 1);
+        assertNull(userRepository.findByUsername("testUserName"));
     }
     
     @WithMockUser(username = "a", roles = {"ADMIN"})
     @Test
     public void addingUserDoesNotWorkIfPassWordsDontMatchOtherWayAround() throws Exception {
         
+        assertNull(userRepository.findByUsername("testUserName"));
         assertTrue(userRepository.count() == 1);
+        
         mockMvc.perform(post(API_URI + "/lisaa")
                 .param("name", "testName")
                 .param("username", "testUsername")
                 .param("password", "testPassWord")
                 .param("password2", "doesNotMatch"));
+        
+        assertNull(userRepository.findByUsername("testUserName"));
         assertTrue(userRepository.count() == 1);
     }
     
@@ -186,12 +192,16 @@ public class UserControllerTest {
     @Test
     public void addingUserWithTakenUsernameDoesNotWork() throws Exception {
         
+        assertNotEquals("a", userRepository.findByUsername("a"));
         assertTrue(userRepository.count() == 1);
+        
         mockMvc.perform(post(API_URI + "/lisaa")
                 .param("name", "testName")
                 .param("username", "a")
                 .param("password", "testPassword")
                 .param("password2", "testPassword"));
+        
+        assertNotEquals("a", userRepository.findByUsername("a"));
         assertTrue(userRepository.count() == 1);
     }
     
@@ -199,12 +209,15 @@ public class UserControllerTest {
     @Test
     public void addingUserWithEmptyNameDoesNotWork() throws Exception {
         
+        assertNull(userRepository.findByUsername("testUsername"));
         assertTrue(userRepository.count() == 1);
         mockMvc.perform(post(API_URI + "/lisaa")
                 .param("name", "")
                 .param("username", "testUsername")
                 .param("password", "testPassword")
                 .param("password2", "testPassword"));
+        
+        assertNull(userRepository.findByUsername("testUsername"));
         assertTrue(userRepository.count() == 1);
     }
     
@@ -212,12 +225,15 @@ public class UserControllerTest {
     @Test
     public void addingUserWithEmptyUsernameDoesNotWork() throws Exception {
         
+        assertNull(userRepository.findByUsername(""));
         assertTrue(userRepository.count() == 1);
         mockMvc.perform(post(API_URI + "/lisaa")
                 .param("name", "testName")
                 .param("username", "")
                 .param("password", "testPassword")
                 .param("password2", "testPassword"));
+        
+        assertNull(userRepository.findByUsername(""));
         assertTrue(userRepository.count() == 1);
     }
     
@@ -225,12 +241,15 @@ public class UserControllerTest {
     @Test
     public void addingUserWithEmptyPasswordDoesNotWork() throws Exception {
         
+        assertNull(userRepository.findByUsername("testUsername"));
         assertTrue(userRepository.count() == 1);
         mockMvc.perform(post(API_URI + "/lisaa")
                 .param("name", "testName")
                 .param("username", "testUsername")
                 .param("password", "")
                 .param("password2", ""));
+        
+        assertNull(userRepository.findByUsername("testUsername"));
         assertTrue(userRepository.count() == 1);
     }
     
@@ -238,12 +257,15 @@ public class UserControllerTest {
     @Test
     public void addingUserWithAllValuesBeingEmptyDoesNotWork() throws Exception {
         
+        assertNull(userRepository.findByUsername(""));
         assertTrue(userRepository.count() == 1);
         mockMvc.perform(post(API_URI + "/lisaa")
                 .param("name", "")
                 .param("username", "")
                 .param("password", "")
                 .param("password2", ""));
+        
+        assertNull(userRepository.findByUsername(""));
         assertTrue(userRepository.count() == 1);
     }
     
@@ -252,6 +274,8 @@ public class UserControllerTest {
     @Transactional
     @Test
     public void registeringUserWorks() throws Exception {
+        
+        assertNull(userRepository.findByUsername("testUsername"));
         assertTrue(userRepository.count() == 1);
         
         mockMvc.perform(post("/rekisteroidy")
@@ -264,92 +288,121 @@ public class UserControllerTest {
         
         assertTrue(userRepository.count() == 2);
         
-        assertEquals("testName", userRepository.findAll().get(1).getName());
+        assertNotNull(userRepository.findByUsername("testUsername"));
+        assertEquals("testName", userRepository.findByUsername("testUsername").getName());
         assertEquals("testUsername", userRepository.findAll().get(1).getUsername());
-        assertEquals("testPassword", userRepository.findAll().get(1).getPassword()); 
+        assertEquals("testPassword", userRepository.findByUsername("testUsername").getPassword()); 
     }
     
     @Test
     public void registeringWithAllValuesBeingEmptyDoesNotWork() throws Exception {
         
+        assertNull(userRepository.findByUsername(""));
         assertTrue(userRepository.count() == 1);
+        
         mockMvc.perform(post("/rekisteroidy")
                 .param("name", "")
                 .param("username", "")
                 .param("password", "")
                 .param("password2", ""));
+        
+        assertNull(userRepository.findByUsername(""));
         assertTrue(userRepository.count() == 1);
     }
     
     @Test
     public void registeringWithEmptyUsernameDoesNotWork() throws Exception {
         
+        assertNull(userRepository.findByUsername(""));
         assertTrue(userRepository.count() == 1);
+        
         mockMvc.perform(post("/rekisteroidy")
                 .param("name", "testName")
                 .param("username", "")
                 .param("password", "testPassword")
                 .param("password2", "testPassword"));
+        
+        assertNull(userRepository.findByUsername(""));
         assertTrue(userRepository.count() == 1);
     }
     
     @Test
     public void registeringWithEmptyNameDoesNotWork() throws Exception {
         
+        assertNull(userRepository.findByUsername("testUsername"));
         assertTrue(userRepository.count() == 1);
         mockMvc.perform(post("/rekisteroidy")
                 .param("name", "")
                 .param("username", "testUsername")
                 .param("password", "testPassword")
                 .param("password2", "testPassword"));
+        
+        assertNull(userRepository.findByUsername("testUsername"));
         assertTrue(userRepository.count() == 1);
     }
     
     @Test
     public void registeringWithEmptyPasswordDoesNotWork() throws Exception {
         
+        assertNull(userRepository.findByUsername("testUsername"));
         assertTrue(userRepository.count() == 1);
+        
         mockMvc.perform(post("/rekisteroidy")
                 .param("name", "testName")
                 .param("username", "testUsername")
                 .param("password", "")
                 .param("password2", ""));
+        
+        assertNull(userRepository.findByUsername("testUsername"));
         assertTrue(userRepository.count() == 1);
     }
     
     @Test
     public void registeringDoesNotWorkIfPassWordsDontMatch() throws Exception {
         
+        assertNull(userRepository.findByUsername("testUsername"));
         assertTrue(userRepository.count() == 1);
+        
         mockMvc.perform(post("/rekisteroidy")
                 .param("name", "testName")
                 .param("username", "testUsername")
                 .param("password", "doesNotMatch")
                 .param("password2", "testPassword"));
+        
+        assertNull(userRepository.findByUsername("testUsername"));
         assertTrue(userRepository.count() == 1);
     }
     
     @Test
     public void registeringDoesNotWorkIfPassWordsDontMatchOtherWayAround() throws Exception {
         
+        assertNull(userRepository.findByUsername("testUsername"));
         assertTrue(userRepository.count() == 1);
+        
         mockMvc.perform(post("/rekisteroidy")
                 .param("name", "testName")
                 .param("username", "testUsername")
                 .param("password", "testPassWord")
                 .param("password2", "doesNotMatch"));
+        
+        assertNull(userRepository.findByUsername("testUsername"));
         assertTrue(userRepository.count() == 1);
     }
     
     @Test
     public void registeringWithTakenUsernameDoesNotWork() throws Exception {
         
+        assertNotNull(userRepository.findByUsername("a"));
+        assertNotEquals("testName", userRepository.findByUsername("a"));
         assertTrue(userRepository.count() == 1);
         mockMvc.perform(post("/rekisteroidy")
                 .param("name", "testName")
                 .param("username", "a")
                 .param("password", "testPassword")
                 .param("password2", "testPassword"));
+        
+        assertNotNull(userRepository.findByUsername("a"));
+        assertNotEquals("testName", userRepository.findByUsername("a"));
         assertTrue(userRepository.count() == 1);
     }
 
