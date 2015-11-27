@@ -1,9 +1,6 @@
 
 package koodi.controller;
 
-import java.util.List;
-import koodi.domain.Answer;
-import koodi.domain.AnswerOption;
 import koodi.domain.QuestionSeries;
 import koodi.domain.TentativeAnswer;
 import koodi.service.AnswerService;
@@ -42,21 +39,7 @@ public class QuestionAnsweringController {
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
     public String saveAnswer(@RequestBody TentativeAnswer tentativeAnswer) {
-        Answer answer = new Answer();
-        Long questionId = new Long(tentativeAnswer.getQuestionId());
-        Long answerOptionId = new Long(tentativeAnswer.getAnswerOptionId());
-        List<AnswerOption> options = questionService.findById(questionId).getAnswerOptions();
-        for(AnswerOption option : options){
-            if(option.getId().equals(answerOptionId)){
-                answer.setAnswerOption(option);
-                break;
-            }
-        }        
-        answer = answerService.save(answer);
-        int result = 0;
-        if(answer.getAnswerOption().getIsCorrect()){
-            result = 1;
-        }
-        return "{\"result\": \"" + result + "\"}";
+        String rightOrNot = answerService.saveUsersAnswer(tentativeAnswer);
+        return rightOrNot;
     }
 }

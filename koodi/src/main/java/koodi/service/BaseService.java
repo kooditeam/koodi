@@ -9,41 +9,60 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public abstract class BaseService {
-    
+
     @Autowired
     private UserRepository userRepository;
-    
-    public void save(BaseModel model, User user){
-        if(user==null){
+
+    public void save(BaseModel model, User user) {
+        if (user == null) {
             user = getCurrentUser();
         }
-        if(model.getId() == null){
-            model.setCreatedOn(new DateTime());
-            model.setCreatedById(user.getId());
+        if (modelWasJustCreated(model)) {
+            setCreationTimeForModel(model);
+            setModelsCreator(model, user);
         } else {
-            model.setEditedOn(new DateTime());
-            model.setEditedById(user.getId());
-        }       
-        return;
+            setEditingTimeForModel(model);
+            setModelsEditor(model, user);
+        }
     }
     
-    public BaseModel delete(BaseModel model){
+    private void setEditingTimeForModel(BaseModel model) {
+        model.setEditedOn(new DateTime());
+    }
+    
+    private void setModelsEditor(BaseModel model, User user) {
+        model.setEditedById(user.getId());
+    }
+    
+    private boolean modelWasJustCreated(BaseModel model) {
+        return model.getId() == null;
+    }
+    
+    private void setCreationTimeForModel(BaseModel model) {
+        model.setCreatedOn(new DateTime());
+    }
+    
+    private void setModelsCreator(BaseModel model, User user) {
+        model.setCreatedById(user.getId());
+    }
+
+    public BaseModel delete(BaseModel model) {
         model.setEditedById(getCurrentUser().getId());
         model.setEditedOn(new DateTime());
-        model.setRemoved(true);    
+        model.setRemoved(true);
         return model;
     }
-    
-    public User getCurrentUser(){
+
+    public User getCurrentUser() {
         User user = null;
-        try{
+        try {
             String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
             user = userRepository.findByUsername(username);
+        } // poistettava kun autentikointi oikeasti käytössä!!!
+        catch (Exception exc) {
         }
-        // poistettava kun autentikointi oikeasti käytössä!!!
-        catch(Exception exc){ }       
-        if(user == null){
-             user = userRepository.findAll().get(0);
+        if (user == null) {
+            user = userRepository.findAll().get(0);
         }
         return user;
     }

@@ -2,24 +2,23 @@
 package koodi.domain;
 
 public class TentativeAnswer {
-    private int answerOptionId;
-    private int questionId;
+    private Long answerOptionId;
+    private Long questionId;
 
-    public int getAnswerOptionId() {
+    public Long getAnswerOptionId() {
         return answerOptionId;
     }
 
-    public void setAnswerOptionId(int answerOptionId) {
-        this.answerOptionId = answerOptionId;
-    }
-
-    public int getQuestionId() {
+    public Long getQuestionId() {
         return questionId;
     }
 
-    public void setQuestionId(int questionId) {
+    public void setAnswerOptionId(Long answerOptionId) {
+        this.answerOptionId = answerOptionId;
+    }
+
+    public void setQuestionId(Long questionId) {
         this.questionId = questionId;
     }
-    
-    
+  
 }
