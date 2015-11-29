@@ -60,6 +60,7 @@ public class ProdProfile {
         defUser.setPassword("a");
         defUser.setIsAdmin(true);
         defUser = userRepository.save(defUser);
+        
     }
 
 }
