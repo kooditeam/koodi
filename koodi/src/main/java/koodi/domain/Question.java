@@ -4,6 +4,7 @@ package koodi.domain;
 import javax.persistence.Entity;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -12,7 +13,7 @@ public class Question extends BaseModel {
     
     @ManyToOne(targetEntity = QuestionSeries.class)
     private QuestionSeries questionSeries;
-    @OneToMany
+    @OneToMany(fetch=FetchType.EAGER)
     private List<AnswerOption> answerOptions;
     private Integer orderNumber;
     private String title;
