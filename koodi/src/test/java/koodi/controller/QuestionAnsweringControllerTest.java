@@ -17,8 +17,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import java.util.List;
 import javax.transaction.Transactional;
+import koodi.domain.Answer;
 import koodi.domain.QuestionSeries;
+import koodi.repository.AnswerRepository;
 import koodi.service.AnswerService;
+import org.junit.After;
 import org.springframework.http.MediaType;
 
 
@@ -31,6 +34,8 @@ public class QuestionAnsweringControllerTest {
 
     @Autowired
     private AnswerService answerService;
+    @Autowired
+    private AnswerRepository answerRepository;
 
     @Autowired
     private WebApplicationContext webAppContext;
@@ -40,6 +45,14 @@ public class QuestionAnsweringControllerTest {
     @Before
     public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
+    }
+    
+    @After
+    public void tearDown(){
+        List<Answer> answers = answerRepository.findAll();
+        for(Answer a : answers){
+            answerRepository.delete(a);
+        }
     }
 
     @Test
@@ -186,7 +199,7 @@ public class QuestionAnsweringControllerTest {
 
     @Transactional
     @Test
-    public void postSavesAnswerCorrectlyWithTheWrongOption() throws Exception {      
+    public void postSavesAnswerCorrectlyWithTheWrongOption() throws Exception {
         assertTrue(answerService.getAllAnswers().isEmpty());
         
         String testData = "{\"answerOptionId\":\"1\", \"questionId\":\"1\"}";

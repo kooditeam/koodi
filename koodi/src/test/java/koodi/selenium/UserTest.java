@@ -114,7 +114,7 @@ public class UserTest extends FluentTest {
         assertTrue(pageSource().contains("Koodihommia!"));
         assertTrue(pageSource().contains("Käyttäjät"));
         assertTrue(pageSource().contains("Tehtävät"));
-        assertTrue(pageSource().contains("oletuskäyttäjä"));
+        assertTrue(pageSource().contains("oletusadmin"));
         assertTrue(pageSource().contains("Kirjaudu ulos"));
     }
     
