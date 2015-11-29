@@ -40,4 +40,12 @@ public class AnswerService extends BaseService{
     public Answer getAnswerById(Long id) {
         return answerRepository.findOne(id);
     }
+    
+    public List<Answer> getAnswersByUserId(Long id){
+        return answerRepository.findByUserId(id);
+    }
+    
+    public List<Answer> getAnswersByUserIdAndQuestionSeriesId(Long userId, Long questionSeriesId){
+        return answerRepository.findByUserIdAndQuestionSeriesId(userId);
+    }
 }

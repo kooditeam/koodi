@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+      th:include="fragments/layout :: page">
+    <head>
+        <title>Tehtävätilanne</title>
+        <th:block th:fragment="pagehead">
+            <link rel="stylesheet" href="/static/css/prism.css"/>
+            
+            <!--    The following 2 meta tags about CSRF disabled for now -->
+            <!--<meta name="_csrf" th:content="${_csrf.token}"/> -->
+            <!-- default header name is X-CSRF-TOKEN -->
+            <!-- <meta name="_csrf_header" th:content="${_csrf.headerName}"/> -->
+            
+        </th:block>
+    </head>
+    <body>
+        <div th:fragment="content">
+            <h1>Tehtävätilanne</h1>
+
+            <div class="no-styles-list" th:each="questionSet : ${questionSets}">
+                
+                <article id="question-series-" th:attrappend="id=${questionSet.id}">
+                    <div class="question-series-list-bar">
+                        <span class="question-series-list-bar-title" th:text="${questionSet.title}">Tehtäväsarjan otsikko</span>
+                        <span class="question-series-list-bar-statistics" 
+                                th:text="${questionSet.numberOfQuestions} + ' kysymystä; '
+                                + ${questionSet.numberOfAnswers} + ' vastattu; '
+                                + ${questionSet.numberOfCorrects} + ' oikein'"                                 
+                        </span>
+                    </div>
+                    <div class="question-series-resultset">
+                        <ul class="no-styles-list" th:each="questionResult : ${questionSet.questionResults}">
+                            <li>
+                                <span class="questionresult-title" th:text="${questionResult.orderNumber} + '. ' + ${questionResult.title}">1. Testitehtävä</span>
+                                <span class="questionresult-body" th:text="${questionResult.result}">Oikein!</span>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+                
+            </div>            
+
+        </div>
+        <th:block th:fragment="pagescript">
+            <script src="/static/js/prism.js"></script>
+            <script src="/static/js/answer_questions.js"></script>
+        </th:block> 
+    </body>
+</html>

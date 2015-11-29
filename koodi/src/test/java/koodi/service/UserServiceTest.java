@@ -59,8 +59,9 @@ public class UserServiceTest {
     @Test
     public void newUserIsSaved(){
         User defUser = userRepository.findAll().get(0);
+        int userCount = userRepository.findAll().size();
         User savedUser = userService.save(user1);
-        Assert.assertEquals(2, userRepository.findAll().size());
+        Assert.assertEquals(userCount + 1, userRepository.findAll().size());
         Assert.assertEquals(user1.getName(), savedUser.getName());
         Assert.assertEquals(user1.getUsername(), savedUser.getUsername());
         Assert.assertEquals(user1.getPassword(), savedUser.getPassword());

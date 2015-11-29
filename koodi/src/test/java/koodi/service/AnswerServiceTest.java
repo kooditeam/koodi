@@ -1,5 +1,6 @@
 package koodi.service;
 
+import java.util.List;
 import koodi.Main;
 import koodi.domain.Answer;
 import koodi.domain.AnswerOption;
@@ -31,24 +32,26 @@ public class AnswerServiceTest {
     Answer answer1;
     Answer answer2;
     AnswerOption answerOption1;
-    AnswerOption answerOption2;
+    AnswerOption answerOption3;
     int existingAnswers;
     User defUser;
+    User defAdmin;
     
     @Before
     public void setUp(){
+        defUser = userRepository.findOne(2L);
+        defAdmin = userRepository.findOne(1L);
+        
         answerOption1 = answerOptionRepository.findOne(1L);
-        answerOption2 = answerOptionRepository.findOne(2L);
+        answerOption3 = answerOptionRepository.findOne(3L);
         
         answer1 = new Answer();
         answer1.setAnswerOption(answerOption1);
         
         answer2 = new Answer();
-        answer2.setAnswerOption(answerOption2);
+        answer2.setAnswerOption(answerOption3);
         
-        existingAnswers = answerRepository.findAll().size();
-        defUser = userRepository.findOne(1L);
-        
+        existingAnswers = answerRepository.findAll().size();        
     }
     
     @After
@@ -68,9 +71,22 @@ public class AnswerServiceTest {
         
         Answer savedAnswer2 = answerService.save(answer2);
         Assert.assertEquals(existingAnswers + 2, answerRepository.findAll().size());
-        Assert.assertEquals(answerOption2.getId(), savedAnswer2.getAnswerOption().getId());
+        Assert.assertEquals(answerOption3.getId(), savedAnswer2.getAnswerOption().getId());
         Assert.assertNotNull(savedAnswer2.getUser());
         Assert.assertEquals(defUser.getId(), savedAnswer2.getUser().getId());
+    }
+    
+    @Test 
+    public void answersCanBeQueriedByUserIdAndQuestionSeriesId(){
+        answer1.setUser(defUser);
+        answer2.setUser(defAdmin);
+        answerService.save(answer1);
+        answerService.save(answer2);
+        
+        List<Answer> answers = answerRepository.findByUserIdAndQuestionSeriesId(defUser.getId());
+        Assert.assertEquals(1, answers.size());
+        Assert.assertEquals((Long)1L, (Long)answers.get(0).getId());
+        
     }
     
 //    @Test

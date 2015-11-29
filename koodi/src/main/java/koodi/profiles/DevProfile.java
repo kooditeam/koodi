@@ -34,14 +34,18 @@ public class DevProfile {
     @PostConstruct
     public void init(){
         User defUser = new User();
-        defUser.setName("oletuskäyttäjä");
+        defUser.setName("oletusadmin");
         defUser.setUsername("a");
         defUser.setPassword("a");
         defUser.setIsAdmin(true);
         defUser = userRepository.save(defUser);
-//        defUser.setCreatedOn(DateTime.now());
-//        defUser.setCreatedBy(defUser);
-//        userRepository.save(defUser);
+        
+        User defUser2 = new User();
+        defUser2.setName("oletususer");
+        defUser2.setUsername("b");
+        defUser2.setPassword("b");
+        defUser2.setIsAdmin(false);
+        defUser2 = userRepository.save(defUser2);
         
         // create answer options
         AnswerOption option1 = new AnswerOption();
