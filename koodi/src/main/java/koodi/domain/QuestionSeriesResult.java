@@ -4,12 +4,21 @@ import java.util.List;
 
 public class QuestionSeriesResult {
     
+    private Long id;
     private String title;
     private List<QuestionResult> questionResults;
     private int numberOfQuestions;
     private int numberOfAnswers;
     private int numberOfCorrects;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
     public String getTitle() {
         return title;
     }

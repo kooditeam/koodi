@@ -15,6 +15,6 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
 //    @Query("select a "
 //            + "from Question q join q.answerOptions o join o.answers a "
 //            + "where a.userId = :userId and q.questionSeriesId = :questionSeriesId")
-    @Query("select a from Answer a where a.user = :userId")
+    @Query("select a from Answer a where a.user.id = ?1")
     public List<Answer> findByUserIdAndQuestionSeriesId(Long userId);    
 }

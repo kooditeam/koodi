@@ -53,7 +53,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <span sec:authorize="isAuthenticated()">
                             <li class="nav-text">
-                                <span sec:authentication="name">Bob</span>
+                                <span th:text="${nameOfUser}">Bob</span>
                             </li>
                             <li role="presentation" class="">
                                 <a href="/logout">Kirjaudu ulos</a>

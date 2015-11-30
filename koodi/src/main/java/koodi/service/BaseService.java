@@ -6,6 +6,8 @@ import koodi.repository.UserRepository;
 import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public abstract class BaseService {
@@ -56,12 +58,13 @@ public abstract class BaseService {
     public User getCurrentUser() {
         User user = null;
         try {
-            String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+            UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
+            String username = authToken.getPrincipal().toString();
             user = userRepository.findByUsername(username);
-        } // poistettava kun autentikointi oikeasti käytössä!!!
+        }
         catch (Exception exc) {
         }
-        if (user == null) {
+        if(user == null){
             user = userRepository.findAll().get(0);
         }
         return user;

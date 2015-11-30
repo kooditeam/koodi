@@ -113,10 +113,10 @@ public class QuestionAnsweringControllerTest {
     }
 
     @Test
-    public void modelHasFourAttributes() throws Exception {
+    public void modelHasFiveAttributes() throws Exception {
         mockMvc.perform(get(API_URI + "/topic/1"))
                 .andExpect(status().isOk())
-                .andExpect(model().size(4));
+                .andExpect(model().size(5));
     }
 
     @Transactional

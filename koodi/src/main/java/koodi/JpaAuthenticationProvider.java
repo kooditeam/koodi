@@ -50,7 +50,7 @@ public class JpaAuthenticationProvider implements AuthenticationProvider {
             grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
 
-        return new UsernamePasswordAuthenticationToken(user.getName(), password, grantedAuths);
+        return new UsernamePasswordAuthenticationToken(user.getUsername(), password, grantedAuths);
     }
 
     @Override

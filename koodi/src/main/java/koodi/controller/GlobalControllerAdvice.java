@@ -20,6 +20,7 @@ public class GlobalControllerAdvice {
     public void globalAttributes(Model model) {
         model.addAttribute("allQuestionSeries", questionSeriesService.findAll());
         User user = userService.getAuthenticatedUser();
-        model.addAttribute("userId", user != null ? user.getId() : null); 
+        model.addAttribute("userId", user != null ? user.getId() : null);
+        model.addAttribute("nameOfUser", user != null ? user.getName() : null);
     }
 }

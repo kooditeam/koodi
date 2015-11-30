@@ -39,9 +39,10 @@ public class ResultsService extends BaseService{
         List<QuestionSeriesResult> questionSets = new ArrayList<>();
         List<QuestionSeries> allSeries = questionSeriesService.findAll();
         
-        for(QuestionSeries qs : allSeries){
+        for(QuestionSeries qs : allSeries){            
             QuestionSeriesResult seriesResult = new QuestionSeriesResult();
             seriesResult.setTitle(qs.getTitle());
+            seriesResult.setId(qs.getId());
             
             List<QuestionResult> questionResults = new ArrayList<>();
             List<Question> seriesQuestions = questionService.findByQuestionSeries(qs);
@@ -56,9 +57,11 @@ public class ResultsService extends BaseService{
             for(Question q : seriesQuestions){
                 QuestionResult questionResult = new QuestionResult();
                 questionResult.setTitle(q.getTitle());
-                questionResult.setOrderNumber(q.getOrderNumber());
+                if(q.getOrderNumber() != null){
+                    questionResult.setOrderNumber(q.getOrderNumber());
+                }
                 for(Answer a : questionSeriesAnswers){
-                    if(a.getAnswerOption().getQuestion().getId().equals(q.getId())){
+                    if(a.getAnswerOption().getQuestion().getId() == q.getId()){
                         if(a.getAnswerOption().getIsCorrect()){
                             questionResult.setQuestionResult("correct");
                             numberOfCorrects++;
