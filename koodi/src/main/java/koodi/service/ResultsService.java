@@ -61,17 +61,17 @@ public class ResultsService extends BaseService{
                     questionResult.setOrderNumber(q.getOrderNumber());
                 }
                 for(Answer a : questionSeriesAnswers){
-                    if(a.getAnswerOption().getQuestion().getId() == q.getId()){
+                    if(a.getAnswerOption().getQuestion().getId().equals(q.getId())){
                         if(a.getAnswerOption().getIsCorrect()){
-                            questionResult.setQuestionResult("correct");
+                            questionResult.setResultText("Oikein!");
                             numberOfCorrects++;
                         } else {
-                            questionResult.setQuestionResult("incorrect");
+                            questionResult.setResultText("Väärin...");
                         }
                     }
                 }
-                if(questionResult.getQuestionResult() == null){
-                    questionResult.setQuestionResult("unanswered");
+                if(questionResult.getResultText() == null || questionResult.getResultText().length() == 0){
+                    questionResult.setResultText("ei vastattu");
                 }                 
                 questionResults.add(questionResult);
             }

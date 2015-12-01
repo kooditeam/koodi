@@ -19,7 +19,7 @@
 
             <div class="no-styles-list" th:each="questionSet : ${questionSets}">
                 
-                <article id="question-series-" th:attrappend="id=${questionSet.id}">
+                <article class="question-series" id="question-series-" th:attrappend="id=${questionSet.id}">
                     <div class="question-series-list-bar">
                         <span class="question-series-list-bar-title" th:text="${questionSet.title}">Tehtäväsarjan otsikko</span>
                         <span class="question-series-list-bar-statistics" 
@@ -32,7 +32,7 @@
                         <ul class="no-styles-list" th:each="questionResult : ${questionSet.questionResults}">
                             <li>
                                 <span class="questionresult-title" th:text="${questionResult.orderNumber} + '. ' + ${questionResult.title}">1. Testitehtävä</span>
-                                <!--<span class="questionresult-body" th:text="${questionResult.result}">Oikein!</span> -->
+                                <span class="questionresult-body" th:text="${questionResult.resultText}">Oikein!</span>
                             </li>
                         </ul>
                     </div>
@@ -43,7 +43,6 @@
         </div>
         <th:block th:fragment="pagescript">
             <script src="/static/js/prism.js"></script>
-            <script src="/static/js/answer_questions.js"></script>
         </th:block> 
     </body>
 </html>

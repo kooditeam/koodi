@@ -37,18 +37,19 @@ public class QuestionService extends BaseService {
         questionRepository.delete(id);
     }
 
-    public void save(Question question) {
+    public Question save(Question question) {
         super.save(question, null);
-        questionRepository.save(question);
+        return questionRepository.save(question);
     }
 
     public void postNewExercise(Question question, String rightAnswer,
             String falseAnswers) {
 
+        question = save(question);
         String[] falseOptionStrings = falseAnswers.split(";");
 
-        List<AnswerOption> allOptions = parseFalseOptionStrings(falseOptionStrings);
-        allOptions.add(parseCorrectAnswer(rightAnswer));
+        List<AnswerOption> allOptions = parseFalseOptionStrings(falseOptionStrings, question);
+        allOptions.add(parseCorrectAnswer(rightAnswer, question));
 
         saveOptionsInRandomOrder(question, allOptions);
 
@@ -66,23 +67,24 @@ public class QuestionService extends BaseService {
         question.setAnswerOptions(allOptions);
     }
 
-    private List<AnswerOption> parseFalseOptionStrings(String[] falseOptionStrings) {
+    private List<AnswerOption> parseFalseOptionStrings(String[] falseOptionStrings, Question question) {
 
         List<AnswerOption> allFalseOptions = new ArrayList<>();
 
         for (String falseOptionString : falseOptionStrings) {
             AnswerOption falseOption = new AnswerOption();
             falseOption.setAnswerText(falseOptionString.trim());
-
+            falseOption.setQuestion(question);
             allFalseOptions.add(falseOption);
         }
         return allFalseOptions;
 
     }
 
-    private AnswerOption parseCorrectAnswer(String correctAnswer) {
+    private AnswerOption parseCorrectAnswer(String correctAnswer, Question question) {
         AnswerOption correct = new AnswerOption();
         correct.setAnswerText(correctAnswer.trim());
+        correct.setQuestion(question);
         correct.setIsCorrect(true);
         return correct;
     }
