@@ -3,10 +3,9 @@ package koodi.repository;
 
 import java.util.List;
 import koodi.domain.Answer;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface AnswerRepository extends JpaRepository<Answer, Long> {
+public interface AnswerRepository extends BaseRepository<Answer> {
     
     public List<Answer> findAllByUserId(Long id);
 
