@@ -3,11 +3,9 @@ package koodi.service;
 import koodi.domain.BaseModel;
 import koodi.domain.User;
 import koodi.repository.UserRepository;
-import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public abstract class BaseService {

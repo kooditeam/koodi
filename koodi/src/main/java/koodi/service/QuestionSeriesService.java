@@ -13,7 +13,7 @@ public class QuestionSeriesService extends BaseService {
     private QuestionSeriesRepository questionSeriesRepository;
     
     public List<QuestionSeries> findAll() {
-        return questionSeriesRepository.findAll();
+        return questionSeriesRepository.findByRemovedFalse();
     }
     
     public QuestionSeries findById(Long id){
@@ -27,5 +27,9 @@ public class QuestionSeriesService extends BaseService {
     public void save(QuestionSeries questionSeries) {
         super.save(questionSeries, null);
         questionSeriesRepository.save(questionSeries);
+    }
+    
+    public List<QuestionSeries> findRemoved() {
+        return questionSeriesRepository.findByRemovedTrue();
     }
 }

@@ -23,17 +23,31 @@
                     <input type="submit" value="Tallenna"/>
                 </div>
             </form>
-            <div class="panel panel-default">
+            <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h2 class="panel-title">Tehtäväsarjat</h2>
+                    <h2 class="panel-title">Avoimet tehtäväsarjat</h2>
                 </div>
                 <ul class="list-group">
                     <li class="list-group-item"
-                        th:each="questionSeries : ${allQuestionSeries}">
+                        th:each="questionSeries : ${activeQuestionSeries}">
                         <span th:text="${questionSeries.title}"></span>
                         <a class="btn btn-warning btn-xs pull-right"
-                           th:href="@{/topics/archive/{id}(id=${questionSeries.id})}"
+                           th:href="@{/topics/remove/{id}(id=${questionSeries.id})}"
                            th:text="Arkistoi"></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h2 class="panel-title">Arkistoidut tehtäväsarjat</h2>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item"
+                        th:each="questionSeries : ${archivedQuestionSeries}">
+                        <span th:text="${questionSeries.title}"></span>
+                        <a class="btn btn-info btn-xs pull-right"
+                           th:href="@{/topics/retrieve/{id}(id=${questionSeries.id})}"
+                           th:text="Palauta"></a>
                     </li>
                 </ul>
             </div>
