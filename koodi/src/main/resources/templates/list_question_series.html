@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+      th:include="fragments/layout :: page">
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <div th:fragment="content">
+            <form method="POST" action="#" th:action="@{/topics}"
+                  th:object="${questionSeries}" class="form-horizontal" role="form"
+                  id="questionSeriesForm">
+                <div class="form-group">
+                    <label for="title">Otsikko</label>
+                    <input name="title" type="text" id="title" value="" 
+                       class="form-control" placeholder="Tehtäväsarjan otsikko"/>
+                </div>
+                <div class="form-group">
+                    <label for="order">Järjestys</label>
+                    <input name="orderNumber" type="number" value="${question.orderNumber}" min="1"
+                       id="order" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Tallenna"/>
+                </div>
+            </form>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">Tehtäväsarjat</h2>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item"
+                        th:each="questionSeries : ${allQuestionSeries}">
+                        <span th:text="${questionSeries.title}"></span>
+                        <a class="btn btn-warning btn-xs pull-right"
+                           th:href="@{/topics/archive/{id}(id=${questionSeries.id})}"
+                           th:text="Arkistoi"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>

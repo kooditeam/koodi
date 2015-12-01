@@ -24,49 +24,46 @@
                     <a class="navbar-brand" href="/">Koodi</a>
                 </div>
                 <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-left">
+                    <ul class="nav navbar-nav navbar-left" sec:authorize="hasRole('ROLE_ADMIN')">
                         <!-- TODO: set class="active" to active navi-item -->
-                        <span sec:authorize="hasRole('ROLE_ADMIN')">
-                            <li role="presentation" class="">
-                                <a href="/kayttajat/">Käyttäjät</a>
-                            </li>
-                            <li role="presentation" class="">
-                                <a href="/tehtavat/">Tehtävät</a>
-                            </li>
-                        </span>
-                        <span sec:authorize="isAuthenticated()">                       
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tehtäväsarjat<span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                      <a th:each="questionSeries : ${allQuestionSeries}" 
-                                         th:text="${questionSeries.title}" 
-                                         th:href="@{/vastaukset/topic/{id}(id=${questionSeries.id})}"></a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#" th:href="@{/tulokset/kayttajat/{userId}(userId=${userId})}">Vastaustulokset</a>
-                            </li>
-                        </span>
+                        <li role="presentation" class="">
+                            <a href="/kayttajat/">Käyttäjät</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="/tehtavat/">Tehtävät</a>
+                        </li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <span sec:authorize="isAuthenticated()">
-                            <li class="nav-text">
-                                <span th:text="${nameOfUser}">Bob</span>
-                            </li>
-                            <li role="presentation" class="">
-                                <a href="/logout">Kirjaudu ulos</a>
-                            </li>
-                        </span>
-                        <div sec:authorize="isAnonymous()">
-                            <li role="presentation" class="">
-                                <a href="/rekisteroidy/">Rekisteröidy</a>
-                            </li>
-                            <li role="presentation" class="">
-                                <a href="/login/">Kirjaudu</a>
-                            </li>
-                        </div>
+                    <ul class="nav navbar-nav navbar-left" sec:authorize="isAuthenticated()">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tehtäväsarjat<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li role="presentation" th:each="questionSeries : ${allQuestionSeries}">
+                                  <a role="menuitem" th:text="${questionSeries.title}" 
+                                     th:href="@{/vastaukset/topic/{id}(id=${questionSeries.id})}"></a>
+                                </li>
+                                <li role="separator" class="divider" sec:authorize="hasRole('ROLE_ADMIN')"></li>
+                                <li sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <a href="/topics">Lisää tai arkistoi</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" th:href="@{/tulokset/kayttajat/{userId}(userId=${userId})}">Vastaustulokset</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right" sec:authorize="isAuthenticated()">
+                        <li class="nav-text" th:text="${nameOfUser}">Bob</li>
+                        <li role="presentation" class="">
+                            <a href="/logout">Kirjaudu ulos</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right" sec:authorize="isAnonymous()">
+                        <li role="presentation" class="">
+                            <a href="/rekisteroidy/">Rekisteröidy</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="/login/">Kirjaudu</a>
+                        </li>
                     </ul>
                 </div>
             </div>
