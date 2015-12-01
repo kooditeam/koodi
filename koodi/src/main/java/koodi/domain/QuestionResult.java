@@ -4,7 +4,7 @@ public class QuestionResult {
     
     private int orderNumber;
     private String title;
-    private String questionResult;
+    private String resultText;
 
     public int getOrderNumber() {
         return orderNumber;
@@ -22,12 +22,12 @@ public class QuestionResult {
         this.title = title;
     }
 
-    public String getQuestionResult() {
-        return questionResult;
+    public String getResultText() {
+        return resultText;
     }
 
-    public void setQuestionResult(String questionResult) {
-        this.questionResult = questionResult;
+    public void setResultText(String resultText) {
+        this.resultText = resultText;
     }
-    
+
 }

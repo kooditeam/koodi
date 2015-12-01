@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import java.util.ArrayList;
+import java.util.List;
 import koodi.domain.QuestionSeries;
 import koodi.repository.QuestionSeriesRepository;
 
@@ -93,8 +94,15 @@ public class DevProfile {
         question1.setProgrammingLanguage("java");
         question1.setTitle("test question");
         question1.setInfo("test information");
+        question1.setOrderNumber(1);
         question1.setQuestionSeries(qs1);
         questionRepository.save(question1);
+        
+        List<AnswerOption> options = question1.getAnswerOptions();
+        for(AnswerOption o : options){
+            o.setQuestion(question1);
+            answerOptionRepository.save(o);
+        }
         
         Question question2 = new Question();
         question2.setAnswerOptions(new ArrayList<>());
@@ -104,10 +112,15 @@ public class DevProfile {
         question2.setProgrammingLanguage("java");
         question2.setTitle("Code reading: the generic texts");
         question2.setInfo("This code reading is about pretty much nothing");
+        question1.setOrderNumber(1);
         question2.setQuestionSeries(qs2);
         questionRepository.save(question2);
         // --
-        
+        options = question2.getAnswerOptions();
+        for(AnswerOption o : options){
+            o.setQuestion(question2);
+            answerOptionRepository.save(o);
+        }
         
     }
 }

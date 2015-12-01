@@ -67,7 +67,7 @@ public class AnswerService extends BaseService {
     }
     
     public List<Answer> getAnswersByUserIdAndQuestionSeriesId(Long userId, Long questionSeriesId){
-        return answerRepository.findByUserIdAndQuestionSeriesId(userId);
+        return answerRepository.findByUserIdAndQuestionSeriesId(userId, questionSeriesId);
     }
 
     public AnswerOption getAnswerOptionById(Long id) {
