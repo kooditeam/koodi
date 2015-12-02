@@ -8,23 +8,29 @@
         <div th:fragment="content">
             <h2>Lisää uusi tehtäväsarja</h2>
             <br/>
-            <form method="POST" action="#" th:action="@{/topics}"
-                  th:object="${questionSeries}" class="form-horizontal" role="form"
-                  id="questionSeriesForm">
-                <div class="form-group">
-                    <label for="title">Otsikko</label>
-                    <input name="title" type="text" id="title" value="" 
-                       class="form-control" placeholder="Tehtäväsarjan otsikko"/>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <form method="POST" action="#" th:action="@{/topics}"
+                          th:object="${questionSeries}" class="form-horizontal" role="form"
+                          id="questionSeriesForm">
+                        <div class="form-group">
+                            <label for="title">Otsikko</label>
+                            <input name="title" type="text" id="title" value="" 
+                               class="form-control" placeholder="Tehtäväsarjan otsikko"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="order">Järjestys</label>
+                            <input name="orderNumber" type="number" value="" min="1"
+                               id="order" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Tallenna"/>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="order">Järjestys</label>
-                    <input name="orderNumber" type="number" value="" min="1"
-                       id="order" class="form-control"/>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Tallenna"/>
-                </div>
-            </form>
+                <div class="col-md-1"></div>
+            </div>
             <br/>
             <div class="panel panel-success">
                 <div class="panel-heading">

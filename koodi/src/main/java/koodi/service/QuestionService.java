@@ -22,11 +22,15 @@ public class QuestionService extends BaseService {
     private AnswerOptionRepository answerOptionRepository;
 
     public List<Question> findAll() {
-        return questionRepository.findAll();
+        return questionRepository.findByRemovedFalse();
     }
 
+    public List<Question> findRemoved() {
+        return questionRepository.findByRemovedTrue();
+    }
+    
     public List<Question> findByQuestionSeries(QuestionSeries questionSeries) {
-        return questionRepository.findByQuestionSeries(questionSeries);
+        return questionRepository.findByRemovedFalseAndQuestionSeriesOrderByOrderNumberAsc(questionSeries);
     }
 
     public Question findById(Long id) {

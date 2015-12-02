@@ -6,5 +6,5 @@ import koodi.domain.Question;
 import koodi.domain.QuestionSeries;
 
 public interface QuestionRepository extends BaseRepository<Question>{
-    List<Question> findByQuestionSeries(QuestionSeries questionSeries);
+    List<Question> findByRemovedFalseAndQuestionSeriesOrderByOrderNumberAsc(QuestionSeries questionSeries);
 }
