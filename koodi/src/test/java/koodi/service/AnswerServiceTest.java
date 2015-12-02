@@ -1,5 +1,6 @@
 package koodi.service;
 
+import java.util.List;
 import koodi.Main;
 import koodi.domain.Answer;
 import koodi.domain.AnswerOption;
@@ -28,6 +29,8 @@ public class AnswerServiceTest {
     private AnswerOptionRepository answerOptionRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
     private Answer answer1;
     private Answer answer2;
     private AnswerOption answerOption1;
@@ -64,6 +67,55 @@ public class AnswerServiceTest {
         assertEquals(answerOption2.getId(), savedAnswer2.getAnswerOption().getId());
         assertNotNull(savedAnswer2.getUser());
         assertEquals(defUser.getId(), savedAnswer2.getUser().getId());
+    }
+    
+    @Test
+    public void canGetAnswersByUserIdAndQuestionSeriesId(){
+        defUser = new User();
+        defUser.setName("def");
+        defUser.setUsername("def");
+        defUser.setPassword("p");
+        defUser.setIsAdmin(false);
+        defUser = userService.save(defUser);
+        
+        User defUser2 = new User();
+        defUser2.setName("def2");
+        defUser2.setUsername("def2");
+        defUser2.setPassword("p2");
+        defUser2.setIsAdmin(false);
+        defUser2 = userService.save(defUser2);
+        
+        Answer answer1 = new Answer();
+        answer1.setAnswerOption(answerOptionRepository.findOne(1L));
+        answer1.setUser(defUser);
+        answer1.setCreatedById(defUser.getId());
+        answer1 = answerRepository.save(answer1);
+        
+        Answer answer2 = new Answer();
+        answer2.setAnswerOption(answerOptionRepository.findOne(3L));
+        answer2.setUser(defUser);
+        answer2.setCreatedById(defUser.getId());
+        answer2 = answerRepository.save(answer2);
+        
+        Answer answer3 = new Answer();
+        answer3.setAnswerOption(answerOptionRepository.findOne(3L));
+        answer3.setUser(defUser2);
+        answer3.setCreatedById(defUser2.getId());
+        answer3 = answerRepository.save(answer3);
+        
+        List<Answer> answers = answerService
+                .getAnswersByUserIdAndQuestionSeriesId(defUser.getId(), 
+                        answerOptionRepository.findOne(3L).getQuestion().getQuestionSeries().getId());
+        
+        assertEquals("There should be only 1 Question in this QuestionSeries for this User", 1, answers.size());
+        assertEquals("User information should match", defUser.getId(), answers.get(0).getUser().getId());
+        assertEquals("AnswerOption should match", (Long)3L, answers.get(0).getAnswerOption().getId());
+        
+        userService.delete(defUser);
+        userService.delete(defUser2);
+        userService.delete(answer1);
+        userService.delete(answer2);
+        userService.delete(answer3);
     }
 
 //    @Test

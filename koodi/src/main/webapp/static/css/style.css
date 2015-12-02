@@ -60,3 +60,14 @@ body {
     float: right;
     margin-right: 15px;
 }
+
+.error {
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 3px;
+    border-color: #ac2925;
+    background-color: #e4b9c0;
+    color: #ac2925;
+    font-size: 1.2em;
+    padding: 5px 10px 5px 10px;
+}

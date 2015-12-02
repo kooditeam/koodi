@@ -24,7 +24,7 @@ public class ResultsController {
         // check that current user can view the results for the requested user
         boolean isAllowed = resultsService.isAllowedToView(id);
         if(!isAllowed){
-            model.addAttribute("error", "Sinulla ei ole oikeuksia katsella tämän käyttäjän tuloksia.");
+            model.addAttribute("errorMsg", "Sinulla ei ole oikeuksia katsella tämän käyttäjän tuloksia.");
             return "user_results";
         }
         

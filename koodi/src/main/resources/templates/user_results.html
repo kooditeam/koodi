@@ -17,6 +17,9 @@
         <div th:fragment="content">
             <h1>Tehtävätilanne</h1>
 
+            <th:block th:if="${errorMsg != null}">
+                <div class="error" th:text="${errorMsg}"></div>
+            </th:block>
             <div class="no-styles-list" th:each="questionSet : ${questionSets}">
                 
                 <article class="question-series" id="question-series-" th:attrappend="id=${questionSet.id}">
