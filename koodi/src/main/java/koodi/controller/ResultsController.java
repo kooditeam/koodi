@@ -31,5 +31,13 @@ public class ResultsController {
         List<QuestionSeriesResult> questionSets = resultsService.findAllResultsForUser(id);
         model.addAttribute("questionSets", questionSets);
         return "user_results";
-    }    
+    } 
+    
+    @Secured("ROLE_ADMIN")
+    @RequestMapping(value = "/kysymykset", method = RequestMethod.GET)
+    public String listAllAnswers(Model model){
+        List<QuestionSeriesResult> questionSets = resultsService.findAllAnswersToAllQuestions();
+        model.addAttribute("questionSets", questionSets);
+        return "question_results";
+    }
 }

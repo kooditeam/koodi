@@ -78,7 +78,7 @@ public class QuestionTest extends FluentTest {
         registerSuccessfully();
         loginAsJustRegisteredUser();
 
-        click(find("a", 4));
+        click(find("a", 5));
         
         assertTrue(pageSource().contains("Vastaa tehtäviin"));
         assertTrue(pageSource().contains("Sarja 1"));

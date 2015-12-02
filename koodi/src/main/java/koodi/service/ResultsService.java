@@ -1,7 +1,10 @@
 package koodi.service;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import koodi.domain.Answer;
 import koodi.domain.Question;
 import koodi.domain.QuestionResult;
@@ -82,5 +85,27 @@ public class ResultsService extends BaseService{
         
         return questionSets;
     }
-    
+
+    public List<QuestionSeriesResult> findAllAnswersToAllQuestions() {
+        List<QuestionSeriesResult> questionSets = new ArrayList<>();
+        List<QuestionSeries> allSeries = questionSeriesService.findAll();
+        
+        for(QuestionSeries qs : allSeries){            
+            QuestionSeriesResult seriesResult = new QuestionSeriesResult();
+            seriesResult.setTitle(qs.getTitle());
+            seriesResult.setId(qs.getId());
+            
+            Map<Question, List<Answer>> questionAnswers = new HashMap<>();
+            List<Question> seriesQuestions = questionService.findByQuestionSeries(qs);
+            for(Question q : seriesQuestions){                
+                List<Answer> answers = answerService.getAnswersByQuestionId(q.getId());
+                questionAnswers.put(q, answers);
+            }
+            seriesResult.setQuestionAnswers(questionAnswers);
+            
+            questionSets.add(seriesResult);
+        }           
+        
+        return questionSets;
+    }    
 }

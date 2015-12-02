@@ -66,6 +66,10 @@ public class AnswerService extends BaseService {
         return answerRepository.findByUserId(id);
     }
     
+    public List<Answer> getAnswersByQuestionId(Long id) {
+        return answerRepository.findByQuestionId(id);
+    }
+    
     public List<Answer> getAnswersByUserIdAndQuestionSeriesId(Long userId, Long questionSeriesId){
         return answerRepository.findByUserIdAndQuestionSeriesId(userId, questionSeriesId);
     }
@@ -102,4 +106,5 @@ public class AnswerService extends BaseService {
     private boolean answerOptionIsCorrect(Answer answer) {
         return answer.getAnswerOption().getIsCorrect();
     }
+
 }
