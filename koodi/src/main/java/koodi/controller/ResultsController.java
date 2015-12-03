@@ -3,6 +3,7 @@ package koodi.controller;
 import java.util.List;
 import koodi.domain.QuestionSeriesResult;
 import koodi.service.ResultsService;
+import koodi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,8 @@ public class ResultsController {
     
     @Autowired
     private ResultsService resultsService;
+    @Autowired
+    private UserService userService;
     
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @RequestMapping(value = "/kayttajat/{id}", method = RequestMethod.GET)
@@ -30,6 +33,7 @@ public class ResultsController {
         
         List<QuestionSeriesResult> questionSets = resultsService.findAllResultsForUser(id);
         model.addAttribute("questionSets", questionSets);
+        model.addAttribute("user", userService.findById(id));
         return "user_results";
     } 
     
