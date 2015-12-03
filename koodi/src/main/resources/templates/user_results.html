@@ -15,7 +15,9 @@
     </head>
     <body>
         <div th:fragment="content">
-            <h1>Tehtävätilanne</h1>
+            <h1 th:text="${user.username}"></h1>
+            
+            <h2>Tehtävätilanne:</h2>
 
             <th:block th:if="${errorMsg != null}">
                 <div class="error" th:text="${errorMsg}"></div>
