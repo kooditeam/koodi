@@ -20,6 +20,10 @@ public class QuestionSeriesService extends BaseService {
         return questionSeriesRepository.findByIdAndRemovedFalse(id);
     }
     
+    public QuestionSeries findRemovedById(Long id){
+        return questionSeriesRepository.findByIdAndRemovedTrue(id);
+    }
+    
     public void delete(Long id){
         questionSeriesRepository.delete(id);
     }

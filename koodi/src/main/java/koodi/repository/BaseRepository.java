@@ -10,4 +10,5 @@ public interface BaseRepository<T> extends JpaRepository<T, Long> {
     List<T> findByRemovedFalse();
     List<T> findByRemovedTrue();
     T findByIdAndRemovedFalse(Long id);
+    T findByIdAndRemovedTrue(Long id);
 }

@@ -60,7 +60,7 @@ public class QuestionSeriesController {
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/retrieve/{id}", method = RequestMethod.GET)
     public String retrieve(@PathVariable Long id) {
-        QuestionSeries qs = questionSeriesService.findById(id);
+        QuestionSeries qs = questionSeriesService.findRemovedById(id);
         if(qs == null) {
             // error message
             return "redirect:/topics";
