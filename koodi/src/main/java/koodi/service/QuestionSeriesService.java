@@ -17,7 +17,7 @@ public class QuestionSeriesService extends BaseService {
     }
     
     public QuestionSeries findById(Long id){
-        return questionSeriesRepository.findOne(id);
+        return questionSeriesRepository.findByIdAndRemovedFalse(id);
     }
     
     public void delete(Long id){

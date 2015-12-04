@@ -7,24 +7,32 @@
     <body>
         <div th:fragment="content">
             <a class="btn btn-default" href="/topics">Takaisin tehtäväsarjoihin</a>
-            <br/>
-            <form method="POST" action="#" th:action="@{/topics/edit/{id}(id=${questionSeries.id})}"
-                  th:object="${questionSeries}" class="form-horizontal" role="form"
-                  id="questionSeriesForm">
-                <div class="form-group">
-                    <label for="title">Otsikko</label>
-                    <input name="title" type="text" id="title" th:value="${questionSeries.title}" 
-                       class="form-control" placeholder="Tehtäväsarjan otsikko"/>
+            <br/><br/>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <h2>Muokkaa tehtäväsarjaa</h2>
+                    <br/>
+                    <form method="POST" action="#" th:action="@{/topics/edit/{id}(id=${questionSeries.id})}"
+                          th:object="${questionSeries}" class="form-horizontal" role="form"
+                          id="questionSeriesForm">
+                        <div class="form-group">
+                            <label for="title">Otsikko</label>
+                            <input name="title" type="text" id="title" th:value="${questionSeries.title}" 
+                               class="form-control" placeholder="Tehtäväsarjan otsikko"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="order">Järjestys</label>
+                            <input name="orderNumber" type="number" th:value="${questionSeries.orderNumber}" min="1"
+                               id="order" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Tallenna"/>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="order">Järjestys</label>
-                    <input name="orderNumber" type="number" th:value="${questionSeries.orderNumber}" min="1"
-                       id="order" class="form-control"/>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Tallenna"/>
-                </div>
-            </form>
+                <div class="col-md-4"></div>
+            </div>
         </div>
     </body>
 </html>

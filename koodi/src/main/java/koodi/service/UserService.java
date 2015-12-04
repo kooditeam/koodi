@@ -1,12 +1,9 @@
 package koodi.service;
 
 import java.util.List;
-import koodi.domain.BaseModel;
 import koodi.domain.User;
 import koodi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,7 +22,7 @@ public class UserService extends BaseService{
     }
     
     public User findById(Long id){
-        return userRepository.findOne(id);
+        return userRepository.findByIdAndRemovedFalse(id);
     }
     
     public User findByUsername(String username){

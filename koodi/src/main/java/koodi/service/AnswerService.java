@@ -59,7 +59,7 @@ public class AnswerService extends BaseService {
     }
 
     public Answer getAnswerById(Long id) {
-        return answerRepository.findOne(id);
+        return answerRepository.findByIdAndRemovedFalse(id);
     }
     
     public List<Answer> getAnswersByUserId(Long id){
@@ -75,7 +75,7 @@ public class AnswerService extends BaseService {
     }
 
     public AnswerOption getAnswerOptionById(Long id) {
-        return answerOptionRepository.findOne(id);
+        return answerOptionRepository.findByIdAndRemovedFalse(id);
     }
 
     public String saveUsersAnswer(TentativeAnswer tentativeAnswer) {
