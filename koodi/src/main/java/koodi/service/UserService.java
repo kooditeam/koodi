@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService extends BaseService{
+public class UserService extends BaseService<User> {
     
     @Autowired
     private UserRepository userRepository;
@@ -15,14 +15,6 @@ public class UserService extends BaseService{
     public User save(User user){
         super.save(user, null);
         return userRepository.save(user);
-    }
-    
-    public List<User> findAll(){
-        return userRepository.findByRemovedIsFalse();
-    }
-    
-    public User findById(Long id){
-        return userRepository.findByIdAndRemovedFalse(id);
     }
     
     public User findByUsername(String username){

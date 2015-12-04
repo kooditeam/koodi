@@ -12,7 +12,7 @@ import koodi.domain.TentativeAnswer;
 import koodi.repository.AnswerOptionRepository;
 
 @Service
-public class AnswerService extends BaseService {
+public class AnswerService extends BaseService<Answer> {
 
     @Autowired
     private AnswerRepository answerRepository;
@@ -52,14 +52,6 @@ public class AnswerService extends BaseService {
 
     private boolean answerWasJustCreated(Answer answer) {
         return answer.getCreatedById() != null;
-    }
-
-    public List<Answer> getAllAnswers() {
-        return answerRepository.findAll();
-    }
-
-    public Answer getAnswerById(Long id) {
-        return answerRepository.findByIdAndRemovedFalse(id);
     }
     
     public List<Answer> getAnswersByUserId(Long id){

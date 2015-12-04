@@ -200,7 +200,7 @@ public class QuestionAnsweringControllerTest {
     @Transactional
     @Test
     public void postSavesAnswerCorrectlyWithTheWrongOption() throws Exception {
-        assertTrue(answerService.getAllAnswers().isEmpty());
+        assertTrue(answerService.findAll().isEmpty());
         
         String testData = "{\"answerOptionId\":\"1\", \"questionId\":\"1\"}";
         
@@ -209,16 +209,16 @@ public class QuestionAnsweringControllerTest {
                 .content(testData))
                 .andExpect(status().isOk());
 
-        assertTrue(answerService.getAllAnswers().size() == 1);       
-        assertEquals("testing", answerService.getAllAnswers().get(0).getAnswerOption().getAnswerText());
-        assertFalse(answerService.getAllAnswers().get(0).getAnswerOption().getIsCorrect());
+        assertTrue(answerService.findAll().size() == 1);       
+        assertEquals("testing", answerService.findAll().get(0).getAnswerOption().getAnswerText());
+        assertFalse(answerService.findAll().get(0).getAnswerOption().getIsCorrect());
        
     }
     
     @Transactional
     @Test
     public void postSavesAnswerCorrectlyWithTheRightOption() throws Exception {      
-        assertTrue(answerService.getAllAnswers().isEmpty());
+        assertTrue(answerService.findAll().isEmpty());
         
         String testData = "{\"answerOptionId\":\"3\", \"questionId\":\"2\"}";
         
@@ -227,9 +227,9 @@ public class QuestionAnsweringControllerTest {
                 .content(testData))
                 .andExpect(status().isOk());
         
-        assertTrue(answerService.getAllAnswers().size() == 1);       
-        assertEquals("generic answer text", answerService.getAllAnswers().get(0).getAnswerOption().getAnswerText());
-        assertTrue(answerService.getAllAnswers().get(0).getAnswerOption().getIsCorrect());      
+        assertTrue(answerService.findAll().size() == 1);       
+        assertEquals("generic answer text", answerService.findAll().get(0).getAnswerOption().getAnswerText());
+        assertTrue(answerService.findAll().get(0).getAnswerOption().getIsCorrect());      
     }
 
 }

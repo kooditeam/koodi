@@ -13,7 +13,7 @@ import koodi.repository.AnswerOptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
-public class QuestionService extends BaseService {
+public class QuestionService extends BaseService<Question> {
 
     @Autowired
     private QuestionRepository questionRepository;
@@ -21,20 +21,9 @@ public class QuestionService extends BaseService {
     @Autowired
     private AnswerOptionRepository answerOptionRepository;
 
-    public List<Question> findAll() {
-        return questionRepository.findByRemovedFalse();
-    }
-
-    public List<Question> findRemoved() {
-        return questionRepository.findByRemovedTrue();
-    }
     
     public List<Question> findByQuestionSeries(QuestionSeries questionSeries) {
         return questionRepository.findByRemovedFalseAndQuestionSeriesOrderByOrderNumberAsc(questionSeries);
-    }
-
-    public Question findById(Long id) {
-        return questionRepository.findByIdAndRemovedFalse(id);
     }
 
     public void delete(Long id) {

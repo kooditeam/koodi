@@ -1,17 +1,38 @@
 package koodi.service;
 
+import java.util.List;
 import koodi.domain.BaseModel;
 import koodi.domain.User;
+import koodi.repository.BaseRepository;
 import koodi.repository.UserRepository;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-public abstract class BaseService {
+public abstract class BaseService<M> {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private BaseRepository<M> defaultRepository;
+    
+    public M findById(Long id){
+        return defaultRepository.findByIdAndRemovedFalse(id);
+    }
+    
+    public M findRemovedById(Long id){
+        return defaultRepository.findByIdAndRemovedTrue(id);
+    }
+    
+    public List<M> findAll(){
+        return defaultRepository.findByRemovedFalse();
+    }
+    
+    public List<M> findAllRemoved(){
+        return defaultRepository.findByRemovedTrue();
+    }
 
     public void save(BaseModel model, User user) {
         if (user == null) {
