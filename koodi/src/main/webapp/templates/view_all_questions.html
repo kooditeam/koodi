@@ -10,75 +10,95 @@
     <body>
         <div th:fragment="content">
             <h2>Lisää tehtävä</h2>
-            <form method="POST" action="#" th:action="@{/tehtavat}"
-                  th:object="${question}" class="form-horizontal" role="form"
-                  id="questionForm">
-                <div class="form-group">
-                    <label for="series">Tehtäväsarja</label>
-                    <select name="questionSeries" id="series" class="form-control">
-                        <option value= "" selected="selected" disabled="disabled">
-                            Valitse tehtäväsarja</option>
-                        <option th:each="questionSeries : ${allQuestionSeries}" 
-                            th:text="${questionSeries.title}"
-                            th:value="${questionSeries.id}"></option>
-                    </select>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <form method="POST" action="#" th:action="@{/tehtavat}"
+                          th:object="${question}" class="form-horizontal" role="form"
+                          id="questionForm">
+                        <div class="form-group">
+                            <label for="series">Tehtäväsarja</label>
+                            <select name="questionSeries" id="series" class="form-control">
+                                <option value= "" selected="selected" disabled="disabled">
+                                    Valitse tehtäväsarja</option>
+                                <option th:each="questionSeries : ${allQuestionSeries}" 
+                                    th:text="${questionSeries.title}"
+                                    th:value="${questionSeries.id}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="order">Järjestys</label>
+                            <input name="orderNumber" type="number" value="1" min="1"
+                               id="order" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="questionTitle">Otsikko</label>
+                            <input name="title" type="text" id="questionTitle" 
+                               class="form-control" placeholder="Tehtävän otsikko"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="questionInfo">Kuvaus</label>
+                            <textarea name="info" id="questionInfo"
+                               class="form-control" placeholder="Tehtävän kuvaus"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="selectLanguage">Ohjelmointikieli</label>
+                            <select name="programmingLanguage" id="selectLanguage" class="form-control">
+                                <option value="" selected="selected" disabled="disabled">
+                                    Valitse ohjelmointikieli</option>
+                                <option value="bash">Bash</option>
+                                <option value="c">C</option>
+                                <option value="cpp">C++</option>
+                                <option value="clike">C-like</option>
+                                <option value="css">CSS</option>
+                                <option value="java">Java</option>
+                                <option value="javascript">JavaScript</option>
+                                <option value="markup">Markup</option>
+                                <option value="perl">Perl</option>
+                                <option value="php">PHP</option>
+                                <option value="python">Python</option>
+                                <option value="ruby">Ruby</option>
+                                <option value="scala">Scala</option>
+                                <option value="sql">SQL</option>
+                                <option value="none">None</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="questionCode">Koodi</label>
+                            <textarea name="code" id="questionCode"
+                               class="form-control" placeholder="Syötä koodi tähän"/>
+                        </div>
+                        
+                        <table id="answerOptionsTable" class="table">
+                            <tr>
+                                <th>Vastaus</th>
+                                <th>Kommentti</th>
+                                <th>Oikea vastaus</th>
+                            </tr>
+                        </table>
+                        <div class="form-group">
+                            <label for="answerText">Vastaus</label>
+                            <textarea id="answerText" class="form-control" placeholder="Vastausvaihtoehdon teksti"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="answerComment">Kommentti</label>
+                            <textarea id="answerComment" class="form-control" placeholder="Vastauksen jälkeen näytettävä kommentti"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" id="isCorrectAnswer" />
+                            <label for="isCorrectAnswer">Oikea vastaus</label>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="addAnswerOption">Lisää vastausvaihtoehto</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="submit" value="Tallenna"/>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="order">Järjestys</label>
-                    <input name="orderNumber" type="number" value="1" min="1"
-                       id="order" class="form-control"/>
-                </div>
-                <div class="form-group">
-                    <label for="questionTitle">Otsikko</label>
-                    <input name="title" type="text" id="questionTitle" 
-                       class="form-control" placeholder="Tehtävän otsikko"/>
-                </div>
-                <div class="form-group">
-                    <label for="questionInfo">Kuvaus</label>
-                    <textarea name="info" id="questionInfo"
-                       class="form-control" placeholder="Tehtävän kuvaus"/>
-                </div>
-                <div class="form-group">
-                    <label for="selectLanguage">Ohjelmointikieli</label>
-                    <select name="programmingLanguage" id="selectLanguage" class="form-control">
-                        <option value="" selected="selected" disabled="disabled">
-                            Valitse ohjelmointikieli</option>
-                        <option value="bash">Bash</option>
-                        <option value="c">C</option>
-                        <option value="cpp">C++</option>
-                        <option value="clike">C-like</option>
-                        <option value="css">CSS</option>
-                        <option value="java">Java</option>
-                        <option value="javascript">JavaScript</option>
-                        <option value="markup">Markup</option>
-                        <option value="perl">Perl</option>
-                        <option value="php">PHP</option>
-                        <option value="python">Python</option>
-                        <option value="ruby">Ruby</option>
-                        <option value="scala">Scala</option>
-                        <option value="sql">SQL</option>
-                        <option value="none">None</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="questionCode">Koodi</label>
-                    <textarea name="code" id="questionCode"
-                       class="form-control" placeholder="Syötä koodi tähän"/>
-                </div>
-                <div class="form-group">
-                    <label for="correctAnswer">Oikea vastaus</label>
-                    <input name="correctAnswerOption" type="text" id="correctAnswer"
-                       class="form-control" placeholder="Tehtävän oikea vastaus"/>
-                </div>
-                <div class="form-group">
-                    <label for="falseAnswers">Väärät vastausvaihtoehdot (erottele puolipisteellä)</label>
-                    <textarea name="falseAnswerOptions" id="falseAnswers"
-                       class="form-control" placeholder="Syötä väärät vastausvaihtoehdot"/>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Tallenna"/>
-                </div>
-            </form>
+                <div class="col-md-1"></div>
+            </div>
             <br/>
             <h2>Kaikki tehtävät</h2>
             <div th:replace="fragments/questions :: questions">

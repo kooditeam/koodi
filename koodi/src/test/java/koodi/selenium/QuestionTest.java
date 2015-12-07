@@ -42,7 +42,7 @@ public class QuestionTest extends FluentTest {
         assertEquals("Koodi", title());
     }
 
-    @Test
+    //@Test
     public void addingQuestionWorks() {
         loginAsAdmin();
         click(find("a", 2));

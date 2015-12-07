@@ -68,16 +68,30 @@
                             <textarea name="code" id="questionCode"
                                class="form-control" placeholder="Syötä koodi tähän"/>
                         </div>
+                        
+                        <table id="answerOptionsTable" class="table">
+                            <tr>
+                                <th>Vastaus</th>
+                                <th>Kommentti</th>
+                                <th>Oikea vastaus</th>
+                            </tr>
+                        </table>
                         <div class="form-group">
-                            <label for="correctAnswer">Oikea vastaus</label>
-                            <input name="correctAnswerOption" type="text" id="correctAnswer"
-                               class="form-control" placeholder="Tehtävän oikea vastaus"/>
+                            <label for="answerText">Vastaus</label>
+                            <textarea id="answerText" class="form-control" placeholder="Vastausvaihtoehdon teksti"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="falseAnswers">Väärät vastausvaihtoehdot (erottele puolipisteellä)</label>
-                            <textarea name="falseAnswerOptions" id="falseAnswers"
-                               class="form-control" placeholder="Syötä väärät vastausvaihtoehdot"/>
+                            <label for="answerComment">Kommentti</label>
+                            <textarea id="answerComment" class="form-control" placeholder="Vastauksen jälkeen näytettävä kommentti"></textarea>
                         </div>
+                        <div class="form-group">
+                            <input type="checkbox" id="isCorrectAnswer" />
+                            <label for="isCorrectAnswer">Oikea vastaus</label>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="addAnswerOption">Lisää vastausvaihtoehto</button>
+                        </div>
+                        
                         <div class="form-group">
                             <input type="submit" value="Tallenna"/>
                         </div>

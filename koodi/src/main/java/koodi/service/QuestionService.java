@@ -10,6 +10,7 @@ import koodi.domain.AnswerOption;
 import koodi.domain.Question;
 import koodi.domain.QuestionSeries;
 import koodi.repository.AnswerOptionRepository;
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
@@ -35,16 +36,15 @@ public class QuestionService extends BaseService<Question> {
         return questionRepository.save(question);
     }
 
-    public void postNewExercise(Question question, String rightAnswer,
-            String falseAnswers) {
+    public void postNewExercise(Question question, JSONArray answerOptions) {
 
         question = save(question);
-        String[] falseOptionStrings = falseAnswers.split(";");
-
-        List<AnswerOption> allOptions = parseFalseOptionStrings(falseOptionStrings, question);
-        allOptions.add(parseCorrectAnswer(rightAnswer, question));
-
-        saveOptionsInRandomOrder(question, allOptions);
+//        String[] falseOptionStrings = falseAnswers.split(";");
+//
+//        List<AnswerOption> allOptions = parseFalseOptionStrings(falseOptionStrings, question);
+//        allOptions.add(parseCorrectAnswer(rightAnswer, question));
+//
+//        saveOptionsInRandomOrder(question, allOptions);
 
         save(question);
     }

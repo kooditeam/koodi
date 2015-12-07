@@ -17,7 +17,7 @@
                 </tr>
                 <tr th:each="user : ${users}">
                     <td th:text="${user.name}">nimi</td>
-                    <td th:text="${user.username}">käyttäjätunnus</td>
+                    <td><a href="#" th:href="@{/tulokset/kayttajat/{id}(id=${user.id})}"><span th:text="${user.username}">käyttäjätunnus</span></a></td>
                     <td><form action="#" th:action="@{/kayttajat/{id}/poista(id=${user.id})}" method="POST">
                             <button type="submit" class="btn-danger">Poista</button>
                         </form>

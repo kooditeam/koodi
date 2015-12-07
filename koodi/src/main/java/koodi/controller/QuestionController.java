@@ -2,6 +2,10 @@ package koodi.controller;
 
 import koodi.domain.Question;
 import koodi.service.QuestionService;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,10 +37,17 @@ public class QuestionController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String postAnswer(@ModelAttribute Question question,
-            @RequestParam("correctAnswerOption") String correctAnswer,
-            @RequestParam("falseAnswerOptions") String falseAnswers) {
-
-        questionService.postNewExercise(question, correctAnswer, falseAnswers);
+            @RequestParam("answerOptionSet") String options) {
+        JSONArray optionsArray = null;
+        try{
+        JSONParser parser = new JSONParser();
+        optionsArray = (JSONArray)parser.parse(options);
+        
+        } catch (Exception exc) {
+            return "tehtavat";
+        }        
+        
+        questionService.postNewExercise(question, optionsArray);
         return "redirect:/tehtavat";
     }
 
