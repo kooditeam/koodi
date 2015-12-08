@@ -30,13 +30,13 @@ public class QuestionController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String list(Model model, @PathVariable Long id) {
+    public String show(Model model, @PathVariable Long id) {
         model.addAttribute("question", questionService.findById(id));
         return "view_question";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String postAnswer(@ModelAttribute Question question,
+    public String save(@ModelAttribute Question question,
             @RequestParam("answerOptionSet") String options) {
         JSONArray optionsArray = null;
         try{

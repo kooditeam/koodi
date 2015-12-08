@@ -51,20 +51,26 @@ public class DevProfile {
         // create answer options
         AnswerOption option1 = new AnswerOption();
         option1.setAnswerText("testing");
+        option1.setAnswerComment("test comment");
+        option1.setIsCorrect(false);
         answerOptionRepository.save(option1);
         
         AnswerOption option2 = new AnswerOption();
         option2.setAnswerText("testing");
+        option2.setAnswerComment("yup");
         option2.setIsCorrect(true);
         answerOptionRepository.save(option2);
         
         AnswerOption option3 = new AnswerOption();
         option3.setAnswerText("generic answer text");
+        option3.setAnswerComment("Rock on");
         option3.setIsCorrect(true);
         answerOptionRepository.save(option3);
         
         AnswerOption option4 = new AnswerOption();
         option4.setAnswerText("generic answer text2");
+        option4.setAnswerComment("Nope");
+        option4.setIsCorrect(false);
         answerOptionRepository.save(option4);
         // --
         

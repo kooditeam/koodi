@@ -11,6 +11,7 @@ import koodi.domain.Question;
 import koodi.domain.QuestionSeries;
 import koodi.repository.AnswerOptionRepository;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
@@ -21,13 +22,13 @@ public class QuestionService extends BaseService<Question> {
 
     @Autowired
     private AnswerOptionRepository answerOptionRepository;
-
     
     public List<Question> findByQuestionSeries(QuestionSeries questionSeries) {
         return questionRepository.findByRemovedFalseAndQuestionSeriesOrderByOrderNumberAsc(questionSeries);
     }
 
     public void delete(Long id) {
+        detachQuestion(id);
         questionRepository.delete(id);
     }
 
@@ -36,15 +37,24 @@ public class QuestionService extends BaseService<Question> {
         return questionRepository.save(question);
     }
 
-    public void postNewExercise(Question question, JSONArray answerOptions) {
+    public void postNewExercise(Question question, JSONArray answerOptionsData) {
 
         question = save(question);
-//        String[] falseOptionStrings = falseAnswers.split(";");
-//
-//        List<AnswerOption> allOptions = parseFalseOptionStrings(falseOptionStrings, question);
-//        allOptions.add(parseCorrectAnswer(rightAnswer, question));
-//
-//        saveOptionsInRandomOrder(question, allOptions);
+        String[] elementNames;
+        AnswerOption newOption;
+        
+        List<AnswerOption> allOptions = new ArrayList<AnswerOption>();
+        for(int i = 0; i < answerOptionsData.size(); i++){
+            newOption = new AnswerOption();
+            JSONObject optionData = (JSONObject)answerOptionsData.get(i);
+            newOption.setAnswerText((String)optionData.get("answerText"));
+            newOption.setAnswerComment((String)optionData.get("answerComment"));
+            newOption.setIsCorrect((boolean)optionData.get("isCorrectAnswer"));
+            newOption.setQuestion(question);
+            allOptions.add(newOption);
+        }
+        
+        saveOptionsInRandomOrder(question, allOptions);
 
         save(question);
     }
@@ -60,25 +70,13 @@ public class QuestionService extends BaseService<Question> {
         question.setAnswerOptions(allOptions);
     }
 
-    private List<AnswerOption> parseFalseOptionStrings(String[] falseOptionStrings, Question question) {
-
-        List<AnswerOption> allFalseOptions = new ArrayList<>();
-
-        for (String falseOptionString : falseOptionStrings) {
-            AnswerOption falseOption = new AnswerOption();
-            falseOption.setAnswerText(falseOptionString.trim());
-            falseOption.setQuestion(question);
-            allFalseOptions.add(falseOption);
+    private void detachQuestion(Long id) {
+        Question question = super.findById(id);
+        
+        List<AnswerOption> answerOptions = question.getAnswerOptions();
+        for(AnswerOption option : answerOptions){
+            option.setQuestion(null);
+            answerOptionRepository.save(option);
         }
-        return allFalseOptions;
-
-    }
-
-    private AnswerOption parseCorrectAnswer(String correctAnswer, Question question) {
-        AnswerOption correct = new AnswerOption();
-        correct.setAnswerText(correctAnswer.trim());
-        correct.setQuestion(question);
-        correct.setIsCorrect(true);
-        return correct;
     }
 }

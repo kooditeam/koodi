@@ -11,7 +11,7 @@
                 <li><pre class="line-numbers"><code class="language-" th:attrappend="class=${question.programmingLanguage}" th:text="${question.code}"></code></pre></li>
                 
                 <li th:each="option : ${question.answerOptions}">
-                    <input type="radio" name="options-" th:attrappend="name=${question.id}" th:value="${option.id}"/><label th:text="${option.answerText}">option</label>
+                    <input type="radio" name="options-" th:attrappend="name=${question.id}" th:value="${option.id}"/><pre th:text="${option.answerText}">option</pre>
                 </li>
                 <p id="question-result-" th:attrappend="id=${question.id}"></p>
             </ul>

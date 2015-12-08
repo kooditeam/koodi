@@ -10,6 +10,7 @@ import java.util.List;
 import koodi.domain.AnswerOption;
 import koodi.domain.TentativeAnswer;
 import koodi.repository.AnswerOptionRepository;
+import org.json.simple.JSONObject;
 
 @Service
 public class AnswerService extends BaseService<Answer> {
@@ -78,8 +79,11 @@ public class AnswerService extends BaseService<Answer> {
         setAnswerOptionToAnswer(answer, answerOptionId);
 
         answer = save(answer);
-        int result = getResult(answer);
-        return "{\"result\": \"" + result + "\"}";
+        AnswerOption chosenOption = answer.getAnswerOption();
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("successValue", getResult(chosenOption));
+        resultObject.put("comment", chosenOption.getAnswerComment());
+        return resultObject.toJSONString();
     }
 
     private void setAnswerOptionToAnswer(Answer answer, Long answerOptionId) {
@@ -87,16 +91,12 @@ public class AnswerService extends BaseService<Answer> {
         answer.setAnswerOption(option);
     }
 
-    private int getResult(Answer answer) {
+    private int getResult(AnswerOption answerOption) {
         int result = 0;
-        if (answerOptionIsCorrect(answer)) {
+        if (answerOption.getIsCorrect()) {
             result = 1;
         }
         return result;
-    }
-
-    private boolean answerOptionIsCorrect(Answer answer) {
-        return answer.getAnswerOption().getIsCorrect();
     }
 
 }

@@ -166,7 +166,7 @@ public class QuestionAnsweringControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        assertEquals("{\"result\": \"0\"}", res.getResponse().getContentAsString());
+        assertEquals("{\"successValue\":0,\"comment\":\"test comment\"}", res.getResponse().getContentAsString());
 
     }
 
@@ -180,7 +180,7 @@ public class QuestionAnsweringControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        assertEquals("{\"result\": \"1\"}", res.getResponse().getContentAsString());
+        assertEquals("{\"successValue\":1,\"comment\":\"yup\"}", res.getResponse().getContentAsString());
 
     }
 

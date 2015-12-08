@@ -14,6 +14,7 @@ public class AnswerOption extends BaseModel {
     @ManyToOne
     private Question question;
     private String answerText;
+    private String answerComment;
     private boolean isCorrect;
 
     public void setAnswerText(String answerText) {
@@ -31,6 +32,14 @@ public class AnswerOption extends BaseModel {
     public boolean getIsCorrect() {
         return isCorrect;
     }
+
+    public String getAnswerComment() {
+        return answerComment;
+    }
+
+    public void setAnswerComment(String answerComment) {
+        this.answerComment = answerComment;
+    }       
 
     public void setQuestion(Question question) {
         this.question = question;
