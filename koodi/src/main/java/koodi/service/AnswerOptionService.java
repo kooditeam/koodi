@@ -13,13 +13,26 @@ public class AnswerOptionService extends BaseService<AnswerOption> {
     @Autowired
     private AnswerOptionRepository answerOptionRepository;
     
+    @Autowired QuestionService questionService;
+    
     public List<AnswerOption> findByQuestion(Question question) {
         return answerOptionRepository.findByRemovedFalseAndQuestion(question);
     }
     
     public AnswerOption save(AnswerOption answerOption) {
         super.save(answerOption, null);
-        return answerOptionRepository.save(answerOption);
+        AnswerOption newAnswerOption = answerOptionRepository.save(answerOption);
+        Question question = newAnswerOption.getQuestion();
+        question.getAnswerOptions().add(newAnswerOption);
+        questionService.save(question);
+        return newAnswerOption;
+    }
+    
+    public void delete(AnswerOption answerOption) {
+        Question question = answerOption.getQuestion();
+        question.getAnswerOptions().remove(answerOption);
+        questionService.save(question);
+        answerOptionRepository.delete(answerOption);
     }
     
 }

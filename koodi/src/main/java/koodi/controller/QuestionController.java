@@ -93,12 +93,21 @@ public class QuestionController {
             return "redirect:/tehtavat/edit/" + question.getId();
         }
         answerOptionService.save(newAnswerOption);
-        question.getAnswerOptions().add(newAnswerOption);
-        questionService.save(question);
         return "redirect:/tehtavat/edit/" + question.getId();
     }
     
-
+    @Secured("ROLE_ADMIN")
+    @RequestMapping(value = "options/remove/{id}", method = RequestMethod.GET)
+    public String removeAnswerOption(@PathVariable Long id) {
+        AnswerOption answerOption = answerOptionService.findById(id);
+        if (answerOption == null) {
+            // error message, 404
+            return "redirect:/tehtavat";
+        }
+        answerOptionService.delete(answerOption);
+        return "redirect:/tehtavat/edit/" + answerOption.getQuestion().getId();
+    }
+    
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/{id}/poista", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody

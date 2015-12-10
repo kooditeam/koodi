@@ -85,7 +85,9 @@
                                 <td th:text="${answerOption.answerComment}"></td>
                                 <td th:text="${answerOption.isCorrect}"></td>
                                 <td>
-                                    <a href="#" class="btn btn-danger btn-sm pull-right">Poista</a>
+                                    <a th:href="@{/tehtavat/options/remove/{id}(id=${answerOption.id})}"
+                                       th:text="Poista"
+                                       class="btn btn-danger btn-sm pull-right"></a>
                                 </td>
                             </tr>
                         </tbody>
