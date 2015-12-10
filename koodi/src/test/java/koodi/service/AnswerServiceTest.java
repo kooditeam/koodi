@@ -9,6 +9,7 @@ import koodi.domain.User;
 import koodi.repository.AnswerOptionRepository;
 import koodi.repository.AnswerRepository;
 import koodi.repository.UserRepository;
+import org.json.simple.JSONObject;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,6 +68,9 @@ public class AnswerServiceTest {
         assertEquals(answerOption2.getId(), savedAnswer2.getAnswerOption().getId());
         assertNotNull(savedAnswer2.getUser());
         assertEquals(defUser.getId(), savedAnswer2.getUser().getId());
+        
+        answerRepository.delete(savedAnswer);
+        answerRepository.delete(savedAnswer2);
     }
     
     @Test
@@ -111,47 +115,63 @@ public class AnswerServiceTest {
         assertEquals("User information should match", defUser.getId(), answers.get(0).getUser().getId());
         assertEquals("AnswerOption should match", (Long)3L, answers.get(0).getAnswerOption().getId());
         
-        userService.delete(defUser);
-        userService.delete(defUser2);
-        userService.delete(answer1);
-        userService.delete(answer2);
-        userService.delete(answer3);
+        answerRepository.delete(answer1);
+        answerRepository.delete(answer2);
+        answerRepository.delete(answer3);
+        userRepository.delete(defUser);
+        userRepository.delete(defUser2);
+
     }
 
-//    @Test
-//    public void savingUsersAnswerWorksWithWrongAnswer() {
-//        assertTrue(answerRepository.count() == existingAnswers);
-//
-//        TentativeAnswer tentativeAnswer = new TentativeAnswer();
-//        tentativeAnswer.setAnswerOptionId(1L);
-//        
-//        String result = answerService.saveUsersAnswer(tentativeAnswer);
-//
-//        assertTrue(answerRepository.count() == existingAnswers + 1);
-//
-//        assertEquals("testing", answerRepository.findOne(new Long(existingAnswers + 1)).getAnswerOption()
-//                .getAnswerText());
-//        assertFalse(answerRepository.findOne(new Long(existingAnswers + 1)).getAnswerOption().getIsCorrect());
-//
-//        assertEquals("{\"result\": \"0\"}", result);
-//    }
-//    
-//    @Test
-//    public void savingUsersAnswerWorksWithRightAnswer() {
-//        assertTrue(answerRepository.count() == existingAnswers);
-//
-//        TentativeAnswer tentativeAnswer = new TentativeAnswer();
-//        tentativeAnswer.setAnswerOptionId(2L);
-//        
-//        String result = answerService.saveUsersAnswer(tentativeAnswer);
-//
-//        assertTrue(answerRepository.count() == existingAnswers + 1);
-//        assertEquals("testing", answerRepository.findOne(new Long(existingAnswers + 1)).getAnswerOption()
-//                .getAnswerText());
-//        assertTrue(answerRepository.findOne(new Long(existingAnswers + 1)).getAnswerOption().getIsCorrect());
-//        
-//        assertEquals("{\"result\": \"1\"}", result);
-//    }
+    @Test
+    public void savingUsersAnswerWorksWithWrongAnswer() {
+        assertTrue(answerRepository.count() == existingAnswers);
+
+        TentativeAnswer tentativeAnswer = new TentativeAnswer();
+        tentativeAnswer.setAnswerOptionId(1L);
+        tentativeAnswer.setQuestionId(answerOption1.getQuestion().getId());
+        
+        JSONObject expectedResultObject = new JSONObject();
+        expectedResultObject.put("successValue", 0);
+        expectedResultObject.put("comment", "test comment");
+        
+        String result = answerService.saveUsersAnswer(tentativeAnswer);
+        Answer latestAnswer = answerRepository.findAll().get(answerRepository.findAll().size() - 1);
+        
+        assertTrue(answerRepository.count() == existingAnswers + 1);
+
+        assertEquals("testing", latestAnswer.getAnswerOption().getAnswerText());
+        assertEquals("test comment", latestAnswer.getAnswerOption()
+                .getAnswerComment());
+        assertFalse(latestAnswer.getAnswerOption().getIsCorrect());
+
+        assertEquals(expectedResultObject.toJSONString(), result);                
+    }
+    
+    @Test
+    public void savingUsersAnswerWorksWithRightAnswer() {
+        assertTrue(answerRepository.count() == existingAnswers);
+
+        TentativeAnswer tentativeAnswer = new TentativeAnswer();
+        tentativeAnswer.setAnswerOptionId(2L);
+        tentativeAnswer.setQuestionId(answerOption2.getQuestion().getId());
+        
+        JSONObject expectedResultObject = new JSONObject();
+        expectedResultObject.put("successValue", 1);
+        expectedResultObject.put("comment", "yup");
+        
+        String result = answerService.saveUsersAnswer(tentativeAnswer);
+        Answer latestAnswer = answerRepository.findAll().get(answerRepository.findAll().size() - 1);
+        
+        assertTrue(answerRepository.count() == existingAnswers + 1);
+
+        assertEquals("testing", latestAnswer.getAnswerOption().getAnswerText());
+        assertEquals("yup", latestAnswer.getAnswerOption()
+                .getAnswerComment());
+        assertTrue(latestAnswer.getAnswerOption().getIsCorrect());
+
+        assertEquals(expectedResultObject.toJSONString(), result);
+    }
 
 //    @Test
 //    public void existingAnswerIsUpdated(){

@@ -42,11 +42,11 @@ public class QuestionTest extends FluentTest {
         assertEquals("Koodi", title());
     }
 
-    //@Test
+    @Test
     public void addingQuestionWorks() {
         loginAsAdmin();
+        assertTrue(pageSource().contains("oletusadmin"));
         click(find("a", 2));
-
         assertTrue(pageSource().contains("Lisää tehtävä"));
         assertTrue(pageSource().contains("Kaikki tehtävät"));
 
@@ -57,20 +57,20 @@ public class QuestionTest extends FluentTest {
         fillSelect("#selectLanguage").withValue("java");
         fill("#questionCode").with("public static void main(String[] args) {\n   "
                 + "System.out.println(\new question series code test\");\n}");
-        fill("#correctAnswer").with("new question series right answer option test");
-        fill("#falseAnswers").with("\"falseAnswer1\";\"falseAnswer2\";\"falseAnswer3\"");
+        fill("#answerText").with("public void jotain(String[] args){\n   koodi();\n}");
+        fill("#answerComment").with("well done");
+        click("addAnswerOption");
 
-        submit(find("form").first());
+        click("submitQuestion");        
 
+        assertTrue(pageSource().contains("Kaikki tehtävät"));
         assertTrue(pageSource().contains("new question series header test"));
         assertTrue(pageSource().contains("new question series description test"));
         assertTrue(pageSource().contains("public static void main(String[] args) {"));
-        assertTrue(pageSource().contains("System.out.println(\new question series code test\");"));
+        assertTrue(pageSource().contains("System.out.println"));
         assertTrue(pageSource().contains("}"));
-        assertTrue(pageSource().contains("new question series right answer option test"));
-        assertTrue(pageSource().contains("\"falseAnswer1\""));
-        assertTrue(pageSource().contains("\"falseAnswer2\""));
-        assertTrue(pageSource().contains("falseAnswer3"));       
+        assertTrue(pageSource().contains("public void jotain(String[] args){\n   koodi();\n}"));   
+  
     }
     
     @Test

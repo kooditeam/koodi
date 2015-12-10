@@ -8,6 +8,8 @@ import koodi.domain.QuestionSeries;
 import koodi.repository.AnswerOptionRepository;
 import koodi.repository.QuestionRepository;
 import koodi.repository.QuestionSeriesRepository;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -126,30 +128,63 @@ public class QuestionServiceTest {
         assertEquals(1, questionService.findByQuestionSeries(qs1).size());
     }
 
-    //@Test
-//    public void postingNewQuestionWorks() {
-//        assertEquals(existingQuestions, questionRepository.count());
-//
-//        question3.setQuestionSeries(qs1);
-//        String rightAnswer = "correctOne";
-//        String wrongsAnswers = "wrong1;wrong2;wrong3;wrong4";
-//
-//        questionService.postNewExercise(question3, rightAnswer, wrongsAnswers);
-//
-//        assertEquals(existingQuestions + 1, questionRepository.count());
-//
-//        assertEquals("Question3", questionRepository.findAll().get(existingQuestions).getTitle());
-//        assertEquals("Question 3 info", questionRepository.findAll().get(existingQuestions).getInfo());
-//        assertEquals("java3", questionRepository.findAll().get(existingQuestions).getProgrammingLanguage());
-//        assertEquals("javakoodi3", questionRepository.findAll().get(existingQuestions).getCode());
-//        
-//        for (AnswerOption option : questionRepository.findAll().get(existingQuestions).getAnswerOptions()) {
-//            if (option.getIsCorrect()) {
-//                assertEquals("correctOne", option.getAnswerText());
-//            } else {
-//                assertTrue(option.getAnswerText().matches("wrong[1-4]"));
-//            }
-//        }
-//    }
+    @Test
+    public void postingNewQuestionWorks() {
+        question3 = new Question();
+        question3.setTitle("Testitehtävä");
+        question3.setOrderNumber(3);
+        question3.setCode("public void jotain(String[] args){\n   koodi();\n}");
+        question3.setInfo("info");
+        question3.setProgrammingLanguage("Cobol");
+        question3.setQuestionSeries(qs1);
+        JSONArray optionsArray = new JSONArray();
+        JSONObject option1 = new JSONObject();
+        option1.put("answerText", "public void jotain(String[] args){\n   vastaa();\n}");
+        option1.put("answerComment", "tää on kommentti");
+        option1.put("isCorrectAnswer", false);
+        optionsArray.add(option1);
+        JSONObject option2 = new JSONObject();
+        option2.put("answerText", "public void jotain(String[] args){\n   vastaaOikein();\n}");
+        option2.put("answerComment", "tää on paras");
+        option2.put("isCorrectAnswer", true);
+        optionsArray.add(option2);        
+        
+        questionService.postNewExercise(question3, optionsArray);
+
+        assertEquals(existingQuestions + 1, questionRepository.count());
+        List<Question> questions = questionRepository.findAll();
+        Question lastQuestion = questions.get(questions.size() - 1);
+
+        assertEquals("Testitehtävä", lastQuestion.getTitle());
+        assertEquals("info", lastQuestion.getInfo());
+        assertEquals("Cobol", lastQuestion.getProgrammingLanguage());
+        assertEquals("public void jotain(String[] args){\n   koodi();\n}", lastQuestion.getCode());
+        assertEquals(3, (int)lastQuestion.getOrderNumber());
+        assertEquals("Testisarja 1", lastQuestion.getQuestionSeries().getTitle());
+        
+        assertEquals(2, lastQuestion.getAnswerOptions().size());
+        int matchingAnswerTexts = 0;
+        int matchingComments = 0;
+        int matchingCorrects = 0;
+        for(AnswerOption o : lastQuestion.getAnswerOptions()){
+            if(o.getAnswerText().equals("public void jotain(String[] args){\n   vastaa();\n}") ||
+                    o.getAnswerText().equals("public void jotain(String[] args){\n   vastaaOikein();\n}")){
+                matchingAnswerTexts++;
+            }
+            if(o.getAnswerComment().equals("tää on kommentti") ||
+                    o.getAnswerComment().equals("tää on paras")){
+                matchingComments++;
+            }
+            if(o.getIsCorrect())
+                matchingCorrects++;
+        }
+        assertEquals(2, matchingAnswerTexts);
+        assertEquals(2, matchingComments);
+        assertEquals(1, matchingCorrects);
+        assertEquals(true, !lastQuestion.getAnswerOptions().get(0).getAnswerText().equals(lastQuestion.getAnswerOptions().get(1).getAnswerText()));
+        assertEquals(true, !lastQuestion.getAnswerOptions().get(0).getAnswerComment().equals(lastQuestion.getAnswerOptions().get(1).getAnswerComment()));
+        assertEquals(true, lastQuestion.getAnswerOptions().get(0).getIsCorrect() != (lastQuestion.getAnswerOptions().get(1).getIsCorrect()));
+        
+    }
 
 }

@@ -1,11 +1,17 @@
 package koodi.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import koodi.Main;
+import koodi.domain.AnswerOption;
 import koodi.domain.Question;
 import koodi.domain.QuestionSeries;
+import koodi.repository.AnswerOptionRepository;
 import koodi.repository.QuestionRepository;
 import koodi.service.AnswerService;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -47,17 +53,38 @@ public class QuestionControllerTest {
     
     @Autowired
     private QuestionRepository questionRepository;
-
+    @Autowired
+    private AnswerOptionRepository answerOptionRepository;
     @Autowired
     private WebApplicationContext webAppContext;
 
     private MockMvc mockMvc;
+    private int questionCount;
+    private List<Long> newQuestionIds;
 
     @Before
     public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
+        if (questionRepository.findAll() == null){
+            questionCount = 0;
+        } else {
+            questionCount = questionRepository.findAll().size();
+        }
+        newQuestionIds = new ArrayList();
     }
 
+    @After
+    public void tearDown(){
+        for (Long id : newQuestionIds){
+            Question q = questionRepository.findOne(id);
+            for(AnswerOption o : q.getAnswerOptions()){
+                o.setQuestion(null);
+                answerOptionRepository.save(o);
+            }
+            questionRepository.delete(id);
+        }
+    }
+    
     @Test
     public void statusOk() throws Exception {
         mockMvc.perform(get(API_URI)).andExpect(status().isOk());
@@ -83,8 +110,7 @@ public class QuestionControllerTest {
                 .andExpect(model().attributeExists("questions"))
                 .andReturn();
 
-        List<QuestionSeries> questions = (List<QuestionSeries>) res.getModelAndView().getModel()
-                .get("questions");
+        List<Question> questions = (List<Question>)res.getModelAndView().getModel().get("questions");
 
         assertTrue(questions.size() == 2);
     }
@@ -107,21 +133,38 @@ public class QuestionControllerTest {
     // for some reason this doesn't seem to work
     // doesn't get to the controller for whatever reason
     // manually testing seems to work fine though
-//    @Test
+    @Test
+    @WithMockUser(username = "a", roles = {"ADMIN"})
     public void postingNewQuestionWorks() throws Exception {
         
-        System.out.println("size is: " + questionRepository.count());
+        JSONArray optionsArray = new JSONArray();
+        JSONObject option1 = new JSONObject();
+        option1.put("answerText", "public void jotain(String[] args){\n   vastaa();\n}");
+        option1.put("answerComment", "tää on kommentti");
+        option1.put("isCorrectAnswer", false);
+        optionsArray.add(option1);
+        JSONObject option2 = new JSONObject();
+        option2.put("answerText", "public void jotain(String[] args){\n   vastaaOikein();\n}");
+        option2.put("answerComment", "tää on paras");
+        option2.put("isCorrectAnswer", true);
+        optionsArray.add(option2);
+        String optionsString = optionsArray.toJSONString();
+        
         mockMvc.perform(post(API_URI)
-                .param("questionSeries", "testSeries")
+                .param("questionSeries", "1")
                 .param("orderNumber", "1")
                 .param("title", "testTitle")
                 .param("info", "testInfo")
                 .param("programmingLanguage", "java")
-                .param("code", "testCode")
-                .param("correctAnswer", "correctAnswerOption")
-                .param("falseAnswerOptions", "wrong1;wrong2"))
+                .param("code", "public void jotain(String[] args){\n   vastaa();\n}")
+                .param("answerOptionSet", optionsString))
                 .andExpect(redirectedUrl(API_URI));
-        System.out.println("size is: " + questionRepository.count());
+        
+        if(questionRepository.findAll().size() > questionCount){
+            newQuestionIds.add(questionRepository.findAll().get(questionRepository.findAll().size() - 1).getId());
+        }
+        
+        assertEquals(questionCount + 1, questionRepository.findAll().size());
     }
 
     /*

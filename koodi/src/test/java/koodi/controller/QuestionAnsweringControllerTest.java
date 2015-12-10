@@ -21,6 +21,7 @@ import koodi.domain.Answer;
 import koodi.domain.QuestionSeries;
 import koodi.repository.AnswerRepository;
 import koodi.service.AnswerService;
+import org.json.simple.JSONObject;
 import org.junit.After;
 import org.springframework.http.MediaType;
 
@@ -160,13 +161,16 @@ public class QuestionAnsweringControllerTest {
     @Test
     public void postResponseIsCorrectWithWrongAnswer() throws Exception {
         String testData = "{\"answerOptionId\":\"1\", \"questionId\":\"1\"}";
+        JSONObject expectedResponse = new JSONObject();
+        expectedResponse.put("successValue", 0);
+        expectedResponse.put("comment", "test comment");
         MvcResult res = mockMvc.perform(post(API_URI)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(testData))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        assertEquals("{\"successValue\":0,\"comment\":\"test comment\"}", res.getResponse().getContentAsString());
+        assertEquals(expectedResponse.toJSONString(), res.getResponse().getContentAsString());
 
     }
 
@@ -174,13 +178,16 @@ public class QuestionAnsweringControllerTest {
     @Test
     public void postResponseIsCorrectWithRightAnswer() throws Exception {
         String testData = "{\"answerOptionId\":\"2\", \"questionId\":\"1\"}";
+        JSONObject expectedResponse = new JSONObject();
+        expectedResponse.put("successValue", 1);
+        expectedResponse.put("comment", "yup");
         MvcResult res = mockMvc.perform(post(API_URI)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(testData))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        assertEquals("{\"successValue\":1,\"comment\":\"yup\"}", res.getResponse().getContentAsString());
+        assertEquals(expectedResponse.toJSONString(), res.getResponse().getContentAsString());
 
     }
 
