@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import java.util.List;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 public class AnswerOption extends BaseModel {
@@ -12,9 +14,13 @@ public class AnswerOption extends BaseModel {
     @OneToMany
     private List<Answer> answers;
     @ManyToOne
+    //@NotNull(message = "Kysymys vaaditaan")
+    // creating test data is difficult if NotNull
     private Question question;
+    @NotBlank(message = "Vastaus ei voi olla tyhjä")
     private String answerText;
     private String answerComment;
+    @NotNull(message = "Valitse kyllä tai ei")
     private boolean isCorrect;
 
     public void setAnswerText(String answerText) {

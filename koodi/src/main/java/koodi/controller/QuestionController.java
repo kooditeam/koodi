@@ -1,7 +1,9 @@
 package koodi.controller;
 
 import javax.validation.Valid;
+import koodi.domain.AnswerOption;
 import koodi.domain.Question;
+import koodi.service.AnswerOptionService;
 import koodi.service.QuestionService;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -23,6 +25,9 @@ public class QuestionController {
 
     @Autowired
     private QuestionService questionService;
+    
+    @Autowired
+    private AnswerOptionService answerOptionService;
 
     @Secured("ROLE_ADMIN")
     @RequestMapping(method = RequestMethod.GET)
@@ -33,12 +38,14 @@ public class QuestionController {
 
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String edit(Model model, @PathVariable Long id) {
+    public String edit(@ModelAttribute AnswerOption newAnswerOption,
+            Model model, @PathVariable Long id) {
         Question question = questionService.findById(id);
         if(question == null) {
             return "redirect:/tehtavat";
         }
         model.addAttribute("question", question);
+        model.addAttribute("answerOptions", answerOptionService.findByQuestion(question));
         return "edit_question";
     }
     
@@ -75,6 +82,22 @@ public class QuestionController {
         questionService.postNewExercise(question, optionsArray);
         return "redirect:/tehtavat";
     }
+    
+    @Secured("ROLE_ADMIN")
+    @RequestMapping(value = "/options/add", method = RequestMethod.POST)
+    public String addAnswerOption(@Valid @ModelAttribute AnswerOption newAnswerOption,
+            BindingResult bindingResult) {
+        Question question = newAnswerOption.getQuestion();
+        if (bindingResult.hasErrors()) {
+            // error message
+            return "redirect:/tehtavat/edit/" + question.getId();
+        }
+        answerOptionService.save(newAnswerOption);
+        question.getAnswerOptions().add(newAnswerOption);
+        questionService.save(question);
+        return "redirect:/tehtavat/edit/" + question.getId();
+    }
+    
 
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/{id}/poista", method = RequestMethod.POST, produces = "application/json")
