@@ -5,8 +5,6 @@ import koodi.Main;
 import koodi.domain.Question;
 import koodi.domain.QuestionSeries;
 import koodi.repository.QuestionRepository;
-import koodi.service.AnswerService;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +24,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -59,11 +56,13 @@ public class QuestionControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "a", roles = {"ADMIN"})
     public void statusOk() throws Exception {
         mockMvc.perform(get(API_URI)).andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser(username = "a", roles = {"ADMIN"})
     public void modelHasAttributeAllQuestionSeries() throws Exception {
         MvcResult res = mockMvc.perform(get(API_URI))
                 .andExpect(status().isOk())
@@ -77,6 +76,7 @@ public class QuestionControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "a", roles = {"ADMIN"})
     public void modelHasAttributeAllQuestions() throws Exception {
         MvcResult res = mockMvc.perform(get(API_URI))
                 .andExpect(status().isOk())
