@@ -9,17 +9,17 @@
     </head>
     <body>
         <div th:fragment="content">
-            <h2>Lisää tehtävä</h2>
             <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-10">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <h2>Lisää tehtävä</h2>
                     <form method="POST" action="#" th:action="@{/tehtavat}"
                           th:object="${question}" class="form-horizontal" role="form"
                           id="questionForm">
                         <div class="form-group">
                             <label for="series">Tehtäväsarja</label>
                             <select name="questionSeries" id="series" class="form-control">
-                                <option value= "" selected="selected" disabled="disabled">
+                                <option value="" selected="selected" disabled="disabled">
                                     Valitse tehtäväsarja</option>
                                 <option th:each="questionSeries : ${allQuestionSeries}" 
                                     th:text="${questionSeries.title}"
@@ -37,9 +37,9 @@
                                class="form-control" placeholder="Tehtävän otsikko"/>
                         </div>
                         <div class="form-group">
-                            <label for="questionInfo">Kuvaus</label>
+                            <label for="questionInfo">Tehtävän kuvaus</label>
                             <textarea name="info" id="questionInfo"
-                               class="form-control" placeholder="Tehtävän kuvaus"/>
+                                class="form-control"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="selectLanguage">Ohjelmointikieli</label>
@@ -66,7 +66,7 @@
                         <div class="form-group">
                             <label for="questionCode">Koodi</label>
                             <textarea name="code" id="questionCode"
-                               class="form-control" placeholder="Syötä koodi tähän"/>
+                                class="form-control"></textarea>
                         </div>
                         
                         <table id="answerOptionsTable" class="table">
@@ -97,7 +97,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-1"></div>
+                <div class="col-md-2"></div>
             </div>
             <br/>
             <h2>Kaikki tehtävät</h2>

@@ -56,12 +56,12 @@ public class QuestionController {
 
     @Secured("ROLE_ADMIN")
     @RequestMapping(method = RequestMethod.POST)
-    public String save(@Valid @ModelAttribute Question question,
-            @RequestParam("answerOptionSet") String options,
+    public String save(@RequestParam("answerOptionSet") String options,
+            @Valid @ModelAttribute Question question,
             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // error message
-            return "redirect:/tehtavat/";
+            return "redirect:/tehtavat";
         }
         JSONArray optionsArray = null;
         try{
