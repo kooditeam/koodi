@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+      th:include="fragments/layout :: page">
+    <head>
+        <title>Muokkaa tehtävää</title>
+    </head>
+    <body>
+        <div th:fragment="content">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <h2 th:text="${'Muokkaa tehtävää: ' + question.title}"></h2>
+                    <br/>
+                    <form method="POST" action="#" th:action="@{/tehtavat/edit/{id}(id=${question.id})}"
+                          th:object="${question}" class="form-horizontal" role="form"
+                          id="questionForm">
+                        <div class="form-group">
+                            <label for="series">Tehtäväsarja</label>
+                            <select name="questionSeries" id="series" class="form-control">
+                                <option th:each="questionSeries : ${allQuestionSeries}" 
+                                    th:text="${questionSeries.title}"
+                                    th:value="${questionSeries.id}"
+                                    th:selected="${question.questionSeries.id == questionSeries.id}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="order">Järjestys</label>
+                            <input name="orderNumber" type="number" th:value="${question.orderNumber}" min="1"
+                               id="order" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="questionTitle">Otsikko</label>
+                            <input name="title" type="text" id="questionTitle" th:value="${question.title}" 
+                               class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="questionInfo">Kuvaus</label>
+                            <textarea name="info" id="questionInfo" th:inline="text" 
+                                class="form-control">[[${question.info}]]</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="selectLanguage">Ohjelmointikieli</label>
+                            <select name="programmingLanguage" id="selectLanguage" class="form-control">
+                                <option th:selected="${question.programmingLanguage == 'bash'}" value="bash">Bash</option>
+                                <option th:selected="${question.programmingLanguage == 'c'}" value="c">C</option>
+                                <option th:selected="${question.programmingLanguage == 'cpp'}" value="cpp">C++</option>
+                                <option th:selected="${question.programmingLanguage == 'clike'}" value="clike">C-like</option>
+                                <option th:selected="${question.programmingLanguage == 'css'}" value="css">CSS</option>
+                                <option th:selected="${question.programmingLanguage == 'java'}" value="java">Java</option>
+                                <option th:selected="${question.programmingLanguage == 'javascript'}" value="javascript">JavaScript</option>
+                                <option th:selected="${question.programmingLanguage == 'markup'}" value="markup">Markup</option>
+                                <option th:selected="${question.programmingLanguage == 'perl'}" value="perl">Perl</option>
+                                <option th:selected="${question.programmingLanguage == 'php'}" value="php">PHP</option>
+                                <option th:selected="${question.programmingLanguage == 'python'}" value="python">Python</option>
+                                <option th:selected="${question.programmingLanguage == 'ruby'}" value="ruby">Ruby</option>
+                                <option th:selected="${question.programmingLanguage == 'scala'}" value="scala">Scala</option>
+                                <option th:selected="${question.programmingLanguage == 'sql'}" value="sql">SQL</option>
+                                <option th:selected="${question.programmingLanguage == 'none'}" value="none">None</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="questionCode">Koodi</label>
+                            <textarea name="code" id="questionCode" th:inline="text" 
+                                class="form-control">[[${question.code}]]</textarea>
+                        </div>
+
+                        <!-- lisättävä tähän vastausvaihtoehdot listana, jossa myös radiobutton oikean 
+                             vaihtoehdon osoittamiseen ja nappi vastausvaihtoehdon poistamiseen -->
+
+                        <div class="form-group">
+                            <input type="submit" value="Tallenna"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -42,7 +42,7 @@ $(document).ready(function(){
 });
 
 function editQuestion(questionId){
-    console.log("Muuta " + questionId);
+    window.location.href = "/tehtavat/edit/" + questionId;
 }
 
 function deleteQuestion(questionId){

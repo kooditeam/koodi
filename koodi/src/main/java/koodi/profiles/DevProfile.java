@@ -118,7 +118,7 @@ public class DevProfile {
         question2.setProgrammingLanguage("java");
         question2.setTitle("Code reading: the generic texts");
         question2.setInfo("This code reading is about pretty much nothing");
-        question1.setOrderNumber(1);
+        question2.setOrderNumber(1);
         question2.setQuestionSeries(qs2);
         questionRepository.save(question2);
         // --

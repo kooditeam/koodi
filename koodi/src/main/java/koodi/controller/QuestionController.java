@@ -32,14 +32,14 @@ public class QuestionController {
     }
 
     @Secured("ROLE_ADMIN")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String show(Model model, @PathVariable Long id) {
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String edit(Model model, @PathVariable Long id) {
         Question question = questionService.findById(id);
         if(question == null) {
             return "redirect:/tehtavat";
         }
         model.addAttribute("question", question);
-        return "view_question";
+        return "edit_question";
     }
     
     @Secured("ROLE_ADMIN")
@@ -51,7 +51,7 @@ public class QuestionController {
             return "redirect:/tehtavat/" + id;
         }
         questionService.save(question);
-        return "view_question";
+        return "redirect:/tehtavat";
     }
 
     @Secured("ROLE_ADMIN")
