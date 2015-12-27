@@ -89,7 +89,7 @@ public class QuestionServiceTest {
         question3.setInfo("Question 3 info");
         question3.setProgrammingLanguage("java3");
         question3.setCode("javakoodi3");
-        //question3.setQuestionSeries(qs2);
+        question3.setQuestionSeries(qs2);
         //questionRepository.save(question3);
     }
 

@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-/* 
-    TODO: Check admin permissions
-*/
 
 @Controller
 @RequestMapping("topics")
@@ -74,6 +71,9 @@ public class QuestionSeriesController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable Long id, Model model) {
         QuestionSeries qs = questionSeriesService.findById(id);
+        if (qs == null) {
+            return "redirect:/topics";
+        }
         model.addAttribute("questionSeries", qs);
         return "edit_question_series";
     }

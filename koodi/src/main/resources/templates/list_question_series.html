@@ -54,8 +54,7 @@
                 <ul class="list-group">
                     <li class="list-group-item"
                         th:each="questionSeries : ${archivedQuestionSeries}">
-                        <a th:text="${questionSeries.title}"
-                           th:href="@{/topics/edit/{id}(id=${questionSeries.id})}"></a>
+                        <span th:text="${questionSeries.title}"></span>
                         <a class="btn btn-info btn-xs pull-right"
                            th:href="@{/topics/retrieve/{id}(id=${questionSeries.id})}"
                            th:text="Palauta"></a>

@@ -7,20 +7,27 @@ import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 public class Question extends BaseModel {
     
+    @NotNull(message = "Anna tehtäväsarja")
     @ManyToOne(targetEntity = QuestionSeries.class)
     private QuestionSeries questionSeries;
     @OneToMany(fetch=FetchType.EAGER)
     private List<AnswerOption> answerOptions;
+    @NotNull(message = "Järjestys vaaditaan")
     private Integer orderNumber;
+    @NotBlank(message = "Otsikko ei saa olla tyhjä")
     private String title;
     @Column(columnDefinition="varchar(10000)")
     private String info;
+    @NotBlank(message = "Valitse ohjelmointikieli")
     private String programmingLanguage;
     @Column(columnDefinition="varchar(10000)")
+    @NotBlank(message = "Koodi tarvitaan")
     private String code;
 
     public Integer getOrderNumber() {

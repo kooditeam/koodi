@@ -2,7 +2,6 @@ package koodi.service;
 
 import java.util.List;
 import koodi.domain.QuestionSeries;
-import koodi.repository.BaseRepository;
 import koodi.repository.QuestionSeriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
