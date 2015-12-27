@@ -10,6 +10,7 @@ import java.util.List;
 import koodi.domain.AnswerOption;
 import koodi.domain.TentativeAnswer;
 import koodi.repository.AnswerOptionRepository;
+import org.joda.time.DateTime;
 import org.json.simple.JSONObject;
 
 @Service
@@ -34,7 +35,19 @@ public class AnswerService extends BaseService<Answer> {
             student = findTheAnswersCreator(answer);
         }
         answer.setUser(student);
-
+        
+        // if there are pre-existing answer by this user to this question, the
+        // removed flag is set as true in the previous answer
+        List<Answer> previousAnswers = answerRepository.findByUserIdAndQuestionId(
+                student.getId(), 
+                answer.getAnswerOption().getQuestion().getId());
+        for(Answer a : previousAnswers){
+            a.setRemoved(true);
+            a.setEditedById(student.getId());
+            a.setEditedOn(new DateTime());
+            answerRepository.save(a);
+        }
+        
         answer = answerRepository.save(answer);
         return answer;
     }

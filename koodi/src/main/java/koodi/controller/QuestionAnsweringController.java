@@ -6,6 +6,8 @@ import koodi.domain.TentativeAnswer;
 import koodi.service.AnswerService;
 import koodi.service.QuestionSeriesService;
 import koodi.service.QuestionService;
+import koodi.service.ResultsService;
+import koodi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,12 @@ public class QuestionAnsweringController {
     @Autowired
     private AnswerService answerService;
     
+    @Autowired
+    private ResultsService resultsService;
+    
+    @Autowired
+    private UserService userService;
+    
     @RequestMapping(value="/topic/{id}", method = RequestMethod.GET)
     public String list(Model model, @PathVariable Long id) {
         QuestionSeries qs = questionSeriesService.findById(id);
@@ -41,5 +49,12 @@ public class QuestionAnsweringController {
     public String saveAnswer(@RequestBody TentativeAnswer tentativeAnswer) {
         String rightOrNot = answerService.saveUsersAnswer(tentativeAnswer);
         return rightOrNot;
+    }
+    
+    @RequestMapping(value="/topic/{id}/aiemmat", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public String getPreviousResults(@PathVariable Long id){
+        String resultSet = resultsService.getResultArray(userService.getCurrentUser().getId(), id);
+        return resultSet;
     }
 }

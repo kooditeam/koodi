@@ -1,8 +1,11 @@
 
 package koodi.selenium;
 
+import java.io.Console;
+import java.util.concurrent.TimeUnit;
 import koodi.Main;
 import org.fluentlenium.adapter.FluentTest;
+import org.fluentlenium.core.annotation.AjaxElement;
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.hibernate.cfg.AvailableSettings;
 import static org.junit.Assert.assertEquals;
@@ -11,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -22,10 +26,14 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
 public class QuestionAnsweringTest extends FluentTest {
-
+    
     @Value("${local.server.port}")
     private int serverPort;
     private WebDriver webDriver = new HtmlUnitDriver();
+    
+    @FindBy(id = "question-send-1")
+    @AjaxElement(timeOutInSeconds = 5)
+    FluentWebElement submitButton;
 
     private String getUrl() {
         return "http://localhost:" + serverPort;
@@ -46,6 +54,12 @@ public class QuestionAnsweringTest extends FluentTest {
     //@Test
     public void answeringQuestionWorks() {
         loginAsJustRegisteredUser();
+        getDefaultDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        try{
+        getDefaultDriver().manage().timeouts().wait(5000);
+        } catch(Exception exc){
+            
+        }
         assertTrue(pageSource().contains("oletususer"));
         
         find("a[href='/vastaukset/topic/1']").click();
@@ -53,15 +67,17 @@ public class QuestionAnsweringTest extends FluentTest {
         assertTrue(pageSource().contains("Sarja 1"));
         assertTrue(pageSource().contains("test question"));
         
+        
         assertEquals(2, find("input[type='radio']").size());
         assertEquals(1, find("input[type='submit']").size());
         findFirst("input[type='radio']").click();
         
-        find("input[type='submit']").get(0).click();
+        submitButton.click();
+        //find("input[type='submit']").get(0).click();
 //        click("button");
         
 //        assertTrue(pageSource().contains("undefined"));
-//        assertTrue(pageSource().contains("Väärin..."));
+//        assertTrue(pageSource().contains("Väärin..."));        
         assertTrue(pageSource().contains("test comment"));
     }
     

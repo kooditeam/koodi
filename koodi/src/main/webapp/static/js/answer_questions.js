@@ -1,5 +1,6 @@
 $(document).ready(function(){    
     $(".question-list").each(function(){
+        
         // adds an answer submit button appended to each question <ul>
         var questionId = $(this).attr("id").split('-').pop();
         $(this).append($("<input type='submit' value='Tarkista' id='question-send-" + questionId +"'/>"));
@@ -11,8 +12,37 @@ $(document).ready(function(){
             var answerOptionId = $("#question-" + questionId + " input[type=radio]:checked").val();
             sendAnswer(questionId, answerOptionId);
        });
+       
+       // queries results of possible previous answers and populates the answer selections
+       // and result texts accordingly
+       getPreviousResults();       
     });
 });
+
+function getPreviousResults(){
+    var questionSeriesId = $("#questionSeriesId").val();
+    $.ajax({
+        url: "/vastaukset/topic/" + questionSeriesId + "/aiemmat",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        type: "get",
+        success: function(result){
+            populatePreviousResults(result)
+        }
+    });
+}
+
+function populatePreviousResults(results){
+    $.each(results, function(key, result){
+        var answerOptionId = result.AnswerOptionId;
+        var questionId = result.QuestionId;
+        console.log(answerOptionId + " - " + questionId);
+        if(result.ResultText != 'ei vastattu'){
+            $("input:radio[value=" + answerOptionId + "]").prop("checked", true);
+            populateResultText(questionId, result.ResultText, result.Comment);
+        }
+    });
+}
 
 function sendAnswer(questionId, answerOptionId){
     // if nothing had been selected, just sets the message for user
@@ -47,10 +77,12 @@ function setResultText(questionId, result){
     } else if (result.successValue == 2) {
         resultMessage = "Valitse ensin vastaus.";
     }    
-    
-    
+    populateResultText(questionId, resultMessage, result.comment);   
+}
+
+function populateResultText(questionId, resultMessage, comment){
     var msgPart = "<p>" + resultMessage + "</p>";
-    var commentPart = "<p>" + result.comment + "</p>";
+    var commentPart = "<p>" + comment + "</p>";
     $("#question-result-" +  questionId).children().remove();
     $("#question-result-" +  questionId)
             .append(msgPart)

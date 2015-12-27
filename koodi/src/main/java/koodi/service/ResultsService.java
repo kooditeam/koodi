@@ -11,7 +11,10 @@ import koodi.domain.QuestionResult;
 import koodi.domain.QuestionSeries;
 import koodi.domain.QuestionSeriesResult;
 import koodi.domain.User;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.init.ResourceReader;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,19 +40,15 @@ public class ResultsService {
         }
         return false;        
     }
-
-    public List<QuestionSeriesResult> findAllResultsForUser(Long id) {
-        List<QuestionSeriesResult> questionSets = new ArrayList<>();
-        List<QuestionSeries> allSeries = questionSeriesService.findAll();
-        
-        for(QuestionSeries qs : allSeries){            
+    
+    public QuestionSeriesResult findResultsForUserAndQuestionSeries(Long userId, QuestionSeries qs){
             QuestionSeriesResult seriesResult = new QuestionSeriesResult();
             seriesResult.setTitle(qs.getTitle());
             seriesResult.setId(qs.getId());
             
             List<QuestionResult> questionResults = new ArrayList<>();
             List<Question> seriesQuestions = questionService.findByQuestionSeries(qs);
-            List<Answer> questionSeriesAnswers = answerService.getAnswersByUserIdAndQuestionSeriesId(id, qs.getId());
+            List<Answer> questionSeriesAnswers = answerService.getAnswersByUserIdAndQuestionSeriesId(userId, qs.getId());
             seriesResult.setNumberOfQuestions(seriesQuestions.size());
             seriesResult.setNumberOfAnswers(questionSeriesAnswers.size());
             int numberOfCorrects = 0; 
@@ -59,12 +58,15 @@ public class ResultsService {
             // otherwise the question is deemed "unanswered"
             for(Question q : seriesQuestions){
                 QuestionResult questionResult = new QuestionResult();
+                questionResult.setQuestionId(q.getId());
                 questionResult.setTitle(q.getTitle());
                 if(q.getOrderNumber() != null){
                     questionResult.setOrderNumber(q.getOrderNumber());
                 }
                 for(Answer a : questionSeriesAnswers){
                     if(a.getAnswerOption().getQuestion().getId().equals(q.getId())){
+                        questionResult.setAnswerOptionId(a.getAnswerOption().getId());
+                        questionResult.setComment(a.getAnswerOption().getAnswerComment());
                         if(a.getAnswerOption().getIsCorrect()){
                             questionResult.setResultText("Oikein!");
                             numberOfCorrects++;
@@ -80,7 +82,15 @@ public class ResultsService {
             }
             seriesResult.setNumberOfCorrects(numberOfCorrects);
             seriesResult.setQuestionResults(questionResults);
-            questionSets.add(seriesResult);
+            return seriesResult;
+    }
+
+    public List<QuestionSeriesResult> findAllResultsForUser(Long userId) {
+        List<QuestionSeriesResult> questionSets = new ArrayList<>();
+        List<QuestionSeries> allSeries = questionSeriesService.findAll();
+        
+        for(QuestionSeries qs : allSeries){            
+            questionSets.add(findResultsForUserAndQuestionSeries(userId, qs));
         }        
         
         return questionSets;
@@ -108,4 +118,23 @@ public class ResultsService {
         
         return questionSets;
     }    
+
+    public String getResultArray(Long userId, Long questionSeriesId) {
+        QuestionSeries qs = questionSeriesService.findById(questionSeriesId);
+        QuestionSeriesResult results = findResultsForUserAndQuestionSeries(userId, qs);
+        
+        JSONArray resultArray = new JSONArray();
+        JSONObject resultJSON;
+
+        for(QuestionResult result : results.getQuestionResults()){
+            resultJSON = new JSONObject();
+            resultJSON.put("QuestionId", result.getQuestionId());
+            resultJSON.put("AnswerOptionId", result.getAnswerOptionId());
+            resultJSON.put("ResultText", result.getResultText());
+            resultJSON.put("Comment", result.getComment());
+            resultArray.add(resultJSON);
+        }
+        
+        return resultArray.toJSONString();
+    }
 }
