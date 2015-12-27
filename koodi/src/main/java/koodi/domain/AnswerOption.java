@@ -23,6 +23,14 @@ public class AnswerOption extends BaseModel {
     @NotNull(message = "Valitse kyllä tai ei")
     private boolean isCorrect;
 
+    public AnswerOption() {
+    }
+    
+    public AnswerOption(String answerText, boolean isCorrect) {
+        this.answerText = answerText;
+        this.isCorrect = isCorrect;
+    }
+    
     public void setAnswerText(String answerText) {
         this.answerText = answerText;
     }

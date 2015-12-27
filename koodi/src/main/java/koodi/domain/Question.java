@@ -29,7 +29,26 @@ public class Question extends BaseModel {
     @Column(columnDefinition="varchar(10000)")
     @NotBlank(message = "Koodi tarvitaan")
     private String code;
+    
+    private String type;
+    private Integer amountOfParameters;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Integer getAmountOfParameters() {
+        return amountOfParameters;
+    }
+
+    public void setAmountOfParameters(Integer amountOfParameters) {
+        this.amountOfParameters = amountOfParameters;
+    }
+    
     public Integer getOrderNumber() {
         return orderNumber;
     }

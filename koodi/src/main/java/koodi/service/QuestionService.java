@@ -59,7 +59,7 @@ public class QuestionService extends BaseService<Question> {
         save(question);
     }
 
-    private void saveOptionsInRandomOrder(Question question,
+    public void saveOptionsInRandomOrder(Question question,
             List<AnswerOption> allOptions) {
 
         long seed = System.nanoTime();
