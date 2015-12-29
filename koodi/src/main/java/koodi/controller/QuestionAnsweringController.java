@@ -47,8 +47,8 @@ public class QuestionAnsweringController {
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
     public String saveAnswer(@RequestBody TentativeAnswer tentativeAnswer) {
-        String rightOrNot = answerService.saveUsersAnswer(tentativeAnswer);
-        return rightOrNot;
+        String response = answerService.saveUsersAnswer(tentativeAnswer);
+        return response;
     }
     
     @RequestMapping(value="/topic/{id}/aiemmat", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")

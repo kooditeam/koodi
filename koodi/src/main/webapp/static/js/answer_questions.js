@@ -33,7 +33,7 @@ function getPreviousResults(){
 }
 
 function populatePreviousResults(results){
-    $.each(results, function(key, result){
+    $.each(results[0], function(key, result){
         var answerOptionId = result.AnswerOptionId;
         var questionId = result.QuestionId;
         console.log(answerOptionId + " - " + questionId);
@@ -70,14 +70,14 @@ function sendAnswer(questionId, answerOptionId){
 
 function setResultText(questionId, result){
     var resultMessage;
-    if(result.successValue == 0){
+    if(result[0].successValue == 0){
         resultMessage = "Väärin...";
-    } else if (result.successValue == 1) {
+    } else if (result[0].successValue == 1) {
         resultMessage = "Oikein!";
-    } else if (result.successValue == 2) {
+    } else if (result[0].successValue == 2) {
         resultMessage = "Valitse ensin vastaus.";
     }    
-    populateResultText(questionId, resultMessage, result.comment);   
+    populateResultText(questionId, resultMessage, result[0].comment);   
 }
 
 function populateResultText(questionId, resultMessage, comment){

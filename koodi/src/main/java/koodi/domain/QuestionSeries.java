@@ -1,10 +1,11 @@
 
 package koodi.domain;
 
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
-
 
 @Entity
 public class QuestionSeries extends BaseModel {
@@ -14,6 +15,9 @@ public class QuestionSeries extends BaseModel {
     
     @NotNull(message = "Järjestys vaaditaan")
     private Integer orderNumber;
+    
+    @OneToMany
+    private List<Achievement> achievements;
 
     public String getTitle() {
         return title;
@@ -30,6 +34,13 @@ public class QuestionSeries extends BaseModel {
     public Integer getOrderNumber() {
         return orderNumber;
     }
-    
+
+    public List<Achievement> getAchievements() {
+        return achievements;
+    }
+
+    public void setAchievements(List<Achievement> achievements) {
+        this.achievements = achievements;
+    }  
     
 }

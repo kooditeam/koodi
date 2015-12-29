@@ -5,6 +5,8 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotBlank;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -22,6 +24,8 @@ public class User extends BaseModel {
     private boolean isAdmin;
     @OneToMany
     private List<Answer> answers;
+    @ManyToMany(mappedBy = "achievers", fetch = FetchType.EAGER)
+    private List<Achievement> achievements;
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
@@ -29,6 +33,14 @@ public class User extends BaseModel {
 
     public List<Answer> getAnswers() {
         return answers;
+    }
+
+    public List<Achievement> getAchievements() {
+        return achievements;
+    }
+
+    public void setAchievements(List<Achievement> achievements) {
+        this.achievements = achievements;
     }
 
     public String getName() {

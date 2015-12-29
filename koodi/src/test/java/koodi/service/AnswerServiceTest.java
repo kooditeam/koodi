@@ -9,6 +9,7 @@ import koodi.domain.User;
 import koodi.repository.AnswerOptionRepository;
 import koodi.repository.AnswerRepository;
 import koodi.repository.UserRepository;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -131,9 +132,13 @@ public class AnswerServiceTest {
         tentativeAnswer.setAnswerOptionId(1L);
         tentativeAnswer.setQuestionId(answerOption1.getQuestion().getId());
         
+        JSONArray expectedResultArray = new JSONArray();
         JSONObject expectedResultObject = new JSONObject();
         expectedResultObject.put("successValue", 0);
         expectedResultObject.put("comment", "test comment");
+        expectedResultArray.add(expectedResultObject);     
+        JSONArray expectedAchievementArray = new JSONArray();
+        expectedResultArray.add(expectedAchievementArray);
         
         String result = answerService.saveUsersAnswer(tentativeAnswer);
         Answer latestAnswer = answerRepository.findAll().get(answerRepository.findAll().size() - 1);
@@ -145,7 +150,7 @@ public class AnswerServiceTest {
                 .getAnswerComment());
         assertFalse(latestAnswer.getAnswerOption().getIsCorrect());
 
-        assertEquals(expectedResultObject.toJSONString(), result);                
+        assertEquals(expectedResultArray.toJSONString(), result);                
     }
     
     @Test
@@ -156,9 +161,13 @@ public class AnswerServiceTest {
         tentativeAnswer.setAnswerOptionId(2L);
         tentativeAnswer.setQuestionId(answerOption2.getQuestion().getId());
         
+        JSONArray expectedResultArray = new JSONArray();
         JSONObject expectedResultObject = new JSONObject();
         expectedResultObject.put("successValue", 1);
         expectedResultObject.put("comment", "yup");
+        expectedResultArray.add(expectedResultObject);     
+        JSONArray expectedAchievementArray = new JSONArray();
+        expectedResultArray.add(expectedAchievementArray);
         
         String result = answerService.saveUsersAnswer(tentativeAnswer);
         Answer latestAnswer = answerRepository.findAll().get(answerRepository.findAll().size() - 1);
@@ -170,7 +179,7 @@ public class AnswerServiceTest {
                 .getAnswerComment());
         assertTrue(latestAnswer.getAnswerOption().getIsCorrect());
 
-        assertEquals(expectedResultObject.toJSONString(), result);
+        assertEquals(expectedResultArray.toJSONString(), result);
     }
 
 //    @Test

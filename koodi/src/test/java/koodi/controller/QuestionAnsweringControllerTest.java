@@ -21,6 +21,7 @@ import koodi.domain.Answer;
 import koodi.domain.QuestionSeries;
 import koodi.repository.AnswerRepository;
 import koodi.service.AnswerService;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.springframework.http.MediaType;
@@ -161,16 +162,21 @@ public class QuestionAnsweringControllerTest {
     @Test
     public void postResponseIsCorrectWithWrongAnswer() throws Exception {
         String testData = "{\"answerOptionId\":\"1\", \"questionId\":\"1\"}";
-        JSONObject expectedResponse = new JSONObject();
-        expectedResponse.put("successValue", 0);
-        expectedResponse.put("comment", "test comment");
+        JSONArray expectedResultArray = new JSONArray();
+        JSONObject expectedResponseObject = new JSONObject();
+        expectedResponseObject.put("successValue", 0);
+        expectedResponseObject.put("comment", "test comment");
+        expectedResultArray.add(expectedResponseObject);     
+        JSONArray expectedAchievementArray = new JSONArray();
+        expectedResultArray.add(expectedAchievementArray);
+        
         MvcResult res = mockMvc.perform(post(API_URI)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(testData))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        assertEquals(expectedResponse.toJSONString(), res.getResponse().getContentAsString());
+        assertEquals(expectedResultArray.toJSONString(), res.getResponse().getContentAsString());
 
     }
 
@@ -178,16 +184,21 @@ public class QuestionAnsweringControllerTest {
     @Test
     public void postResponseIsCorrectWithRightAnswer() throws Exception {
         String testData = "{\"answerOptionId\":\"2\", \"questionId\":\"1\"}";
-        JSONObject expectedResponse = new JSONObject();
-        expectedResponse.put("successValue", 1);
-        expectedResponse.put("comment", "yup");
+        JSONArray expectedResultArray = new JSONArray();
+        JSONObject expectedResponseObject = new JSONObject();
+        expectedResponseObject.put("successValue", 1);
+        expectedResponseObject.put("comment", "yup");
+        expectedResultArray.add(expectedResponseObject);     
+        JSONArray expectedAchievementArray = new JSONArray();
+        expectedResultArray.add(expectedAchievementArray);
+        
         MvcResult res = mockMvc.perform(post(API_URI)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(testData))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        assertEquals(expectedResponse.toJSONString(), res.getResponse().getContentAsString());
+        assertEquals(expectedResultArray.toJSONString(), res.getResponse().getContentAsString());
 
     }
 

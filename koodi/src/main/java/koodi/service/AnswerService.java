@@ -1,5 +1,6 @@
 package koodi.service;
 
+import java.util.ArrayList;
 import koodi.domain.Answer;
 import koodi.domain.User;
 import koodi.repository.AnswerRepository;
@@ -7,10 +8,13 @@ import koodi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import koodi.domain.Achievement;
 import koodi.domain.AnswerOption;
+import koodi.domain.QuestionSeries;
 import koodi.domain.TentativeAnswer;
 import koodi.repository.AnswerOptionRepository;
 import org.joda.time.DateTime;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 @Service
@@ -24,6 +28,9 @@ public class AnswerService extends BaseService<Answer> {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private AchievementService achievementService;
 
     public Answer save(Answer answer) {
         super.save(answer, null);
@@ -49,6 +56,7 @@ public class AnswerService extends BaseService<Answer> {
         }
         
         answer = answerRepository.save(answer);
+
         return answer;
     }
 
@@ -79,6 +87,18 @@ public class AnswerService extends BaseService<Answer> {
     public List<Answer> getAnswersByUserIdAndQuestionSeriesId(Long userId, Long questionSeriesId){
         return answerRepository.findByUserIdAndQuestionSeriesId(userId, questionSeriesId);
     }
+    
+    public List<Answer> getCorrectsByUserIdAndQuestionSeriesId(Long userId, Long questionSeriesId) {
+        List<Answer> allAnswers = getAnswersByUserIdAndQuestionSeriesId(userId, questionSeriesId);
+        List<Answer> correctAnswers = new ArrayList<Answer>();
+        for(Answer a : allAnswers){
+            if(a.getAnswerOption().getIsCorrect()){
+                correctAnswers.add(a);
+            }
+        }
+        return correctAnswers;
+    }
+
 
     public AnswerOption getAnswerOptionById(Long id) {
         return answerOptionRepository.findByIdAndRemovedFalse(id);
@@ -88,15 +108,31 @@ public class AnswerService extends BaseService<Answer> {
 
         Answer answer = new Answer();
         Long answerOptionId = tentativeAnswer.getAnswerOptionId();
-
         setAnswerOptionToAnswer(answer, answerOptionId);
-
         answer = save(answer);
+        
+        JSONArray response = new JSONArray();
         AnswerOption chosenOption = answer.getAnswerOption();
         JSONObject resultObject = new JSONObject();
         resultObject.put("successValue", getResult(chosenOption));
         resultObject.put("comment", chosenOption.getAnswerComment());
-        return resultObject.toJSONString();
+        response.add(resultObject);
+        
+        // checks and retrieves users achievements
+        QuestionSeries currentSeries = answer.getAnswerOption().getQuestion().getQuestionSeries();
+        List<Achievement> userAchievements = achievementService.getAchievements(answer.getUser(), currentSeries);
+        JSONArray achievementArray = new JSONArray();
+        JSONObject achievementObject;
+        for(Achievement a : userAchievements){
+            achievementObject = new JSONObject();
+            achievementObject.put("Name", a.getName());
+            Long questionSeriesId = a.getQuestionSeries() != null ? a.getQuestionSeries().getId() : null;
+            achievementObject.put("QuestionSeriesId", questionSeriesId);
+            achievementArray.add(achievementObject);
+        }
+        response.add(achievementArray);
+        
+        return response.toJSONString();
     }
 
     private void setAnswerOptionToAnswer(Answer answer, Long answerOptionId) {

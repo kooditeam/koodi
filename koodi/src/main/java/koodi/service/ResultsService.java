@@ -28,6 +28,8 @@ public class ResultsService {
     private QuestionService questionService;
     @Autowired
     private AnswerService answerService;
+    @Autowired
+    private AchievementService achievementService;
 
     public boolean isAllowedToView(Long id) {
         // admins are allowed to see everyone's results, norm users only their own
@@ -123,6 +125,7 @@ public class ResultsService {
         QuestionSeries qs = questionSeriesService.findById(questionSeriesId);
         QuestionSeriesResult results = findResultsForUserAndQuestionSeries(userId, qs);
         
+        JSONArray responseArray = new JSONArray();
         JSONArray resultArray = new JSONArray();
         JSONObject resultJSON;
 
@@ -134,7 +137,9 @@ public class ResultsService {
             resultJSON.put("Comment", result.getComment());
             resultArray.add(resultJSON);
         }
+        responseArray.add(resultArray);
+        responseArray.add(achievementService.getAchievements(userService.findById(userId), qs));
         
-        return resultArray.toJSONString();
+        return responseArray.toJSONString();
     }
 }
