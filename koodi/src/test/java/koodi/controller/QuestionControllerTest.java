@@ -114,7 +114,7 @@ public class QuestionControllerTest {
 
         List<Question> questions = (List<Question>)res.getModelAndView().getModel().get("questions");
 
-        assertTrue(questions.size() == 2);
+        assertTrue(questions.size() == 5);
     }
 
     // disabled for now as the view doesn't work at the moment

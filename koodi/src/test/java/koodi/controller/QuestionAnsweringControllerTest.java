@@ -85,7 +85,7 @@ public class QuestionAnsweringControllerTest {
         List<QuestionSeries> questions = (List<QuestionSeries>) res.getModelAndView().getModel()
                 .get("questions");
 
-        assertTrue(questions.size() == 1);
+        assertTrue(questions.size() == 4);
     }
     
     @Test
@@ -115,10 +115,10 @@ public class QuestionAnsweringControllerTest {
     }
 
     @Test
-    public void modelHasFiveAttributes() throws Exception {
+    public void modelHasSixAttributes() throws Exception {
         mockMvc.perform(get(API_URI + "/topic/1"))
                 .andExpect(status().isOk())
-                .andExpect(model().size(5));
+                .andExpect(model().size(6));
     }
 
     @Transactional

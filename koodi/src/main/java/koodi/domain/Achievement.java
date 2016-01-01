@@ -6,6 +6,7 @@
 package koodi.domain;
 
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -13,6 +14,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Achievement extends BaseModel {
     
+    @Column(unique = true)
     private String name;
     @ManyToOne
     private QuestionSeries questionSeries;

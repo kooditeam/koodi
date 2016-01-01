@@ -27,4 +27,10 @@ public interface AnswerRepository extends BaseRepository<Answer> {
             + "and q.id = ?2 "
             + "and a.removed = false")
     public List<Answer> findByUserIdAndQuestionId(Long userId, Long questionSeriesId);
+    
+    @Query("select a from Answer a "
+            + "where a.user.id = ?1 "
+            + "and a.removed = false "
+            + "order by a.createdOn desc")
+    public List<Answer> findByUserIdOrderByCreatedOn(Long userId);
 }

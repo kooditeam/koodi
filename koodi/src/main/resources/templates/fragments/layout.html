@@ -56,6 +56,12 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right" sec:authorize="isAuthenticated()">
                         <li class="nav-text" th:text="${nameOfUser}">Bob</li>
+                        <li><a href="#" id="achievement-popover" data-toggle="popover" title="Saavutukset" 
+                               data-html='true'
+                                th:attr='data-content=${achievementsAsHtml}'>                                
+                                <span class="glyphicon glyphicon-certificate"></span>
+                            </a>
+                        </li>
                         <li role="presentation" class="">
                             <a href="/logout">Kirjaudu ulos</a>
                         </li>
@@ -78,5 +84,6 @@
     <script src="/static/js/jquery-1.11.3.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <th:block th:replace="this :: pagescript"></th:block>
+    <script src="/static/js/achievements.js"></script>
   </body>
 </html>

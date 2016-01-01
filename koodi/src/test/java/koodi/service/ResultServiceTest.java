@@ -12,6 +12,10 @@ import koodi.repository.AnswerOptionRepository;
 import koodi.repository.AnswerRepository;
 import koodi.repository.QuestionRepository;
 import koodi.repository.UserRepository;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -116,10 +120,31 @@ public class ResultServiceTest {
                     }
                 }                
                 assertTrue("All Questions should be included in the results.", indexInResults > -1); 
-            }
-            
-            
+            }          
         }
+    }
+    
+    @Test
+    public void canGetArrayContainingPreviousAnswersAndAchievements() throws ParseException{
+        Long userId = defUser.getId();
+        Long questionSeriesId = 1L;
+        String responseArrayString = resultsService.getResultArray(userId, questionSeriesId);
+        
+        JSONArray responseArray = null;
+        JSONParser parser = new JSONParser();
+        responseArray = (JSONArray)parser.parse(responseArrayString);
+        
+        assertEquals("Response array contains two items", 2, responseArray.size());
+        
+        // checks the previous answers part 
+        assertEquals("Previous answers array contains one item", 4, ((JSONArray)responseArray.get(0)).size());
+        assertEquals("Question id is correct", 1L, ((JSONObject)((JSONArray)responseArray.get(0)).get(0)).get("QuestionId"));
+        assertEquals("AnswerOption id is correct", 1L, ((JSONObject)((JSONArray)responseArray.get(0)).get(0)).get("AnswerOptionId"));
+        assertEquals("Result text is correct", "Väärin...", ((JSONObject)((JSONArray)responseArray.get(0)).get(0)).get("ResultText"));
+        assertEquals("Comment text is correct", "test comment", ((JSONObject)((JSONArray)responseArray.get(0)).get(0)).get("Comment"));
+        
+        // checks the achievements part
+        assertEquals("Achievements array contains no items", 0, ((JSONArray)responseArray.get(1)).size());
     }
     
 }

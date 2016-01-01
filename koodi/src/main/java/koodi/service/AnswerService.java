@@ -120,17 +120,18 @@ public class AnswerService extends BaseService<Answer> {
         
         // checks and retrieves users achievements
         QuestionSeries currentSeries = answer.getAnswerOption().getQuestion().getQuestionSeries();
-        List<Achievement> userAchievements = achievementService.getAchievements(answer.getUser(), currentSeries);
-        JSONArray achievementArray = new JSONArray();
-        JSONObject achievementObject;
-        for(Achievement a : userAchievements){
-            achievementObject = new JSONObject();
-            achievementObject.put("Name", a.getName());
-            Long questionSeriesId = a.getQuestionSeries() != null ? a.getQuestionSeries().getId() : null;
-            achievementObject.put("QuestionSeriesId", questionSeriesId);
-            achievementArray.add(achievementObject);
-        }
-        response.add(achievementArray);
+        response.add(achievementService.getAchievementsAsJSONArray(answer.getUser(), currentSeries));
+//        List<Achievement> userAchievements = achievementService.getAchievements(answer.getUser(), currentSeries);
+//        JSONArray achievementArray = new JSONArray();
+//        JSONObject achievementObject;
+//        for(Achievement a : userAchievements){
+//            achievementObject = new JSONObject();
+//            achievementObject.put("Name", a.getName());
+//            Long questionSeriesId = a.getQuestionSeries() != null ? a.getQuestionSeries().getId() : null;
+//            achievementObject.put("QuestionSeriesId", questionSeriesId);
+//            achievementArray.add(achievementObject);
+//        }
+//        response.add(achievementArray);
         
         return response.toJSONString();
     }
@@ -146,6 +147,20 @@ public class AnswerService extends BaseService<Answer> {
             result = 1;
         }
         return result;
+    }
+
+    public int getNumberOfCorrectSubsequentAnswers(User user) {
+        int correctSubsequentAnswers = 0;
+        List<Answer> userAnswers = answerRepository.findByUserIdOrderByCreatedOn(user.getId());
+        for(int i = 0; i < userAnswers.size(); i++){
+            Answer a = userAnswers.get(i);
+            if(a.getAnswerOption().getIsCorrect()){
+                correctSubsequentAnswers++;
+            } else {
+                break;
+            }
+        }
+        return correctSubsequentAnswers;
     }
 
 }

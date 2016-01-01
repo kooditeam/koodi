@@ -11,6 +11,8 @@ public class QuestionSeriesService extends BaseService<QuestionSeries> {
     
     @Autowired
     private QuestionSeriesRepository questionSeriesRepository;
+    @Autowired
+    private AchievementService achievementService;
     
     public List<QuestionSeries> findAll() {
         return questionSeriesRepository.findByRemovedFalseOrderByOrderNumberAsc();
@@ -20,9 +22,14 @@ public class QuestionSeriesService extends BaseService<QuestionSeries> {
         questionSeriesRepository.delete(id);
     }
 
-    public void save(QuestionSeries questionSeries) {
-        super.save(questionSeries, null);
-        questionSeriesRepository.save(questionSeries);
+    public QuestionSeries save(QuestionSeries questionSeries) {
+        super.save(questionSeries, null);        
+        questionSeries = questionSeriesRepository.save(questionSeries);
+        if(questionSeries.getAchievements() == null){
+            questionSeries.setAchievements(achievementService.createAchievements(questionSeries));
+            questionSeries = questionSeriesRepository.save(questionSeries);
+        }
+        return questionSeries;
     }
     
     public List<QuestionSeries> findRemoved() {

@@ -11,12 +11,12 @@ $(document).ready(function(){
             var questionId = $(event.target).attr("id").split('-').pop();
             var answerOptionId = $("#question-" + questionId + " input[type=radio]:checked").val();
             sendAnswer(questionId, answerOptionId);
-       });
-       
-       // queries results of possible previous answers and populates the answer selections
-       // and result texts accordingly
-       getPreviousResults();       
+       });      
     });
+    
+   // queries results of possible previous answers and populates the answer selections
+   // and result texts accordingly
+   getPreviousResults(); 
 });
 
 function getPreviousResults(){
@@ -32,16 +32,25 @@ function getPreviousResults(){
     });
 }
 
-function populatePreviousResults(results){
-    $.each(results[0], function(key, result){
-        var answerOptionId = result.AnswerOptionId;
-        var questionId = result.QuestionId;
+function populatePreviousResults(result){
+    console.log("populate hit");
+    $.each(result[0], function(key, answerResult){
+        var answerOptionId = answerResult.AnswerOptionId;
+        var questionId = answerResult.QuestionId;
         console.log(answerOptionId + " - " + questionId);
-        if(result.ResultText != 'ei vastattu'){
+        if(answerResult.ResultText != 'ei vastattu'){
             $("input:radio[value=" + answerOptionId + "]").prop("checked", true);
-            populateResultText(questionId, result.ResultText, result.Comment);
+            populateResultText(questionId, answerResult.ResultText, answerResult.Comment);
         }
     });
+    var achievementHtml = "";
+    if(result[1]){
+        $.each(result[1], function(key, achievement){
+           achievementHtml += "<li>" + achievement.name + "</li>"; 
+        });
+    }
+    
+    $("#achievement-list").html(achievementHtml);
 }
 
 function sendAnswer(questionId, answerOptionId){
@@ -68,16 +77,25 @@ function sendAnswer(questionId, answerOptionId){
     });
 }
 
-function setResultText(questionId, result){
+function setResultText(questionId, results){
     var resultMessage;
-    if(result[0].successValue == 0){
+    if(results[0].successValue == 0){
         resultMessage = "Väärin...";
-    } else if (result[0].successValue == 1) {
+    } else if (results[0].successValue == 1) {
         resultMessage = "Oikein!";
-    } else if (result[0].successValue == 2) {
+    } else if (results[0].successValue == 2) {
         resultMessage = "Valitse ensin vastaus.";
     }    
-    populateResultText(questionId, resultMessage, result[0].comment);   
+    populateResultText(questionId, resultMessage, results[0].comment);   
+    
+    var achievementHtml = "";
+    if(results[1]){
+        $.each(results[1], function(key, achievement){
+           achievementHtml += "<li>" + achievement.Name + "</li>"; 
+        });
+    }
+    
+    $("#achievement-list").html(achievementHtml);
 }
 
 function populateResultText(questionId, resultMessage, comment){

@@ -3,6 +3,7 @@ package koodi.domain;
 
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
@@ -16,7 +17,7 @@ public class QuestionSeries extends BaseModel {
     @NotNull(message = "Järjestys vaaditaan")
     private Integer orderNumber;
     
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Achievement> achievements;
 
     public String getTitle() {

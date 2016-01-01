@@ -22,5 +22,6 @@ public class GlobalControllerAdvice {
         User user = userService.getAuthenticatedUser();
         model.addAttribute("userId", user != null ? user.getId() : null);
         model.addAttribute("nameOfUser", user != null ? user.getName() : null);
+        model.addAttribute("achievementsAsHtml", userService.getAchievementsAsHtmlList(user));
     }
 }

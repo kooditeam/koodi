@@ -138,7 +138,7 @@ public class ResultsService {
             resultArray.add(resultJSON);
         }
         responseArray.add(resultArray);
-        responseArray.add(achievementService.getAchievements(userService.findById(userId), qs));
+        responseArray.add(achievementService.getAchievementsAsJSONArray(userService.findById(userId), qs));
         
         return responseArray.toJSONString();
     }
