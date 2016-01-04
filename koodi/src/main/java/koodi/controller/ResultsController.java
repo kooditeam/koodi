@@ -2,6 +2,8 @@ package koodi.controller;
 
 import java.util.List;
 import koodi.domain.QuestionSeriesResult;
+import koodi.domain.User;
+import koodi.service.AchievementService;
 import koodi.service.ResultsService;
 import koodi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class ResultsController {
     @Autowired
     private ResultsService resultsService;
     @Autowired
+    private AchievementService achievementService;
+    @Autowired
     private UserService userService;
     
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
@@ -33,7 +37,9 @@ public class ResultsController {
         
         List<QuestionSeriesResult> questionSets = resultsService.findAllResultsForUser(id);
         model.addAttribute("questionSets", questionSets);
-        model.addAttribute("user", userService.findById(id));
+        User user = userService.findById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("achievements", achievementService.getAchievements(user, null));
         return "user_results";
     } 
     

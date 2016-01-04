@@ -40,7 +40,9 @@ public class AchievementService extends BaseService<Achievement> {
     }
     
     public List<Achievement> getAchievements(User user, QuestionSeries currentSeries){
-        checkForNewAchievements(user, currentSeries);
+        if(currentSeries != null){
+            checkForNewAchievements(user, currentSeries);
+        }
         return user.getAchievements();
     }
     
@@ -98,16 +100,18 @@ public class AchievementService extends BaseService<Achievement> {
         Achievement newAchievement = null;
 	int numberOfQuestions = questionService.findByQuestionSeries(currentSeries).size();
 	int numberOfCorrects = answerService.getCorrectsByUserIdAndQuestionSeriesId(user.getId(), currentSeries.getId()).size();
-	float shareOfCorrects = numberOfCorrects / numberOfQuestions;
+	float shareOfCorrects = numberOfCorrects / (float)numberOfQuestions;
         String[] achievementNames = determineQuestionSeriesAchievementNames(currentSeries);
         List<Achievement> allAchievements =  achievementRepository.findAll();
 	if(!userHasAchievement(achievementNames[2], user) 
 		&& Math.abs(shareOfCorrects - 1.0) < 0.001) {
             addNewAchievement(user, achievementRepository.findByName(achievementNames[2]));
-	} else if(!userHasAchievement(achievementNames[1], user)
+	}
+        if(!userHasAchievement(achievementNames[1], user)
 		&& (Math.abs(shareOfCorrects - 0.75) < 0.001 || shareOfCorrects > 0.75)) {
             addNewAchievement(user, achievementRepository.findByName(achievementNames[1]));
-	} else if(!userHasAchievement(achievementNames[0], user)
+	} 
+        if(!userHasAchievement(achievementNames[0], user)
 		&& (Math.abs(shareOfCorrects - 0.5) < 0.001 || shareOfCorrects > 0.5)){
             addNewAchievement(user, achievementRepository.findByName(achievementNames[0]));
 	}	

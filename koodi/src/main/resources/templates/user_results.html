@@ -17,7 +17,14 @@
         <div th:fragment="content">
             <h1 th:text="${user.username}"></h1>
             
-            <h2>Tehtävätilanne:</h2>
+            <h2>Saavutukset testi</h2>
+            <article class="question-series question-series-resultset">
+                <ul class="no-styles-list" th:each="achievement : ${achievements}">
+                    <li th:text="${achievement.name}"></li>
+                </ul>
+            </article>
+            
+            <h2>Tehtävätilanne</h2>
 
             <th:block th:if="${errorMsg != null}">
                 <div class="error" th:text="${errorMsg}"></div>
