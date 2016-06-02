@@ -7,6 +7,9 @@ script:
 jdk:
   - oraclejdk8
 
+notifications:
+  email: false
+
 deploy:
   provider: heroku
   api_key: 117895aa-1ff3-4959-b82b-a5d207307c3c
