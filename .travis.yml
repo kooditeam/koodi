@@ -12,5 +12,8 @@ notifications:
 
 deploy:
   provider: heroku
-  api_key: 117895aa-1ff3-4959-b82b-a5d207307c3c
-  
+  api_key: 
+    secure: "DFrHwoxQ1ZzRDeaFCzfZNDJGZQVmwgwZAcCcdaVjmuolZoBAyk3JKBw95rY5w3umybVWewEF86vYZc1bKjq58U/WExCaxiY7r9lpZwqo6VoYWMv63OrhJYMhU8QA11PhLDCzuuYqpNoGrEL7syNj+fzrnwIfz8lgT+2TLPdDlUvQ9UDsEdMq2jya4E2eC4RJH7vRYiFTFXz+kdUvJrs5OuCdpj59C6/0BUq0odTWJna3Am+ZWbL+iTiHJhE/IJsIwW9M2Jdr3rXb5NzNl+n+XvhM2TDaYIrw9FsYGuuAjKmr4tOR52uxxNp0l88RCQ13QgyieuyubH71MxZTh8WBQLDJa7gFqllnqx5by9p/Wdtrj0BuZDVeY8JlBydAGnEQFzakj3eUGOPfAQ/i9ZFSRSf9Vcb42ShxX8ch5zB8vOiy/RMAWPJnVM1P4dt7LpHLd0U+Nja/msolc3EjGCD1DIZ5HKOVoEOFJXMdUMI9BK860vpkh+W/VYC4CKMoi4ra5/3JQr4BvC+R8Isjxak2RLpkkxo3bX6m2q7pmoWbBo5OM0xkLLatfKxK3jYUyzWV362x6RZ2jpsRzV5kHn2hgQOumDqB425eFvtOEphueh08xc40LxOHH5UmmFcmUbPGdaRr1KzYiRQsbZsVxN+MeiRPuWpNX0+bt6uUH7sw3oc="
+  app: koodi
+  on:
+    kooditeam/koodi
