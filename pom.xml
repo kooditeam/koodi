@@ -19,12 +19,6 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     
-    <!--
-    <modules>
-        <module>koodi</module>
-    </modules>
-    -->
-    
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -44,7 +38,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.4-1205-jdbc42</version>
+            <version>9.4-1201-jdbc4</version>
         </dependency>
         
         <dependency>
