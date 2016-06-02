@@ -37,6 +37,7 @@ import org.springframework.web.util.NestedServletException;
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
         WithSecurityContextTestExcecutionListener.class})
+@Transactional
 public class UserControllerTest {
 
     private final String API_URI = "/kayttajat";
@@ -82,7 +83,7 @@ public class UserControllerTest {
     public void nonAdminUsersDontHaveAccessToAddingUsers() throws Exception {
         mockMvc.perform(post(API_URI + "/lisaa")
                 .param("name", "testName")
-                .param("username", "testUsername")
+                .param("username", "testUsername1")
                 .param("password", "testPassword")
                 .param("password2", "testPassword"))
                 .andExpect(flash().attribute("message", "Uusi käyttäjä tallennettu!"))
@@ -142,7 +143,7 @@ public class UserControllerTest {
         
         mockMvc.perform(post(API_URI + "/lisaa")
                 .param("name", "testName")
-                .param("username", "testUsername")
+                .param("username", "testUsername2")
                 .param("password", "testPassword")
                 .param("password2", "testPassword"))
                 .andExpect(flash().attribute("message", "Uusi käyttäjä tallennettu!"))
@@ -152,7 +153,7 @@ public class UserControllerTest {
         
         List<User> users = userRepository.findAll();
         assertEquals("testName", users.get(users.size() - 1).getName());
-        assertEquals("testUsername", users.get(users.size() - 1).getUsername());
+        assertEquals("testUsername2", users.get(users.size() - 1).getUsername());
         assertEquals("testPassword", users.get(users.size() - 1).getPassword());
         
     }
@@ -161,31 +162,31 @@ public class UserControllerTest {
     @Test
     public void addingUserDoesNotWorkIfPassWordsDontMatch() throws Exception {
         
-        assertNull(userRepository.findByUsername("testUserName"));
+        assertNull(userRepository.findByUsername("testUserName3"));
         int origUserCount = userRepository.findAll().size();
         mockMvc.perform(post(API_URI + "/lisaa")
                 .param("name", "testName")
-                .param("username", "testUsername")
+                .param("username", "testUsername3")
                 .param("password", "doesNotMatch")
                 .param("password2", "testPassword"));
         assertTrue(userRepository.count() == origUserCount);
-        assertNull(userRepository.findByUsername("testUserName"));
+        assertNull(userRepository.findByUsername("testUserName3"));
     }
     
     @WithMockUser(username = "a", roles = {"ADMIN"})
     @Test
     public void addingUserDoesNotWorkIfPassWordsDontMatchOtherWayAround() throws Exception {
         
-        assertNull(userRepository.findByUsername("testUserName"));
+        assertNull(userRepository.findByUsername("testUserName4"));
         int origUserCount = userRepository.findAll().size();
         
         mockMvc.perform(post(API_URI + "/lisaa")
                 .param("name", "testName")
-                .param("username", "testUsername")
+                .param("username", "testUsername4")
                 .param("password", "testPassWord")
                 .param("password2", "doesNotMatch"));
         
-        assertNull(userRepository.findByUsername("testUserName"));
+        assertNull(userRepository.findByUsername("testUserName4"));
         assertTrue(userRepository.count() == origUserCount);
     }
     
@@ -210,15 +211,15 @@ public class UserControllerTest {
     @Test
     public void addingUserWithEmptyNameDoesNotWork() throws Exception {
         
-        assertNull(userRepository.findByUsername("testUsername"));
+        assertNull(userRepository.findByUsername("testUsername5"));
         int origUserCount = userRepository.findAll().size();
         mockMvc.perform(post(API_URI + "/lisaa")
                 .param("name", "")
-                .param("username", "testUsername")
+                .param("username", "testUsername5")
                 .param("password", "testPassword")
                 .param("password2", "testPassword"));
         
-        assertNull(userRepository.findByUsername("testUsername"));
+        assertNull(userRepository.findByUsername("testUsername5"));
         assertTrue(userRepository.count() == origUserCount);
     }
     
@@ -242,15 +243,15 @@ public class UserControllerTest {
     @Test
     public void addingUserWithEmptyPasswordDoesNotWork() throws Exception {
         
-        assertNull(userRepository.findByUsername("testUsername"));
+        assertNull(userRepository.findByUsername("testUsername6"));
         int origUserCount = userRepository.findAll().size();
         mockMvc.perform(post(API_URI + "/lisaa")
                 .param("name", "testName")
-                .param("username", "testUsername")
+                .param("username", "testUsername6")
                 .param("password", "")
                 .param("password2", ""));
         
-        assertNull(userRepository.findByUsername("testUsername"));
+        assertNull(userRepository.findByUsername("testUsername6"));
         assertTrue(userRepository.count() == origUserCount);
     }
     
@@ -276,12 +277,12 @@ public class UserControllerTest {
     @Test
     public void registeringUserWorks() throws Exception {
         
-        assertNull(userRepository.findByUsername("testUsername"));
+        assertNull(userRepository.findByUsername("testUsername7"));
         int origUserCount = userRepository.findAll().size();
         
         mockMvc.perform(post("/rekisteroidy")
                 .param("name", "testName")
-                .param("username", "testUsername")
+                .param("username", "testUsername7")
                 .param("password", "testPassword")
                 .param("password2", "testPassword"))
                 .andExpect(flash().attribute("message", "Tervetuloa käyttäjäksi!"))
@@ -289,9 +290,9 @@ public class UserControllerTest {
         
         assertTrue(userRepository.count() == origUserCount + 1);
         
-        assertNotNull(userRepository.findByUsername("testUsername"));
-        assertEquals("testName", userRepository.findByUsername("testUsername").getName());
-        assertEquals("testPassword", userRepository.findByUsername("testUsername").getPassword()); 
+        assertNotNull(userRepository.findByUsername("testUsername7"));
+        assertEquals("testName", userRepository.findByUsername("testUsername7").getName());
+        assertEquals("testPassword", userRepository.findByUsername("testUsername7").getPassword()); 
     }
     
     @Test
@@ -329,63 +330,63 @@ public class UserControllerTest {
     @Test
     public void registeringWithEmptyNameDoesNotWork() throws Exception {
         
-        assertNull(userRepository.findByUsername("testUsername"));
+        assertNull(userRepository.findByUsername("testUsername8"));
         int origUserCount = userRepository.findAll().size();
         mockMvc.perform(post("/rekisteroidy")
                 .param("name", "")
-                .param("username", "testUsername")
+                .param("username", "testUsername8")
                 .param("password", "testPassword")
                 .param("password2", "testPassword"));
         
-        assertNull(userRepository.findByUsername("testUsername"));
+        assertNull(userRepository.findByUsername("testUsername8"));
         assertTrue(userRepository.count() == origUserCount);
     }
     
     @Test
     public void registeringWithEmptyPasswordDoesNotWork() throws Exception {
         
-        assertNull(userRepository.findByUsername("testUsername"));
+        assertNull(userRepository.findByUsername("testUsername9"));
         int origUserCount = userRepository.findAll().size();
         
         mockMvc.perform(post("/rekisteroidy")
                 .param("name", "testName")
-                .param("username", "testUsername")
+                .param("username", "testUsername9")
                 .param("password", "")
                 .param("password2", ""));
         
-        assertNull(userRepository.findByUsername("testUsername"));
+        assertNull(userRepository.findByUsername("testUsername9"));
         assertTrue(userRepository.count() == origUserCount);
     }
     
     @Test
     public void registeringDoesNotWorkIfPassWordsDontMatch() throws Exception {
         
-        assertNull(userRepository.findByUsername("testUsername"));
+        assertNull(userRepository.findByUsername("testUsername10"));
         int origUserCount = userRepository.findAll().size();
         
         mockMvc.perform(post("/rekisteroidy")
                 .param("name", "testName")
-                .param("username", "testUsername")
+                .param("username", "testUsername10")
                 .param("password", "doesNotMatch")
                 .param("password2", "testPassword"));
         
-        assertNull(userRepository.findByUsername("testUsername"));
+        assertNull(userRepository.findByUsername("testUsername10"));
         assertTrue(userRepository.count() == origUserCount);
     }
     
     @Test
     public void registeringDoesNotWorkIfPassWordsDontMatchOtherWayAround() throws Exception {
         
-        assertNull(userRepository.findByUsername("testUsername"));
+        assertNull(userRepository.findByUsername("testUsername11"));
         int origUserCount = userRepository.findAll().size();
         
         mockMvc.perform(post("/rekisteroidy")
                 .param("name", "testName")
-                .param("username", "testUsername")
+                .param("username", "testUsername11")
                 .param("password", "testPassWord")
                 .param("password2", "doesNotMatch"));
         
-        assertNull(userRepository.findByUsername("testUsername"));
+        assertNull(userRepository.findByUsername("testUsername11"));
         assertTrue(userRepository.count() == origUserCount);
     }
     
