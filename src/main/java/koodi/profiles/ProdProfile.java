@@ -27,6 +27,7 @@ public class ProdProfile {
         return DataSourceBuilder.create().build();
     }
     
+    /*
     @Autowired
     private UserRepository userRepository;
     
@@ -49,5 +50,6 @@ public class ProdProfile {
         defUser = userRepository.save(defUser);
         
     }
+    */
 
 }
