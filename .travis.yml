@@ -1,20 +1,17 @@
 language: java
-
 script:
-  - mvn test
-  - mvn install -DskipTests=true
-
+- mvn test
+- mvn install -DskipTests=true
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 notifications:
   email: false
-
 deploy:
   provider: heroku
-  api_key: 
-    secure: "DFrHwoxQ1ZzRDeaFCzfZNDJGZQVmwgwZAcCcdaVjmuolZoBAyk3JKBw95rY5w3umybVWewEF86vYZc1bKjq58U/WExCaxiY7r9lpZwqo6VoYWMv63OrhJYMhU8QA11PhLDCzuuYqpNoGrEL7syNj+fzrnwIfz8lgT+2TLPdDlUvQ9UDsEdMq2jya4E2eC4RJH7vRYiFTFXz+kdUvJrs5OuCdpj59C6/0BUq0odTWJna3Am+ZWbL+iTiHJhE/IJsIwW9M2Jdr3rXb5NzNl+n+XvhM2TDaYIrw9FsYGuuAjKmr4tOR52uxxNp0l88RCQ13QgyieuyubH71MxZTh8WBQLDJa7gFqllnqx5by9p/Wdtrj0BuZDVeY8JlBydAGnEQFzakj3eUGOPfAQ/i9ZFSRSf9Vcb42ShxX8ch5zB8vOiy/RMAWPJnVM1P4dt7LpHLd0U+Nja/msolc3EjGCD1DIZ5HKOVoEOFJXMdUMI9BK860vpkh+W/VYC4CKMoi4ra5/3JQr4BvC+R8Isjxak2RLpkkxo3bX6m2q7pmoWbBo5OM0xkLLatfKxK3jYUyzWV362x6RZ2jpsRzV5kHn2hgQOumDqB425eFvtOEphueh08xc40LxOHH5UmmFcmUbPGdaRr1KzYiRQsbZsVxN+MeiRPuWpNX0+bt6uUH7sw3oc="
+  api_key:
+    secure: KSqug3h5NprVh3RlsXug34lO4CZu3kktW1eQyteJgYVcLDTYbaS4xGHD5ZAnmMqeqF8005GkTBi+DK4Cl0bEyhvX3+G6gRzSxbIY6hDSA6UQ2NkYQNT/9GQsOx0P/EVheTh5GTHjgRISj1eWTS7sfRKGFycbJMqnzZpdKg/TU5yZX8u9vb9kh69aMGb+Q7y67R0ELISUFe+vPTGJbUmaKB+WwhJpaHhTl0m8aVYcTpORwlQeqH6M8WNQ1ny5rN8qwh8BMlPzlCzNuPZRwO3qDkzPn+7hyk2xoCAgQQq83zEJaVhui7hgmzXRX1nb0JoAyqewOrKssdCBGwMhQtx9HAtbz+OGjJAwhPv+/F22jB+0yx0hezEMOQlP21TAuuG0KxDkTKAmMTJ+Gsvb/y89i7QvuIg1JnZ2n6EFxurx22TXsvSa+938mgJoGLpAll01TrQxv+NDpC4AThl38LPVju8ht9f5gStKKt9kT1q2Gugkh6VsARDFgIs0WPX9W6D1mvdOqKA+W0ErRcMVKzw6jMloLcZE7e2Ulz4iScoMg/lror7AlE3ZjQsPfSMY7Lhd39vcNWIKkDgZYzFDo9X2sLS2oUw6Y2uk/AIaAW1UaGSt90KvrqAnYteVvlJ2w+x0QLQOHQMUiTEgiyhawjnIj/Uq1HhM0OVP0tutgO2b01w=
   app: koodi
   on:
     repo: kooditeam/koodi
     branch: master
+
