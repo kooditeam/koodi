@@ -8,8 +8,7 @@ notifications:
   email: false
 deploy:
   provider: heroku
-  api_key:
-    secure: UJOgrSjVGn2APYwUwsjnbR9omc11QDH165lEUJtrfpSObyM13yHQsnDqq7v4t4ThoS8q9W65LwrgrM22JaEzrAVHYmOIQgkT+Y+kGARy/le02fE6+B6yIYTfAlQ8Eu84WtsK23tWKIZ0tSdmPdn2r+VltG7EU0MVlO3JmXz3dxwECGMg4qRu9F7KU2mXGTayiCxPv87BaekLDtgpWIOr6pQiGbqIAFhTTsljh0k2q+5KN6W6oDK5jogaTQnFFi3p8n5IYEEaGzw9r/uH3je199Nd9OPzGo+CyLYFyVKsM32bRMk2uFX6T/SY0cjmNRHtmbmKVuLWhlcUV55EgulD5TtY3Y781lfLNUZ0trWrJjUpRVmq/otu9w5D+ZvZQYQDmORk1I7UZlg9xDnetDNNHgL0L1ZYViME0ISIVS8V8TlgMv/UTB6eMuliX9FkiD8MbLS7jMBoa9IcMeewzp34lboX13kGJRZsOatXl7N6XR8ELzDdpHoSfJPOmz2f1wxnIOxb/x2PvJJvPcApWnIqz90TS21PDcgNpDWaNxc+7Mk9aURU3OM+ZArBPGXoFiBjmw/OYQqnnEcvyTggIVepPEK18O6mEtLD80NC2I9p7zeu15CZljdLATx63QhHGkTfDb7vYvqCEXZ+F2SvG1Lbw1BSUPLOwRWtj8rJfzPLUwk=
+  api_key: 117895aa-1ff3-4959-b82b-a5d207307c3c
   app: koodi
   on:
     repo: kooditeam/koodi
