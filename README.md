@@ -1,6 +1,8 @@
 # koodi
 
-![alt.text](https://travis-ci.org/kooditeam/koodi.svg?branch=master)
+[!Build Status](https://travis-ci.org/kooditeam/koodi.svg?branch=master)(https://travis-ci.org/kooditeam/koodi)
 
-This repository is for a project to be made in the course *Web-palvelinohjelmoinnin harjoitustyö* (*server programming practical work*),
-in fall 2015 in computer science department of the University of Helsinki.
+Project made primarily during the course *Web server programming practical work* (*Web-palvelinohjelmoinnin harjoitustyö*) in fall 2015 in the University of Helsinki, later on continued to possibly get it to use for students at the department of computer science.
+
+
+The app is about code reading exercises.
