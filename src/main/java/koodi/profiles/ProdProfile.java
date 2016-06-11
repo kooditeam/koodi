@@ -1,44 +1,37 @@
 
 package koodi.profiles;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
 import koodi.domain.User;
 import koodi.repository.AnswerOptionRepository;
 import koodi.repository.QuestionRepository;
 import koodi.repository.QuestionSeriesRepository;
 import koodi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
 @Profile("production")
 public class ProdProfile {
 
-    @Bean
-    @Primary
-    @ConfigurationProperties(prefix = "spring.datasource")
-    public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
+    private static Connection getConnection() throws URISyntaxException, SQLException {
+        URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+
+        return DriverManager.getConnection(dbUrl, username, password);
     }
     
-    /*
     @Autowired
     private UserRepository userRepository;
-    
-    @Autowired
-    private QuestionRepository questionRepository;
-    
-    @Autowired
-    private QuestionSeriesRepository questionSeriesRepository;
-    
-    @Autowired
-    private AnswerOptionRepository answerOptionRepository;
     
     @PostConstruct
     public void init(){
@@ -50,6 +43,5 @@ public class ProdProfile {
         defUser = userRepository.save(defUser);
         
     }
-    */
 
 }
